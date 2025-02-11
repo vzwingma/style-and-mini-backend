@@ -1,7 +1,9 @@
 const express = require('express');
+const cors = require('cors');
 const setupRoutes = require('./routes/index');
 
 const app = express();
+app.use(cors());
 const PORT = 8091;
 
 app.use(express.json());
