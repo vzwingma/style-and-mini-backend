@@ -1,14 +1,13 @@
 {
-  "name": "my-nodejs-app",
+  "name": "style-and-mini-backend",
   "version": "1.0.0",
-  "description": "A simple Node.js application with an API",
+  "description": "Backend de l'application mobile Style and Mini",
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.21.2"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "vzwingmann"
 }
