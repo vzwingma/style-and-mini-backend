@@ -11,6 +11,12 @@ router.get<{}, MessageResponse>('/', (req, res) => {
   });
 });
 
+router.get<{}, MessageResponse>('/status', (req, res) => {
+  res.json({
+    message: 'OK',
+  });
+});
+
 router.use('/emojis', emojis);
 
 export default router;
