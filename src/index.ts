@@ -1,4 +1,3 @@
-import { cp } from 'fs';
 import app from './app';
 import { BACKEND_PORT } from './constants/AppConstants';
 
