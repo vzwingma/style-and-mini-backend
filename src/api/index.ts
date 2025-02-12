@@ -2,6 +2,7 @@ import express from 'express';
 
 import MessageResponse from './interfaces/MessageResponse';
 import typeVetements from './typeVetements';
+import BackendConfigModel from '../models/backendConfig.model';
 
 const router = express.Router();
 
@@ -11,9 +12,9 @@ router.get<{}, MessageResponse>('/', (req, res) => {
   });
 });
 
-router.get<{}, MessageResponse>('/status', (req, res) => {
+router.get<{}, BackendConfigModel>('/status', (req, res) => {
   res.json({
-    message: '✅​ OK ✅​',
+    status: '✅​ OK ✅​',
   });
 });
 
