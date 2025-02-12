@@ -12,7 +12,5 @@ export const MONGO_DB_DATABASE_NAME = process.env.MONGO_DB_DATABASE || "style-mi
 
 export const MONGO_DB_COLLECTIONS = {
     TYPES_VETEMENTS: "typesVetements",
-    VETEMENTS: "vetements",
-    USERS: "users",
-    COMMANDS: "commands"
+    VETEMENTS: "vetements"
 }
