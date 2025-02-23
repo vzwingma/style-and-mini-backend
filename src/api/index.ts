@@ -1,7 +1,7 @@
 import express from 'express';
 
 import MessageResponse from './interfaces/MessageResponse';
-import typeVetements from './typeVetements';
+import apiParamTypeVetements from './apiParams';
 import BackendConfigModel from '../models/backendConfig.model';
 
 const router = express.Router();
@@ -18,6 +18,6 @@ router.get<{}, BackendConfigModel>('/status', (req, res) => {
   });
 });
 
-router.use('/typeVetements', typeVetements);
+router.use('/params', apiParamTypeVetements);
 
 export default router;

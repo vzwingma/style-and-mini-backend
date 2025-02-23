@@ -11,6 +11,10 @@ const client : MongoClient = new MongoClient(MONGO_DB_URI, {
   }
 });
 
+/**
+ * 
+ * @returns ci-dessous la fonction connectToDatabase() qui permet de se connecter à la base de données MongoDB
+ */
 async function connectToDatabase() {
   let conn;
   try {
@@ -20,13 +24,14 @@ async function connectToDatabase() {
   }
   let db = conn ? conn.db(MONGO_DB_DATABASE_NAME) : null;
   if(db === null) {
-    console.error("No database connection");
+    console.error("Erreur de connexion à la base de données");
   }
   else {
-    collections.typesVetements = db.collection(MONGO_DB_COLLECTIONS.TYPES_VETEMENTS);
-    console.log(`Successfully connected to database: ${db.databaseName} and collection: ${collections.typesVetements.collectionName}`);
+    collections.paramTypesVetements = db.collection(MONGO_DB_COLLECTIONS.PARAM_TYPES_VETEMENTS);
+    collections.paramTaillesMesures = db.collection(MONGO_DB_COLLECTIONS.PARAM_TAILLES_MESURES);
+    console.log(`Connexion réussie à la base de données [${db.databaseName}]` );
   }
   return db;
 }
 connectToDatabase();
-export const collections: { typesVetements?: Collection } = {}
+export const collections: { paramTypesVetements?: Collection, paramTaillesMesures?: Collection } = {}
