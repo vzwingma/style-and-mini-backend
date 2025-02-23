@@ -13,5 +13,5 @@ export const MONGO_DB_DATABASE_NAME = process.env.MONGO_DB_DATABASE || "style-mi
 export const MONGO_DB_COLLECTIONS = {
     PARAM_TYPES_VETEMENTS: "paramTypeVetements",
     PARAM_TAILLES_MESURES: "paramTaillesMesures",
-    VETEMENTS: "vetements"
+    DRESSING: "dressing"
 }
