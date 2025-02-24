@@ -1,7 +1,7 @@
 import express from 'express';
 
 import MessageResponse from './interfaces/MessageResponse';
-import apiParams from './apiParams';
+import apiParamsVetements from './apiParamsVetements';
 import apiDressing from './apiDressing';
 import BackendConfigModel from '../models/backendConfig.model';
 
@@ -19,7 +19,7 @@ router.get<{}, BackendConfigModel>('/status', (req, res) => {
   });
 });
 
-router.use('/params', apiParams);
+router.use('/params/vetements/', apiParamsVetements);
 router.use('/dressing', apiDressing);
 
 export default router;

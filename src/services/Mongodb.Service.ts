@@ -29,6 +29,7 @@ async function connectToDatabase() {
   else {
     collections.paramTypesVetements = db.collection(MONGO_DB_COLLECTIONS.PARAM_TYPES_VETEMENTS);
     collections.paramTaillesMesures = db.collection(MONGO_DB_COLLECTIONS.PARAM_TAILLES_MESURES);
+    collections.paramUsagesVetements = db.collection(MONGO_DB_COLLECTIONS.PARAM_USAGES_VETEMENTS);
     collections.dressing = db.collection(MONGO_DB_COLLECTIONS.DRESSING);
     console.log(`Connexion réussie à la base de données [${db.databaseName}]` );
   }
@@ -37,4 +38,5 @@ async function connectToDatabase() {
 connectToDatabase();
 export const collections: { paramTypesVetements?: Collection, 
                             paramTaillesMesures?: Collection,
+                            paramUsagesVetements?: Collection,
                             dressing?: Collection } = {}
