@@ -14,7 +14,7 @@ const router = express.Router();
 /**
  * Get all, Type de Vetements
  */
-router.get("/types", async (req, res) => {
+router.get('/types', async (req, res) => {
 
   if (collections.paramTypesVetements) {
     const listeParamsTypeVetements: ParamTypeVetementsModel[] = (await collections.paramTypesVetements.find({}).toArray())
@@ -23,14 +23,14 @@ router.get("/types", async (req, res) => {
           id: mongoTypeVetement._id.toString(),
           libelle: mongoTypeVetement.libelle,
           categories: mongoTypeVetement.categories,
-          typeTaille: mongoTypeVetement.typeTaille
+          typeTaille: mongoTypeVetement.typeTaille,
         };
         return typeVetement;
       });
 
     res.status(200).json(listeParamsTypeVetements);
   } else {
-    res.status(500).send("La collection Param Type Vetements est introuvable");
+    res.status(500).send('La collection Param Type Vetements est introuvable');
   }
 });
 
@@ -39,28 +39,28 @@ router.get("/types", async (req, res) => {
 /**
  * Get all, Tailles et Mesures
  */
-router.get("/taillesMesures", async (req, res) => {
+router.get('/taillesMesures', async (req, res) => {
 
   if (collections.paramTaillesMesures) {
     const listeParamsTaillesMesures = (await collections.paramTaillesMesures.find({}).toArray())
-    .map((mongoTypeVetement: any) => {
-      let typeVetement: ParamTailleVetementsModel = {
-        id        : mongoTypeVetement._id.toString(),
-        libelle   : mongoTypeVetement.libelle,
-        categorie : mongoTypeVetement.categorie,
-        type      : mongoTypeVetement.type
-      };
-      return typeVetement;
-    });
+      .map((mongoTypeVetement: any) => {
+        let typeVetement: ParamTailleVetementsModel = {
+          id        : mongoTypeVetement._id.toString(),
+          libelle   : mongoTypeVetement.libelle,
+          categorie : mongoTypeVetement.categorie,
+          type      : mongoTypeVetement.type,
+        };
+        return typeVetement;
+      });
 
     res.status(200).json(listeParamsTaillesMesures);
   } else {
-    res.status(500).send("La collection Param Tailles et Mesures est introuvable");
+    res.status(500).send('La collection Param Tailles et Mesures est introuvable');
   }
 });
 
 
-router.get("/usages", async (req, res) => {
+router.get('/usages', async (req, res) => {
 
   if (collections.paramUsagesVetements) {
     const listeParamsUsagesVetements: ParamUsageVetementsModel[] = (await collections.paramUsagesVetements.find({}).toArray())
@@ -68,14 +68,14 @@ router.get("/usages", async (req, res) => {
         let usageVetement: ParamUsageVetementsModel = {
           id          : mongoTypeVetement._id.toString(),
           libelle     : mongoTypeVetement.libelle,
-          categories  : mongoTypeVetement.categories
+          categories  : mongoTypeVetement.categories,
         };
         return usageVetement;
       });
 
     res.status(200).json(listeParamsUsagesVetements);
   } else {
-    res.status(500).send("La collection Param Type Vetements est introuvable");
+    res.status(500).send('La collection Param Type Vetements est introuvable');
   }
 });
 

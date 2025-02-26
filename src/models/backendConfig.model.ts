@@ -3,5 +3,5 @@
  */
 
 export default interface BackendConfigModel {
-    readonly status: string;
+  readonly status: string;
 }
