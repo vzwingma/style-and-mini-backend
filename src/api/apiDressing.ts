@@ -3,7 +3,7 @@ import { collections } from '../services/Mongodb.Service';
 import { ObjectId } from 'mongodb';
 import { mongoModelToDressingModel } from '../models/dressing.model';
 import { saveVetement } from '../controllers/dressing.controller';
-import VetementModel, { vetementModelToMongoModel } from '../models/vetements.model';
+import VetementModel, { mongoModelToVetementModel, vetementModelToMongoModel } from '../models/vetements.model';
 
 const router = express.Router();
 
@@ -49,8 +49,10 @@ router.get('/:id', async (req, res) => {
  */
 router.post('/:idD/vetements', async (req, res) => {
   console.log("Ajout d'un vêtements dans le dressing", req.params.idD);
-  const vetement : VetementModel = req.body;
-  if (saveVetement(req.params.idD, vetementModelToMongoModel(vetement))) {
+  const vetement: VetementModel = req.body;
+
+  const result = await saveVetement(req.params.idD, vetementModelToMongoModel(vetement));
+  if (result) {
     res.status(200).json({ message: 'OK' });
   } else {
     res.status(500).send("L'enregistrement du vêtement a échoué");
@@ -63,10 +65,29 @@ router.post('/:idD/vetements', async (req, res) => {
  */
 router.post('/:idD/vetements/:idV', async (req, res) => {
   console.log("Modification d'un vêtement", req.params.idV, ' de dressing');
-  if (saveVetement(req.params.idD, req.body, req.params.idV)) {
+  const vetement: VetementModel = req.body;
+
+  const saveResult = await saveVetement(req.params.idD, vetementModelToMongoModel(vetement), req.params.idV);
+  if (saveResult) {
     res.status(200).json({ message: 'OK' });
   } else {
     res.status(500).send("L'enregistrement du vêtement a échoué");
+  }
+});
+
+
+
+
+/**
+ * GET vetements du dressing
+ */
+router.get('/:idD/vetements', async (req, res) => {
+  if (collections.vetements) {
+    const listeVetements = (await collections.vetements.find({ 'dressing.id': new ObjectId(req.params.idD)}).toArray())
+                          .map((mongoTypeVetement: any) => mongoModelToVetementModel(mongoTypeVetement));
+    res.status(200).json(listeVetements);
+  } else {
+    res.status(500).send('La collection Vetements est introuvable');
   }
 });
 

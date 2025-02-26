@@ -19,9 +19,10 @@ export default interface VetementModel {
 
 
 /**
- * 
- * @param vetement 
- * @returns état de l'objet VetementModel au model Mongo
+ * Convertit un objet VetementModel en un objet compatible avec MongoDB.
+ *
+ * @param {VetementModel} vetement - L'objet VetementModel à convertir.
+ * @returns {Object} Un objet formaté pour être stocké dans MongoDB.
  */
 export function vetementModelToMongoModel(vetement : VetementModel) {
 
@@ -34,7 +35,10 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
 
   return {
     _id: new ObjectId(vetement.id),
-    dressing: new ObjectId(vetement.dressing.id),
+    dressing: {
+      id: new ObjectId(vetement.dressing.id),
+      libelle: vetement.dressing.libelle
+    },
     libelle: vetement.libelle,
     type: {
       id: new ObjectId(vetement.type.id),
@@ -49,4 +53,26 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
     image: vetement.image,
     description: vetement.description
   };
+}
+
+
+/**
+ * Convertit un objet MongoDB Vetement en un objet VetementModel.
+ *
+ * @param mongoVetement - L'objet Vetement provenant de MongoDB.
+ * @returns Un objet VetementModel avec les propriétés converties.
+ */
+export function mongoModelToVetementModel(mongoVetement: any): VetementModel {
+  let vetement: VetementModel = {
+    id         : mongoVetement._id.toString(),
+    dressing   : mongoVetement.dressing,
+    libelle    : mongoVetement.libelle,
+    type       : mongoVetement.type,
+    taille     : mongoVetement.taille,
+    usages     : mongoVetement.usages,
+    couleurs   : mongoVetement.couleurs,
+    image      : mongoVetement.image,
+    description: mongoVetement.description
+  };
+  return vetement;
 }
