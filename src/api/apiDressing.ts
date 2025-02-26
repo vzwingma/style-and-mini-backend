@@ -5,7 +5,6 @@ import DressingModel from '../models/dressing.model';
 
 const router = express.Router();
 
-
 /**
  * ROOT URL : '/dressing'
  */
@@ -17,16 +16,15 @@ router.get("/", async (req, res) => {
 
   if (collections.dressing) {
     const listeDressings = (await collections.dressing.find({}).toArray())
-      .map((mongoTypeVetement: any, index: number) => {
+      .map((mongoTypeVetement: any) => {
         let dressing: DressingModel = {
           id: mongoTypeVetement._id.toString(),
           libelle: mongoTypeVetement.libelle,
-          categorie: mongoTypeVetement.categorie,
-          vetements: mongoTypeVetement.vetements
+          categorie: mongoTypeVetement.categorie
         };
         return dressing;
       });
-      console.log("Get all Dressings", listeDressings);
+
     res.status(200).json(listeDressings);
   } else {
     res.status(500).send("La collection Dressing est introuvable");
@@ -45,8 +43,7 @@ router.get("/:id", async (req, res) => {
         let dressing: DressingModel = {
           id: mongoTypeVetement._id.toString(),
           libelle: mongoTypeVetement.libelle,
-          categorie: mongoTypeVetement.categorie,
-          vetements: mongoTypeVetement.vetements
+          categorie: mongoTypeVetement.categorie
         };
         return dressing;
       })
