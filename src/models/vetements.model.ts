@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongodb';
 import DressingModel from './dressing.model';
 import VetementCaracteristiquesModel from './vetementCaracteristique.model';
+import { StatutVetementEnum } from '../constants/AppEnum';
 
 /**
  * Modèle représentant un vetement
@@ -9,12 +10,16 @@ export default interface VetementModel {
   readonly id         : string;
   readonly dressing   : DressingModel;
   readonly libelle    : string;
+
   readonly type       : VetementCaracteristiquesModel;
   readonly taille     : VetementCaracteristiquesModel;
   readonly usages     : VetementCaracteristiquesModel[];
-  readonly couleurs   : string[];
-  readonly image?     : string;
-  readonly description: string;
+  
+  readonly couleurs?   : string[];
+  readonly description?: string;
+  readonly image?      : string;  
+
+  readonly statut?     : StatutVetementEnum;
 }
 
 
@@ -25,14 +30,6 @@ export default interface VetementModel {
  * @returns {Object} Un objet formaté pour être stocké dans MongoDB.
  */
 export function vetementModelToMongoModel(vetement : VetementModel) {
-
-  const mongoUsages = vetement.usages.map(usage => {
-    return {
-      id: new ObjectId(usage.id),
-      libelle: usage.libelle
-    };
-  });
-
   return {
     _id: new ObjectId(vetement.id),
     dressing: {
@@ -48,10 +45,16 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
       id: new ObjectId(vetement.taille.id),
       libelle: vetement.taille.libelle
     },
-    usages: mongoUsages,
+    usages: vetement.usages.map(usage => {
+      return {
+        id: new ObjectId(usage.id),
+        libelle: usage.libelle
+      };
+    }),
     couleurs: vetement.couleurs,
     image: vetement.image,
-    description: vetement.description
+    description: vetement.description,
+    statut: vetement.statut
   };
 }
 
@@ -72,7 +75,8 @@ export function mongoModelToVetementModel(mongoVetement: any): VetementModel {
     usages     : mongoVetement.usages,
     couleurs   : mongoVetement.couleurs,
     image      : mongoVetement.image,
-    description: mongoVetement.description
+    description: mongoVetement.description,
+    statut     : mongoVetement.statut === StatutVetementEnum.ARCHIVE ? StatutVetementEnum.ARCHIVE : StatutVetementEnum.ACTIF
   };
   return vetement;
 }
