@@ -48,7 +48,7 @@ router.get('/taillesMesures', async (req, res) => {
           id        : mongoTypeVetement._id.toString(),
           libelle   : mongoTypeVetement.libelle,
           categorie : mongoTypeVetement.categorie,
-          type      : mongoTypeVetement.type,
+          type      : mongoTypeVetement.type
         };
         return typeVetement;
       });

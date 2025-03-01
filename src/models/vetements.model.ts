@@ -43,7 +43,8 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
     },
     taille: {
       id: new ObjectId(vetement.taille.id),
-      libelle: vetement.taille.libelle
+      libelle: vetement.taille.libelle,
+      petite : vetement.taille.petite ? vetement.taille.petite : null,
     },
     usages: vetement.usages.map(usage => {
       return {
