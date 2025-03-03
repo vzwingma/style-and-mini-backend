@@ -45,13 +45,14 @@ router.get('/taillesMesures', async (req, res) => {
   if (collections.paramTaillesMesures) {
     const listeParamsTaillesMesures = (await collections.paramTaillesMesures.find({}).toArray())
       .map((mongoTypeVetement: any) => {
-        let typeVetement: ParamTailleVetementsModel = {
+        let tailleVetement: ParamTailleVetementsModel = {
           id        : mongoTypeVetement._id.toString(),
           libelle   : mongoTypeVetement.libelle,
           categorie : mongoTypeVetement.categorie,
+          tri       : mongoTypeVetement.tri,
           type      : mongoTypeVetement.type
         };
-        return typeVetement;
+        return tailleVetement;
       });
 
     res.status(200).json(listeParamsTaillesMesures);
@@ -85,12 +86,13 @@ router.get('/etats', async (req, res) => {
   if (collections.paramEtatsVetements) {
     const listeParamsEtatsVetements: ParamEtatVetementsModel[] = (await collections.paramEtatsVetements.find({}).toArray())
       .map((mongoTypeVetement: any) => {
-        let usageVetement: ParamEtatVetementsModel = {
+        let etatVetement: ParamEtatVetementsModel = {
           id          : mongoTypeVetement._id.toString(),
           libelle     : mongoTypeVetement.libelle,
+          tri         : mongoTypeVetement.tri,
           categories  : mongoTypeVetement.categories,
         };
-        return usageVetement;
+        return etatVetement;
       });
 
     res.status(200).json(listeParamsEtatsVetements);

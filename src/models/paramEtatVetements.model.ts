@@ -6,5 +6,6 @@ import { CategorieDressingEnum } from '../constants/AppEnum';
 export default interface ParamEtatVetementsModel {
   readonly id         : string;
   readonly libelle    : string;
+  readonly tri       : number;
   readonly categories : CategorieDressingEnum[];
 }
