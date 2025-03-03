@@ -3,6 +3,7 @@ import { collections } from '../services/Mongodb.Service';
 import ParamTypeVetementsModel from '../models/paramTypeVetements.model';
 import ParamTailleVetementsModel from '../models/paramTailleVetements.model';
 import ParamUsageVetementsModel from '../models/paramUsageVetements.model';
+import ParamEtatVetementsModel from '../models/paramEtatVetements.model';
 
 const router = express.Router();
 
@@ -44,13 +45,14 @@ router.get('/taillesMesures', async (req, res) => {
   if (collections.paramTaillesMesures) {
     const listeParamsTaillesMesures = (await collections.paramTaillesMesures.find({}).toArray())
       .map((mongoTypeVetement: any) => {
-        let typeVetement: ParamTailleVetementsModel = {
+        let tailleVetement: ParamTailleVetementsModel = {
           id        : mongoTypeVetement._id.toString(),
           libelle   : mongoTypeVetement.libelle,
           categorie : mongoTypeVetement.categorie,
-          type      : mongoTypeVetement.type,
+          tri       : mongoTypeVetement.tri,
+          type      : mongoTypeVetement.type
         };
-        return typeVetement;
+        return tailleVetement;
       });
 
     res.status(200).json(listeParamsTaillesMesures);
@@ -75,10 +77,29 @@ router.get('/usages', async (req, res) => {
 
     res.status(200).json(listeParamsUsagesVetements);
   } else {
-    res.status(500).send('La collection Param Type Vetements est introuvable');
+    res.status(500).send('La collection Param Usages est introuvable');
   }
 });
 
+router.get('/etats', async (req, res) => {
+
+  if (collections.paramEtatsVetements) {
+    const listeParamsEtatsVetements: ParamEtatVetementsModel[] = (await collections.paramEtatsVetements.find({}).toArray())
+      .map((mongoTypeVetement: any) => {
+        let etatVetement: ParamEtatVetementsModel = {
+          id          : mongoTypeVetement._id.toString(),
+          libelle     : mongoTypeVetement.libelle,
+          tri         : mongoTypeVetement.tri,
+          categories  : mongoTypeVetement.categories,
+        };
+        return etatVetement;
+      });
+
+    res.status(200).json(listeParamsEtatsVetements);
+  } else {
+    res.status(500).send('La collection Param Etat est introuvable');
+  }
+});
 
 
 export default router;

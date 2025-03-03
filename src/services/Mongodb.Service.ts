@@ -12,10 +12,11 @@ const client: MongoClient = new MongoClient(MONGO_DB_URI, {
 });
 
 export const collections: {
-  paramTypesVetements?: Collection,
-  paramTaillesMesures?: Collection,
-  paramUsagesVetements?: Collection,
-  dressing?: Collection,
+  paramTypesVetements?  : Collection,
+  paramTaillesMesures?  : Collection,
+  paramUsagesVetements? : Collection,
+  paramEtatsVetements?  : Collection,  
+  dressing? : Collection,
   vetements?: Collection
 } = {};
 
@@ -34,9 +35,10 @@ async function connectToDatabase() {
   if (db === null) {
     console.error('Erreur de connexion à la base de données');
   } else {
-    collections.paramTypesVetements = db.collection(MONGO_DB_COLLECTIONS.PARAM_TYPES_VETEMENTS);
-    collections.paramTaillesMesures = db.collection(MONGO_DB_COLLECTIONS.PARAM_TAILLES_MESURES);
-    collections.paramUsagesVetements = db.collection(MONGO_DB_COLLECTIONS.PARAM_USAGES_VETEMENTS);
+    collections.paramTypesVetements   = db.collection(MONGO_DB_COLLECTIONS.PARAM_TYPES_VETEMENTS);
+    collections.paramTaillesMesures   = db.collection(MONGO_DB_COLLECTIONS.PARAM_TAILLES_MESURES);
+    collections.paramUsagesVetements  = db.collection(MONGO_DB_COLLECTIONS.PARAM_USAGES_VETEMENTS);
+    collections.paramEtatsVetements   = db.collection(MONGO_DB_COLLECTIONS.PARAM_ETATS_VETEMENTS);    
     collections.dressing = db.collection(MONGO_DB_COLLECTIONS.DRESSING);
     collections.vetements = db.collection(MONGO_DB_COLLECTIONS.VETEMENTS);
     console.log(`Connexion réussie à la base de données [${db.databaseName}]`);

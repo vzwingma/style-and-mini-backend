@@ -2,6 +2,7 @@ import { ObjectId } from 'mongodb';
 import DressingModel from './dressing.model';
 import VetementCaracteristiquesModel from './vetementCaracteristique.model';
 import { StatutVetementEnum } from '../constants/AppEnum';
+import ParamEtatVetementsModel from './paramEtatVetements.model';
 
 /**
  * Modèle représentant un vetement
@@ -14,8 +15,8 @@ export default interface VetementModel {
   readonly type       : VetementCaracteristiquesModel;
   readonly taille     : VetementCaracteristiquesModel;
   readonly usages     : VetementCaracteristiquesModel[];
-  
-  readonly couleurs?   : string[];
+  readonly etat?       : VetementCaracteristiquesModel;
+  readonly couleurs?   : string;
   readonly description?: string;
   readonly image?      : string;  
 
@@ -43,7 +44,8 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
     },
     taille: {
       id: new ObjectId(vetement.taille.id),
-      libelle: vetement.taille.libelle
+      libelle: vetement.taille.libelle,
+      petite : vetement.taille.petite ? vetement.taille.petite : null,
     },
     usages: vetement.usages.map(usage => {
       return {
@@ -51,6 +53,10 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
         libelle: usage.libelle
       };
     }),
+    etat: vetement.etat ? {
+      id: new ObjectId(vetement.etat.id),
+      libelle: vetement.etat.libelle
+    } : null,
     couleurs: vetement.couleurs,
     image: vetement.image,
     description: vetement.description,
@@ -73,6 +79,7 @@ export function mongoModelToVetementModel(mongoVetement: any): VetementModel {
     type       : mongoVetement.type,
     taille     : mongoVetement.taille,
     usages     : mongoVetement.usages,
+    etat       : mongoVetement.etat,
     couleurs   : mongoVetement.couleurs,
     image      : mongoVetement.image,
     description: mongoVetement.description,
