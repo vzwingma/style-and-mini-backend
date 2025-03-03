@@ -3,6 +3,7 @@ import { collections } from '../services/Mongodb.Service';
 import ParamTypeVetementsModel from '../models/paramTypeVetements.model';
 import ParamTailleVetementsModel from '../models/paramTailleVetements.model';
 import ParamUsageVetementsModel from '../models/paramUsageVetements.model';
+import ParamEtatVetementsModel from '../models/paramEtatVetements.model';
 
 const router = express.Router();
 
@@ -75,10 +76,28 @@ router.get('/usages', async (req, res) => {
 
     res.status(200).json(listeParamsUsagesVetements);
   } else {
-    res.status(500).send('La collection Param Type Vetements est introuvable');
+    res.status(500).send('La collection Param Usages est introuvable');
   }
 });
 
+router.get('/etats', async (req, res) => {
+
+  if (collections.paramEtatsVetements) {
+    const listeParamsEtatsVetements: ParamEtatVetementsModel[] = (await collections.paramEtatsVetements.find({}).toArray())
+      .map((mongoTypeVetement: any) => {
+        let usageVetement: ParamEtatVetementsModel = {
+          id          : mongoTypeVetement._id.toString(),
+          libelle     : mongoTypeVetement.libelle,
+          categories  : mongoTypeVetement.categories,
+        };
+        return usageVetement;
+      });
+
+    res.status(200).json(listeParamsEtatsVetements);
+  } else {
+    res.status(500).send('La collection Param Etat est introuvable');
+  }
+});
 
 
 export default router;

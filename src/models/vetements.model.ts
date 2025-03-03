@@ -2,6 +2,7 @@ import { ObjectId } from 'mongodb';
 import DressingModel from './dressing.model';
 import VetementCaracteristiquesModel from './vetementCaracteristique.model';
 import { StatutVetementEnum } from '../constants/AppEnum';
+import ParamEtatVetementsModel from './paramEtatVetements.model';
 
 /**
  * Modèle représentant un vetement
@@ -14,7 +15,7 @@ export default interface VetementModel {
   readonly type       : VetementCaracteristiquesModel;
   readonly taille     : VetementCaracteristiquesModel;
   readonly usages     : VetementCaracteristiquesModel[];
-  
+  readonly etat?       : VetementCaracteristiquesModel;
   readonly couleurs?   : string[];
   readonly description?: string;
   readonly image?      : string;  
