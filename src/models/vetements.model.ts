@@ -16,7 +16,7 @@ export default interface VetementModel {
   readonly taille     : VetementCaracteristiquesModel;
   readonly usages     : VetementCaracteristiquesModel[];
   readonly etat?       : VetementCaracteristiquesModel;
-  readonly couleurs?   : string[];
+  readonly couleurs?   : string;
   readonly description?: string;
   readonly image?      : string;  
 
@@ -53,6 +53,10 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
         libelle: usage.libelle
       };
     }),
+    etat: vetement.etat ? {
+      id: new ObjectId(vetement.etat.id),
+      libelle: vetement.etat.libelle
+    } : null,
     couleurs: vetement.couleurs,
     image: vetement.image,
     description: vetement.description,
@@ -75,6 +79,7 @@ export function mongoModelToVetementModel(mongoVetement: any): VetementModel {
     type       : mongoVetement.type,
     taille     : mongoVetement.taille,
     usages     : mongoVetement.usages,
+    etat       : mongoVetement.etat,
     couleurs   : mongoVetement.couleurs,
     image      : mongoVetement.image,
     description: mongoVetement.description,
