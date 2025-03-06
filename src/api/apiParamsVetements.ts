@@ -4,6 +4,7 @@ import ParamTypeVetementsModel from '../models/paramTypeVetements.model';
 import ParamTailleVetementsModel from '../models/paramTailleVetements.model';
 import ParamUsageVetementsModel from '../models/paramUsageVetements.model';
 import ParamEtatVetementsModel from '../models/paramEtatVetements.model';
+import { SERVICES_URL } from '../constants/APIconstants';
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ const router = express.Router();
 /**
  * Get all, Type de Vetements
  */
-router.get('/types', async (req, res) => {
+router.get(SERVICES_URL.SERVICE_PARAMS_TYPE_VETEMENTS, async (req, res) => {
 
   if (collections.paramTypesVetements) {
     const listeParamsTypeVetements: ParamTypeVetementsModel[] = (await collections.paramTypesVetements.find({}).toArray())
@@ -40,7 +41,7 @@ router.get('/types', async (req, res) => {
 /**
  * Get all, Tailles et Mesures
  */
-router.get('/taillesMesures', async (req, res) => {
+router.get(SERVICES_URL.SERVICE_PARAMS_TAILLES_MESURES, async (req, res) => {
 
   if (collections.paramTaillesMesures) {
     const listeParamsTaillesMesures = (await collections.paramTaillesMesures.find({}).toArray())
@@ -62,7 +63,7 @@ router.get('/taillesMesures', async (req, res) => {
 });
 
 
-router.get('/usages', async (req, res) => {
+router.get(SERVICES_URL.SERVICE_PARAMS_USAGES, async (req, res) => {
 
   if (collections.paramUsagesVetements) {
     const listeParamsUsagesVetements: ParamUsageVetementsModel[] = (await collections.paramUsagesVetements.find({}).toArray())
@@ -81,7 +82,7 @@ router.get('/usages', async (req, res) => {
   }
 });
 
-router.get('/etats', async (req, res) => {
+router.get(SERVICES_URL.SERVICE_PARAMS_ETATS, async (req, res) => {
 
   if (collections.paramEtatsVetements) {
     const listeParamsEtatsVetements: ParamEtatVetementsModel[] = (await collections.paramEtatsVetements.find({}).toArray())

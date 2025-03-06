@@ -1,8 +1,7 @@
 import { ObjectId } from 'mongodb';
 import DressingModel from './dressing.model';
 import VetementCaracteristiquesModel from './vetementCaracteristique.model';
-import { StatutVetementEnum } from '../constants/AppEnum';
-import ParamEtatVetementsModel from './paramEtatVetements.model';
+import { SaisonVetementEnum, StatutVetementEnum } from '../constants/AppEnum';
 
 /**
  * Modèle représentant un vetement
@@ -15,6 +14,7 @@ export default interface VetementModel {
   readonly type       : VetementCaracteristiquesModel;
   readonly taille     : VetementCaracteristiquesModel;
   readonly usages     : VetementCaracteristiquesModel[];
+  readonly saisons    : SaisonVetementEnum[];
   readonly etat?       : VetementCaracteristiquesModel;
   readonly couleurs?   : string;
   readonly description?: string;
@@ -53,6 +53,7 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
         libelle: usage.libelle
       };
     }),
+    saisons: vetement.saisons,
     etat: vetement.etat ? {
       id: new ObjectId(vetement.etat.id),
       libelle: vetement.etat.libelle
@@ -79,6 +80,7 @@ export function mongoModelToVetementModel(mongoVetement: any): VetementModel {
     type       : mongoVetement.type,
     taille     : mongoVetement.taille,
     usages     : mongoVetement.usages,
+    saisons    : mongoVetement.saisons,
     etat       : mongoVetement.etat,
     couleurs   : mongoVetement.couleurs,
     image      : mongoVetement.image,

@@ -11,32 +11,32 @@ import { collections } from "../services/Mongodb.Service";
  * @param vetementId - (Optionnel) L'identifiant du vêtement à mettre à jour. Si non fourni, un nouveau vêtement sera inséré.
  * @returns Une promesse qui se résout à `true` si l'enregistrement est réussi, ou se rejette avec `false` en cas d'erreur.
  */
-export function saveVetement(dressingById: string, vetement: any, vetementId?: string): Promise<boolean> {
+export function saveVetement(vetement: any, vetementId?: string): Promise<string | null> {
     return new Promise((resolve, reject) => {
         if (collections.vetements) {
-            console.log('Save Vetement', dressingById, vetement, vetementId);
+            console.log('[MongoDB] Save Vetement', vetement);
 
             if (vetementId) {
                 collections.vetements.updateOne({ '_id': new ObjectId(vetementId) }, { $set: { ...vetement } })
                     .then(() => {
-                        resolve(true);
+                        resolve(vetementId);
                     })
                     .catch((e) => {
-                        console.error("Erreur lors de l'enregistrement du vêtement", e);
-                        reject(false);
+                        console.error("[MongoDB] Erreur lors de l'enregistrement du vêtement", e);
+                        reject(null);
                     });
             } else {
                 collections.vetements.insertOne({ ...vetement })
-                    .then(() => {
-                        resolve(true);
+                    .then((result) => {
+                        resolve(result.insertedId.toString());
                     })
                     .catch((e) => {
-                        console.error("Erreur lors de l'enregistrement du vêtement", e);
-                        reject(false);
+                        console.error("[MongoDB] Erreur lors de l'enregistrement du vêtement", e);
+                        reject(null);
                     });
             }
         } else {
-            reject(false);
+            reject(null);
         }
     });
 }

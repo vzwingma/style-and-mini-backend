@@ -8,6 +8,12 @@ export enum StatutVetementEnum {
   ARCHIVE = 'Archivé',
 }
 
+
+// Enumération des statuts de vêtements
+export enum SaisonVetementEnum {
+  ETE = "ETE", HIVER = "HIVER"
+}
+
 // 
 export enum CategorieDressingEnum {
   BEBE    = 'Bébé',
