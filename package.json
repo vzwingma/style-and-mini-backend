@@ -6,8 +6,8 @@
   "scripts": {
     "start": "npx ts-node src/index.ts",
     "debug": "nodemon src/index.ts",
-    "dev": "dotenv-run-script .env.dev -- debug",
-    "qua": "dotenv-run-script .env.qua -- start",
+    "dev": "dotenv-run-script .env .env.dev -- debug",
+    "qua": "dotenv-run-script .env .env.qua -- start",
     "build": "tsc",
     "start:dist": "node dist/src/index.js",
     "lint": "eslint --fix src test",
