@@ -5,7 +5,9 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "npx ts-node src/index.ts",
-    "dev": "nodemon src/index.ts",
+    "debug": "nodemon src/index.ts",
+    "dev": "dotenv-run-script .env.dev -- debug",
+    "qua": "dotenv-run-script .env.qua -- start",
     "build": "tsc",
     "start:dist": "node dist/src/index.js",
     "lint": "eslint --fix src test",
@@ -37,6 +39,7 @@
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^7.16.1",
     "@typescript-eslint/parser": "^7.16.1",
+    "dotenv-run-script": "^0.4.1",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-import-resolver-typescript": "^3.6.3",
