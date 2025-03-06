@@ -4,8 +4,8 @@ export const APP_MOBILE_NAME = 'Style et Mini';
 // Enumération des statuts de l'application
 
 export enum StatutVetementEnum {
-  ACTIF   = 'Actif',
-  ARCHIVE = 'Archivé',
+  ACTIF   = 'ACTIF',
+  ARCHIVE = 'ARCHIVE',
 }
 
 
@@ -16,12 +16,12 @@ export enum SaisonVetementEnum {
 
 // 
 export enum CategorieDressingEnum {
-  BEBE    = 'Bébé',
-  ENFANT  = 'Enfant',
-  ADULTE  = 'Adulte',
+  BEBE    = 'BEBE',
+  ENFANT  = 'ENFANT',
+  ADULTE  = 'ADULTE',
 }
 
 export enum TypeTailleEnum {
-  TAILLE = 'Taille',
-  POINTURE = 'Pointure',
+  TAILLE = 'TAILLE',
+  POINTURE = 'POINTURE',
 }
