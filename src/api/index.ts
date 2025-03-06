@@ -4,7 +4,7 @@ import MessageResponse from './interfaces/MessageResponse';
 import apiParamsVetements from './apiParamsVetements';
 import apiDressing from './apiDressing';
 import BackendConfigModel from '../models/backendConfig.model';
-import { SERVICES_URL } from '../constants/APIconstants';
+import { ServiceURLEnum } from '../constants/APIconstants';
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.get<{}, BackendConfigModel>('/status', (req, res) => {
   });
 });
 
-router.use(SERVICES_URL.SERVICE_PARAMS, apiParamsVetements);
-router.use(SERVICES_URL.SERVICE_DRESSINGS, apiDressing);
+router.use(ServiceURLEnum.SERVICE_PARAMS, apiParamsVetements);
+router.use(ServiceURLEnum.SERVICE_DRESSINGS, apiDressing);
 
 export default router;
