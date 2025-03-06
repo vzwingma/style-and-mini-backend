@@ -35,12 +35,12 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
     _id: new ObjectId(vetement.id),
     dressing: {
       id: new ObjectId(vetement.dressing.id),
-      libelle: vetement.dressing.libelle
+      libelle: vetement.dressing.libelle,
     },
     libelle: vetement.libelle,
     type: {
       id: new ObjectId(vetement.type.id),
-      libelle: vetement.type.libelle
+      libelle: vetement.type.libelle,
     },
     taille: {
       id: new ObjectId(vetement.taille.id),
@@ -50,18 +50,18 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
     usages: vetement.usages.map(usage => {
       return {
         id: new ObjectId(usage.id),
-        libelle: usage.libelle
+        libelle: usage.libelle,
       };
     }),
     saisons: vetement.saisons,
     etat: vetement.etat ? {
       id: new ObjectId(vetement.etat.id),
-      libelle: vetement.etat.libelle
+      libelle: vetement.etat.libelle,
     } : null,
     couleurs: vetement.couleurs,
     image: vetement.image,
     description: vetement.description,
-    statut: vetement.statut
+    statut: vetement.statut,
   };
 }
 
@@ -85,7 +85,7 @@ export function mongoModelToVetementModel(mongoVetement: any): VetementModel {
     couleurs   : mongoVetement.couleurs,
     image      : mongoVetement.image,
     description: mongoVetement.description,
-    statut     : mongoVetement.statut === StatutVetementEnum.ARCHIVE ? StatutVetementEnum.ARCHIVE : StatutVetementEnum.ACTIF
+    statut     : mongoVetement.statut === StatutVetementEnum.ARCHIVE ? StatutVetementEnum.ARCHIVE : StatutVetementEnum.ACTIF,
   };
   return vetement;
 }

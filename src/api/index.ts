@@ -4,7 +4,7 @@ import MessageResponse from './interfaces/MessageResponse';
 import apiParamsVetements from './apiParamsVetements';
 import apiDressing from './apiDressing';
 import BackendConfigModel from '../models/backendConfig.model';
-import { SERVICES_URL } from '../constants/APIconstants';
+import { ServiceURLEnum } from '../constants/APIconstants';
 
 const router = express.Router();
 
@@ -17,10 +17,12 @@ router.get<{}, MessageResponse>('/', (req, res) => {
 router.get<{}, BackendConfigModel>('/status', (req, res) => {
   res.json({
     status: '✅​ OK ✅​',
+    version: process.env.VERSION,
+    env: ''+process.env.NODE_ENV,
   });
 });
 
-router.use(SERVICES_URL.SERVICE_PARAMS, apiParamsVetements);
-router.use(SERVICES_URL.SERVICE_DRESSINGS, apiDressing);
+router.use(ServiceURLEnum.SERVICE_PARAMS, apiParamsVetements);
+router.use(ServiceURLEnum.SERVICE_DRESSINGS, apiDressing);
 
 export default router;

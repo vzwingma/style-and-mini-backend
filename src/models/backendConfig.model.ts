@@ -4,4 +4,6 @@
 
 export default interface BackendConfigModel {
   readonly status: string;
+  readonly version?: string;
+  readonly env?: string;
 }
