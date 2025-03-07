@@ -34,12 +34,12 @@ jobs:
       - name: Build NPM Build
         run: npm run build --if-present
       # Edit template SAML
-      - name: Find and Replace in Serverless Application Manager Config
+      - name: Serverless Application Manager Config
         run: 
-          sed "s/__ENV__/QUA/g" .aws-sam\samconfig.template.toml > samconfig.toml
-      - name: Find and Replace in Serverless Application Manager
+          sed "s/__ENV__/QUA/g" .aws-sam/samconfig.template.toml > samconfig.toml
+      - name: SAM Infracomposer Config
         run: 
-          sed -e "s/__ENV__/QUA/g" -e "s/__VERSION__/SNAPSHOT/g"  -e "s/__DATABASE_URL__/${{ secrets.DATABASE_URL }}/g" -e "s/__DATABASE_NAME__/${{ secrets.DATABASE_NAME }}/g" .aws-sam\infra-composer.template.yaml > infra-composer.yaml
+          sed -e "s/__ENV__/QUA/g" -e "s/__VERSION__/SNAPSHOT/g"  -e "s/__DATABASE_URL__/${{ secrets.DATABASE_URL }}/g" -e "s/__DATABASE_NAME__/${{ secrets.DATABASE_NAME }}/g" .aws-sam/infra-composer.template.yaml > infra-composer.yaml
 
   ###########################
   #          DEPLOY         #
