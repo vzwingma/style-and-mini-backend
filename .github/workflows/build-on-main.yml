@@ -37,13 +37,9 @@ jobs:
       - name: Find and Replace in Serverless Application Manager Config
         run: 
           sed "s/__ENV__/QUA/g" samconfig.template.toml > samconfig.toml
-      - run:    
-          cat samconfig.toml
       - name: Find and Replace in Serverless Application Manager
         run: 
           sed -e "s/__ENV__/QUA/g" -e "s/__VERSION__/SNAPSHOT/g"  -e "s/__DATABASE_URL__/${{ secrets.DATABASE_URL }}/g" -e "s/__DATABASE_NAME__/${{ secrets.DATABASE_NAME }}/g" infra-composer.template.yaml > infra-composer.yaml
-      - run:
-          cat infra-composer.yaml
 
   ###########################
   #          DEPLOY         #
@@ -58,11 +54,8 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-3
-
-      - name: Display structure of downloaded files
-        run: ls -R
         # Build inside Docker containers
-      - run: sam build --use-container -t infra-composer.yaml --config-file samconfig.toml
+      - run: sam build -t infra-composer.yaml --config-file samconfig.toml
         name: SAM Build
       # Prevent prompts and failure when the stack is unchanged
       - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset -t infra-composer.yaml --config-file samconfig.toml
