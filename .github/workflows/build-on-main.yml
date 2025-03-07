@@ -30,6 +30,7 @@ jobs:
       # Runs the Build with NPM
       - name: Install NPM Dependencies
         run: npm ci
+      - run: npm install esbuild -g  
       - name: Build NPM Build
         run: npm run build --if-present
       # Edit template SAML
