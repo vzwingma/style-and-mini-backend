@@ -23,13 +23,6 @@ jobs:
         with:
           node-version: '22.x'
           cache: 'npm'
-      # Step that does that actual cache save and restore
-      - uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
       # Runs the Build with NPM
       - name: Install NPM Dependencies
         run: npm ci
