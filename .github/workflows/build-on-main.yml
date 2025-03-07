@@ -22,10 +22,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout sources
         uses: actions/checkout@v4
-      - name: Use Node.js 22.x
+      - name: Use Node.js 18.x
         uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
+          node-version: '18.x'
           cache: 'npm'
       # Runs the Build with NPM
       - name: Install NPM Dependencies
@@ -34,9 +34,13 @@ jobs:
         run: npm run build --if-present
       # Edit template SAML
       - name: Find and Replace in Serverless Application Manager Config
-        run: sed "s/__ENV__/QUA/g" samconfig.template.toml > samconfig.toml
+        run: 
+          sed "s/__ENV__/QUA/g" samconfig.template.toml > samconfig.toml 
+          cat samconfig.toml
       - name: Find and Replace in Serverless Application Manager
-        run: sed -e "s/__ENV__/QUA/g" -e "s/__VERSION__/SNAPSHOT/g"  -e "s/__DATABASE_URL__/${{ secrets.DATABASE_URL }}/g" -e "s/__DATABASE_NAME__/${{ secrets.DATABASE_NAME }}/g" template-infra-composer.yaml > infra-composer.yaml
+        run: 
+          sed -e "s/__ENV__/QUA/g" -e "s/__VERSION__/SNAPSHOT/g"  -e "s/__DATABASE_URL__/${{ secrets.DATABASE_URL }}/g" -e "s/__DATABASE_NAME__/${{ secrets.DATABASE_NAME }}/g" template-infra-composer.yaml > infra-composer.yaml
+          cat infra-composer.yaml
 
   ###########################
   #          DEPLOY         #
