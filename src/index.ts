@@ -1,4 +1,4 @@
-import app from './app';
+import { app } from './app';
 import { BACKEND_PORT } from './constants/AppConstants';
 
 const port = BACKEND_PORT;

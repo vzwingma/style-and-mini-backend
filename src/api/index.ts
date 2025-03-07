@@ -18,7 +18,7 @@ router.get<{}, BackendConfigModel>('/status', (req, res) => {
   res.json({
     status: '✅​ OK ✅​',
     version: process.env.VERSION,
-    env: ''+process.env.NODE_ENV,
+    env: '' + process.env.NODE_ENV,
   });
 });
 

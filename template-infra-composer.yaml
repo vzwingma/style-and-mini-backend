@@ -1,0 +1,72 @@
+Transform: AWS::Serverless-2016-10-31
+Description: |
+  SAM Template pour l'application Style & Mini __VERSION__ - __ENV__
+Globals:
+  Function:
+    Timeout: 3
+    Tracing: Active
+  Api:
+    TracingEnabled: true
+Resources:
+  StyleMiniBackend__ENV__:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: !Sub
+        - Stack ${AWS::StackName} Function ${ResourceName}
+        - ResourceName: StyleMiniBackend__ENV__
+      CodeUri: StyleMiniBackend__ENV__
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      MemorySize: 3008
+      Policies: AWSLambdaBasicExecutionRole
+      Events:
+        ApiBackend__ENV__ANYapiv1uri:
+          Type: Api
+          Properties:
+            Path: /api/v1/{uri+}
+            Method: ANY
+            RestApiId: !Ref ApiBackend__ENV__
+      Environment:
+        Variables:
+          MONGO_DB_URI: __DATABASE_URL__&ssl=true&authSource=admin&retryWrites=true&w=majority
+          MONGO_DB_DATABASE: __DATABASE_NAME__
+          NODE_ENV: __ENV__
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/index.ts
+        External:
+          - '@aws-sdk/*'
+          - aws-sdk
+        Minify: true
+      SamResourceId: StyleMiniBackend__ENV__
+  StyleMiniBackendLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Retain
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${StyleMiniBackend__ENV__}
+  ApiBackend__ENV__:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub
+        - ${AWS::StackName}
+        - ResourceName: ApiBackend__ENV__
+      Description: API Gateway pour Style & Mini __VERSION__ - __ENV__
+        - 
+      StageName: Prod
+      DefinitionBody:
+        openapi: '3.0'
+        info: {}
+        paths:
+          /api/v1/{uri+}:
+            x-amazon-apigateway-any-method:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${StyleMiniBackend__ENV__.Arn}/invocations
+              responses: {}
+      EndpointConfiguration: REGIONAL
+      TracingEnabled: true
+      Cors:
+        MaxAge: 5

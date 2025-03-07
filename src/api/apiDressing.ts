@@ -81,7 +81,7 @@ async function saveOrUpdateVetement(req: any, res: any) {
   console.log('Save or Update Vetement', vetement);
   const saveResult = await saveVetement(vetementModelToMongoModel(vetement), req.params.idv);
   if (saveResult) {
-    console.log('Vêtement [', saveResult, '] ', (req.params.idv ? 'modifié' : 'ajouté'), ' dans le dressing [', req.params.idd, ']');
+    console.log('Vêtement [', saveResult, ']', (req.params.idv ? 'modifié' : 'ajouté'), ' dans le dressing [', req.params.idd, ']');
     res.status(200).json({ idVetement: saveResult });
   } else {
     res.status(500).send("L'enregistrement du vêtement a échoué");

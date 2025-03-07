@@ -1,0 +1,62 @@
+name: CI - deploy QUA app
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  # BUILD
+  build-backend:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout sources
+        uses: actions/checkout@v4
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'npm'
+      # Runs the Build with NPM
+      - name: Install NPM Dependencies
+        run: npm ci
+      - name: Build NPM Build
+        run: npm run build --if-present
+      # Edit template SAML
+      - name: Find and Replace in Serverless Application Manager Config
+        run: sed "s/__ENV__/QUA/g" samconfig.template.toml > samconfig.toml
+      - name: Find and Replace in Serverless Application Manager
+        run: sed -e "s/__ENV__/QUA/g" -e "s/__VERSION__/SNAPSHOT/g"  -e "s/__DATABASE_URL__/${{ secrets.DATABASE_URL }}/g" -e "s/__DATABASE_NAME__/${{ secrets.DATABASE_NAME }}/g" template-infra-composer.yaml > infra-composer.yaml
+
+  ###########################
+  #          DEPLOY         #
+  ###########################
+      - uses: aws-actions/setup-sam@v2
+        name: Configure SAM
+        with:
+          use-installer: true
+      - uses: aws-actions/configure-aws-credentials@v4
+        name: Configure AWS Access
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-3
+
+      - name: Display structure of downloaded files
+        run: ls -R
+        # Build inside Docker containers
+      - run: sam build --use-container -t infra-composer.yaml --config-file samconfig.toml
+        name: SAM Build
+      # Prevent prompts and failure when the stack is unchanged
+      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset -t infra-composer.yaml --config-file samconfig.toml
+        name: SAM Deploy
