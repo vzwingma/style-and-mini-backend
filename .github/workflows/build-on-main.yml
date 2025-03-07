@@ -40,7 +40,7 @@ jobs:
           cat samconfig.toml
       - name: Find and Replace in Serverless Application Manager
         run: 
-          sed -e "s/__ENV__/QUA/g" -e "s/__VERSION__/SNAPSHOT/g"  -e "s/__DATABASE_URL__/${{ secrets.DATABASE_URL }}/g" -e "s/__DATABASE_NAME__/${{ secrets.DATABASE_NAME }}/g" template-infra-composer.yaml > infra-composer.yaml
+          sed -e "s/__ENV__/QUA/g" -e "s/__VERSION__/SNAPSHOT/g"  -e "s/__DATABASE_URL__/${{ secrets.DATABASE_URL }}/g" -e "s/__DATABASE_NAME__/${{ secrets.DATABASE_NAME }}/g" infra-composer.template.yaml > infra-composer.yaml
       - run:
           cat infra-composer.yaml
 
