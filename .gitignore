@@ -66,4 +66,4 @@ typings/
 dist
 .env.dev
 .env.qua
-.aws-sam/
+.aws-sam/build*
