@@ -12,7 +12,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Description: !Sub
-        - Stack ${AWS::StackName} Function ${ResourceName}
+        - Fonction ${AWS::StackName}
         - ResourceName: StyleMiniBackend__ENV__
       CodeUri: dist/
       Handler: app.lambdaHandler
