@@ -6,10 +6,9 @@ import dotenv from 'dotenv';
 
 import * as middlewares from './api/interfaces/middlewares';
 import api from './api';
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { connect } from 'http2';
-import { collections, connectToDatabase } from './services/Mongodb.Service';
+import { BACKEND_PORT } from './constants/AppConstants';
 
+const serverless = require('serverless-http');
 dotenv.config();
 
 
@@ -31,26 +30,21 @@ const startApp = () => {
 startApp();
 
 
+const handler = serverless(app);
 
-export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  console.log('AWS Lambda event', event);
-  try {
+const port = BACKEND_PORT;
+const startServer = async () => {
+app.listen(port, () => {
+  /* eslint-disable no-console */
+  console.log(`Listening: http://0.0.0.0:${port}`);
+  /* eslint-enable no-console */
+});
+};
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
-        status: '✅​ OK ✅​',
-        version: process.env.VERSION,
-        env: '' + process.env.NODE_ENV,
-      }),
-    };
-  } catch (err) {
-    console.log(err);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        message: 'some error happened',
-      }),
-    };
-  }
+startServer();
+
+
+module.exports.handler = (event : any, context :any, callback: any) => {
+  const response = handler(event, context, callback);
+  return response;
 };
