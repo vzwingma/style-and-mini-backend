@@ -1,4 +1,4 @@
-import { Collection, MongoClient, ServerApiVersion } from 'mongodb';
+import { Collection, MongoClient, ObjectId, ServerApiVersion } from 'mongodb';
 import { MONGO_DB_COLLECTIONS, MONGO_DB_DATABASE_NAME, MONGO_DB_URI } from '../constants/AppConstants';
 
 
@@ -11,12 +11,10 @@ const client: MongoClient = new MongoClient(MONGO_DB_URI, {
   },
 });
 
+let connexion : any;
+
+
 export const collections: {
-  paramTypesVetements?  : Collection,
-  paramTaillesMesures?  : Collection,
-  paramUsagesVetements? : Collection,
-  paramEtatsVetements?  : Collection,  
-  dressing? : Collection,
   vetements?: Collection
 } = {};
 
@@ -24,25 +22,100 @@ export const collections: {
  * 
  * @returns ci-dessous la fonction connectToDatabase() qui permet de se connecter à la base de données MongoDB
  */
-async function connectToDatabase() {
-  let conn;
-  try {
-    conn = await client.connect();
-  } catch (e) {
-    console.error(e);
+export async function connectToDatabase(collectionName: MONGO_DB_COLLECTIONS): Promise<Collection | null> {
+  if(!connexion){
+    try {
+      connexion = await client.connect();
+      console.log(`Connexion réussie à la base de données [${connexion.databaseName}]`);
+    } catch (e) {
+      console.error("Erreur de connexion à ATLAS " + MONGO_DB_URI + "/" + MONGO_DB_DATABASE_NAME, e);
+    }
   }
-  let db = conn ? conn.db(MONGO_DB_DATABASE_NAME) : null;
+  let db = connexion ? connexion.db(MONGO_DB_DATABASE_NAME) : null;
   if (db === null) {
-    console.error('Erreur de connexion à la base de données');
+    console.error('Erreur de connexion à la base de données ' + MONGO_DB_DATABASE_NAME);
+    return null;
   } else {
-    collections.paramTypesVetements   = db.collection(MONGO_DB_COLLECTIONS.PARAM_TYPES_VETEMENTS);
-    collections.paramTaillesMesures   = db.collection(MONGO_DB_COLLECTIONS.PARAM_TAILLES_MESURES);
-    collections.paramUsagesVetements  = db.collection(MONGO_DB_COLLECTIONS.PARAM_USAGES_VETEMENTS);
-    collections.paramEtatsVetements   = db.collection(MONGO_DB_COLLECTIONS.PARAM_ETATS_VETEMENTS);    
-    collections.dressing = db.collection(MONGO_DB_COLLECTIONS.DRESSING);
-    collections.vetements = db.collection(MONGO_DB_COLLECTIONS.VETEMENTS);
-    console.log(`Connexion réussie à la base de données [${db.databaseName}]`);
+
+    return db.collection(collectionName);
   }
-  return db;
 }
-connectToDatabase();
+
+
+/**
+ * Recherche des documents dans une collection MongoDB spécifiée en fonction d'un filtre donné.
+ *
+ * @param {MONGO_DB_COLLECTIONS} collectionName - Le nom de la collection MongoDB dans laquelle effectuer la recherche.
+ * @param {any} filter - Le filtre à appliquer pour la recherche des documents.
+ * @returns {Promise<any>} Une promesse qui résout avec les documents trouvés ou null si la collection n'existe pas.
+ */
+export async function findInCollection(collectionName: MONGO_DB_COLLECTIONS, filter: any): Promise<any> {
+  console.log('[MongoDB] findInCollection', collectionName, filter);
+  const collection = await connectToDatabase(collectionName);
+  if (collection) {
+    return collection.find(filter).toArray();
+  } else {
+    return null;
+  }
+}
+
+/**
+ * Enregistre un document MongoDB dans une collection spécifiée.
+ *
+ * @param mongoDocument - Le document MongoDB à enregistrer.
+ * @param collectionName - Le nom de la collection MongoDB où le document sera enregistré.
+ * @returns Une promesse qui résout avec l'ID du document inséré sous forme de chaîne de caractères, ou null en cas d'erreur.
+ */
+export function save(mongoDocument: any, collectionName : MONGO_DB_COLLECTIONS): Promise<string | null> {
+  return new Promise((resolve, reject) => {
+
+      console.log('[MongoDB] Save mongoDocument', mongoDocument);
+      connectToDatabase(collectionName).then((collection) => {
+        if (collection) {
+          collection.insertOne({ ...mongoDocument })
+            .then((result) => {
+              resolve(result.insertedId.toString());
+            })
+            .catch((e) => {
+              console.error("[MongoDB] Erreur lors de l'enregistrement du document", e);
+              reject(null);
+            });
+        } else {
+          reject(null); 
+        }
+      }
+      );
+  }
+  );
+}
+
+
+/**
+ * Enregistre un document MongoDB dans une collection spécifiée.
+ *
+ * @param mongoDocument - Le document MongoDB à enregistrer.
+ * @param collectionName - Le nom de la collection MongoDB où le document sera enregistré.
+ * @returns Une promesse qui résout avec l'ID du document inséré sous forme de chaîne de caractères, ou null en cas d'erreur.
+ */
+export function update(mongoDocument: any, mongoId: string, collectionName : MONGO_DB_COLLECTIONS): Promise<string | null> {
+  return new Promise((resolve, reject) => {
+
+      console.log('[MongoDB] Update mongoDocument', mongoDocument);
+      connectToDatabase(collectionName).then((collection) => {
+        if (collection) {
+          collection.updateOne({ '_id': new ObjectId(mongoId) }, { $set: { ...mongoDocument } })
+            .then((result) => {
+              resolve(result.upsertedId ? result.upsertedId.toString() : null);
+            })
+            .catch((e) => {
+              console.error("[MongoDB] Erreur lors de l'enregistrement du document", e);
+              reject(null);
+            });
+        } else {
+          reject(null); 
+        }
+      }
+      );
+  });
+}
+

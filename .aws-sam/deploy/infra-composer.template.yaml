@@ -14,7 +14,7 @@ Resources:
       Description: !Sub
         - Fonction ${AWS::StackName}
         - ResourceName: StyleMiniBackend__ENV__
-      CodeUri: src/
+      CodeUri: dist/
       Handler: app.lambdaHandler
       Runtime: nodejs18.x
       MemorySize: 3008
@@ -35,11 +35,13 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         EntryPoints:
-          - index.ts
+          - app.js
         External:
           - '@aws-sdk/*'
           - aws-sdk
         Minify: true
+        Target: es2020
+        Sourcemap: true
       SamResourceId: StyleMiniBackend__ENV__
   StyleMiniBackendLogGroup:
     Type: AWS::Logs::LogGroup
@@ -54,7 +56,7 @@ Resources:
         - ResourceName: ApiBackend__ENV__
       Description: API Gateway pour Style & Mini __VERSION__ - __ENV__
         - 
-      StageName: Prod
+      StageName: Qua
       DefinitionBody:
         openapi: '3.0'
         info: {}
