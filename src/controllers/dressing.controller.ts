@@ -1,7 +1,8 @@
 import { ObjectId } from 'mongodb';
-import { collections, findInCollection, save, update } from '../services/Mongodb.Service';
+import { findInCollection, save, update } from '../services/Mongodb.Service';
 import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
 import VetementModel, { mongoModelToVetementModel, vetementModelToMongoModel } from '../models/vetements.model';
+import DressingModel, { mongoModelToDressingModel } from '../models/dressing.model';
 
 
 
@@ -12,11 +13,11 @@ import VetementModel, { mongoModelToVetementModel, vetementModelToMongoModel } f
  *
  * @returns {Promise<any>} Une promesse qui se résout avec le résultat de la collection ou se rejette avec une erreur.
  */
-export function getDressings(): Promise<any> {
+export function getDressings(): Promise<DressingModel> {
   return new Promise((resolve, reject) => {
     findInCollection(MONGO_DB_COLLECTIONS.DRESSING, { })
-      .then((result) => {
-        resolve(result);
+      .then((mongoDressings) => {
+        resolve(mongoDressings.map((mongoDressing: any) => mongoModelToDressingModel(mongoDressing)));
       })
       .catch((err) => {
         console.error('Erreur lors de la récupération des dressings', err);
@@ -32,11 +33,11 @@ export function getDressings(): Promise<any> {
  * @param {string} dressingId - L'identifiant du dressing à récupérer.
  * @returns {Promise<any>} Une promesse qui se résout avec le dressing correspondant à l'identifiant fourni, ou se rejette avec `null` en cas d'erreur.
  */
-export function getDressingById(dressingId: string): Promise<any> {
+export function getDressingById(dressingId: string): Promise<DressingModel> {
   return new Promise((resolve, reject) => {
     findInCollection(MONGO_DB_COLLECTIONS.DRESSING, { '_id': new ObjectId(dressingId) })
-      .then((result) => {
-        resolve(result[0]);
+      .then((mongoDressings) => {
+        resolve(mongoModelToDressingModel(mongoDressings[0]));
       })
       .catch((err) => {
         console.error('Erreur lors de la récupération du dressing', err);

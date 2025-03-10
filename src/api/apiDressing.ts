@@ -1,5 +1,4 @@
 import express from 'express';
-import { mongoModelToDressingModel } from '../models/dressing.model';
 import { getDressingById, getDressings, getVetements, saveVetement, updateVetement } from '../controllers/dressing.controller';
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
 
@@ -14,14 +13,11 @@ const router = express.Router();
  */
 router.get('/', async (req, res) => {
 
-  getDressings()
-    .then((mongoDressings) => {
-      const listeDressings = mongoDressings.map((mongoTypeVetement: any) => mongoModelToDressingModel(mongoTypeVetement));
+  getDressings().then((listeDressings) => {
       res.status(ApiHTTPStatusEnum.OK).json(listeDressings);
     })
     .catch((err) => {
-      console.error('Error connecting to MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Dressing est introuvable');
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send(err);
     });
 });
 
@@ -31,13 +27,11 @@ router.get('/', async (req, res) => {
 router.get(ServiceURLEnum.SERVICE_DRESSING_BY_ID, async (req, res) => {
   console.log('Get Dressing by Id', req.params.idd);
   getDressingById(req.params.idd)
-    .then((mongoDressing) => {
-      const dressing = mongoModelToDressingModel(mongoDressing);
+    .then((dressing) => {
       res.status(ApiHTTPStatusEnum.OK).json(dressing);
     })
     .catch((err) => {
-      console.error('Error connecting to MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Dressing est introuvable');
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send(err);
     });
 });
 
