@@ -56,7 +56,7 @@ Resources:
         - ResourceName: ApiBackend__ENV__
       Description: API Gateway pour Style & Mini __VERSION__ - __ENV__
         - 
-      StageName: Prod
+      StageName: Qua
       DefinitionBody:
         openapi: '3.0'
         info: {}
