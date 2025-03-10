@@ -44,7 +44,7 @@ app.listen(port, () => {
 startServer();
 
 
-module.exports.handler = (event : any, context :any, callback: any) => {
+export const lambdaHandler = (event : any, context :any, callback: any) => {
   const response = handler(event, context, callback);
   return response;
 };
