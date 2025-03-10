@@ -48,4 +48,4 @@ export async function connectToDatabase() {
   }
   return db;
 }
-connectToDatabase();
+
