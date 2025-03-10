@@ -1,6 +1,6 @@
 import express from 'express';
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
-import { getParamsEtatsVetement, getParamsTaillesVetement, getParamsUsagesVetement } from '../controllers/params.controller';
+import { getParamsEtatsVetement, getParamsTaillesVetement, getParamsTypesVetement, getParamsUsagesVetement } from '../controllers/params.controller';
 
 
 const router = express.Router();
@@ -14,7 +14,7 @@ const router = express.Router();
  */
 router.get(ServiceURLEnum.SERVICE_PARAMS_TYPE_VETEMENTS, async (req, res) => {
 
-  getParamsEtatsVetement()
+  getParamsTypesVetement()
     .then((listeParamsTypeVetements) => {
       res.status(ApiHTTPStatusEnum.OK).json(listeParamsTypeVetements)
     })
