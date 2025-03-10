@@ -1,11 +1,8 @@
 import express from 'express';
-import { connectToDatabase as requestMongoDB } from '../services/Mongodb.Service';
-import { ObjectId } from 'mongodb';
 import { mongoModelToDressingModel } from '../models/dressing.model';
-import { saveVetement } from '../controllers/dressing.controller';
+import { getDressingById, getDressings, saveVetement } from '../controllers/dressing.controller';
 import VetementModel, { vetementModelToMongoModel } from '../models/vetements.model';
 import { ServiceURLEnum } from '../constants/APIconstants';
-import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
 
 const router = express.Router();
 
@@ -18,18 +15,12 @@ const router = express.Router();
  */
 router.get('/', async (req, res) => {
 
-  requestMongoDB(MONGO_DB_COLLECTIONS.DRESSING)
-    .then((collection) => {
-      collection?.find({}).toArray()
-        .then((result) => {
-          const listeDressings = result.map((mongoTypeVetement: any) => mongoModelToDressingModel(mongoTypeVetement));
-          res.status(200).json(listeDressings);
-        })
-        .catch((err) => {
-          console.error('Error connecting to MongoDB', err);
-          res.status(500).send('La collection Dressing est introuvable');
-        });
-    }).catch((err) => {
+  getDressings()
+    .then((result) => {
+      const listeDressings = result.map((mongoTypeVetement: any) => mongoModelToDressingModel(mongoTypeVetement));
+      res.status(200).json(listeDressings);
+    })
+    .catch((err) => {
       console.error('Error connecting to MongoDB', err);
       res.status(500).send('La collection Dressing est introuvable');
     });
@@ -40,19 +31,12 @@ router.get('/', async (req, res) => {
  */
 router.get(ServiceURLEnum.SERVICE_DRESSING_BY_ID, async (req, res) => {
   console.log('Get Dressing by Id', req.params.idd);
-  requestMongoDB(MONGO_DB_COLLECTIONS.DRESSING)
-    .then((collection) => {
-      const dressingById = collection?.find({ '_id': new ObjectId(req.params.idd) }).toArray()
-        .then((result) => {
-          result.map((mongoTypeVetement: any) => mongoModelToDressingModel(mongoTypeVetement))
-            .at(0);
-          res.status(200).json(dressingById);
-        })
-        .catch((err) => {
-          console.error('Error connecting to MongoDB', err);
-          res.status(500).send('La collection Dressing est introuvable');
-        });
-    }).catch((err) => {
+  getDressingById(req.params.idd)
+    .then((result) => {
+      const dressing = mongoModelToDressingModel(result);
+      res.status(200).json(dressing);
+    })
+    .catch((err) => {
       console.error('Error connecting to MongoDB', err);
       res.status(500).send('La collection Dressing est introuvable');
     });
