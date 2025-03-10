@@ -1,14 +1,4 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-// import { app } from './app';
-import { BACKEND_PORT } from './constants/AppConstants';
-/*
-const port = BACKEND_PORT;
-app.listen(port, () => {
-
-  console.log(`Listening: http://0.0.0.0:${port}`);
-
-});
-*/
 
 
 export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
@@ -17,7 +7,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
     return {
       statusCode: 200,
       body: JSON.stringify({
-        message: 'hello Style And Mini',
+        message: 'hello Style And Mini from INDEX',
       }),
     };
   } catch (err) {
