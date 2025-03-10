@@ -38,9 +38,9 @@ const startServer = async () => {
   app.listen(port, () => {
     /* eslint-disable no-console */
     console.log(`Listening: http://0.0.0.0:${port}`);
-    /* eslint-enable no-console */
-    connectToDatabase();
+    /* eslint-enable no-console */  
   });
+  await connectToDatabase();
 };
 
 startServer();
