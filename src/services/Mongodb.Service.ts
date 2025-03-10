@@ -26,6 +26,7 @@ export const collections: {
  */
 export async function connectToDatabase() {
   let conn;
+  console.log("Connection au cluster MongoDB " + MONGO_DB_URI + "/" + MONGO_DB_DATABASE_NAME);
   try {
     conn = await client.connect();
     // Send a ping to confirm a successful connection
