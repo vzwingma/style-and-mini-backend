@@ -36,10 +36,6 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
   console.log('AWS Lambda event', event);
   try {
 
-    await connectToDatabase().then(() => {
-      console.log('Connected to database'); 
-    });
-
     return {
       statusCode: 200,
       body: JSON.stringify({
