@@ -49,7 +49,7 @@ export function getParamsTypesVetement(): Promise<ParamTypeVetementsModel[]> {
         return typeVetement;
       });
     })
-    .catch((err) => {
+    .catch(() => {
       return null;
     });
 }

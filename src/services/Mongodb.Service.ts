@@ -26,7 +26,7 @@ export async function connectToDatabase(collectionName: MONGO_DB_COLLECTIONS): P
   if(!connexion){
     try {
       connexion = await client.connect();
-      console.log(`Connexion réussie à la base de données [${connexion.databaseName}]`);
+      console.log("Connexion réussie à la base de données", connexion?.options.appName);
     } catch (e) {
       console.error("Erreur de connexion à ATLAS " + MONGO_DB_URI + "/" + MONGO_DB_DATABASE_NAME, e);
     }
