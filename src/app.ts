@@ -40,11 +40,6 @@ const startServer = async () => {
     console.log(`Listening: http://0.0.0.0:${port}`);
     /* eslint-enable no-console */  
   });
-  connectToDatabase().then(() => {
-    console.log('Connected to MongoDB');
-  }).catch((err) => {
-    console.error('Error connecting to MongoDB', err);
-  });
 };
 
 startServer();
