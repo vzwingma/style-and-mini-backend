@@ -40,6 +40,8 @@ Resources:
           - '@aws-sdk/*'
           - aws-sdk
         Minify: true
+        Target: es2020
+        Sourcemap: true
       SamResourceId: StyleMiniBackend__ENV__
   StyleMiniBackendLogGroup:
     Type: AWS::Logs::LogGroup
