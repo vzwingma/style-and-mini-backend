@@ -29,11 +29,11 @@ async function connectToDatabase() {
   try {
     conn = await client.connect();
   } catch (e) {
-    console.error(e);
+    console.error("Erreur de connexion à ATLAS " + MONGO_DB_URI + "/" + MONGO_DB_DATABASE_NAME, e);
   }
   let db = conn ? conn.db(MONGO_DB_DATABASE_NAME) : null;
   if (db === null) {
-    console.error('Erreur de connexion à la base de données');
+    console.error('Erreur de connexion à la base de données ' + MONGO_DB_DATABASE_NAME);
   } else {
     collections.paramTypesVetements   = db.collection(MONGO_DB_COLLECTIONS.PARAM_TYPES_VETEMENTS);
     collections.paramTaillesMesures   = db.collection(MONGO_DB_COLLECTIONS.PARAM_TAILLES_MESURES);
