@@ -1,11 +1,10 @@
 import express from 'express';
-import { collections, connectToDatabase } from '../services/Mongodb.Service';
+import { connectToDatabase as requestMongoDB } from '../services/Mongodb.Service';
 import { ObjectId } from 'mongodb';
 import { mongoModelToDressingModel } from '../models/dressing.model';
 import { saveVetement } from '../controllers/dressing.controller';
-import VetementModel, { mongoModelToVetementModel, vetementModelToMongoModel } from '../models/vetements.model';
+import VetementModel, { vetementModelToMongoModel } from '../models/vetements.model';
 import { ServiceURLEnum } from '../constants/APIconstants';
-import { connect } from 'http2';
 import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
 
 const router = express.Router();
@@ -19,9 +18,9 @@ const router = express.Router();
  */
 router.get('/', async (req, res) => {
 
-    connectToDatabase().then((db) => {
-      console.log('Connected to MongoDB');
-      db?.collection(MONGO_DB_COLLECTIONS.DRESSING).find({}).toArray()
+  requestMongoDB(MONGO_DB_COLLECTIONS.DRESSING)
+    .then((collection) => {
+      collection?.find({}).toArray()
         .then((result) => {
           const listeDressings = result.map((mongoTypeVetement: any) => mongoModelToDressingModel(mongoTypeVetement));
           res.status(200).json(listeDressings);
@@ -30,7 +29,7 @@ router.get('/', async (req, res) => {
           console.error('Error connecting to MongoDB', err);
           res.status(500).send('La collection Dressing est introuvable');
         });
-    }).catch((err) => {  
+    }).catch((err) => {
       console.error('Error connecting to MongoDB', err);
       res.status(500).send('La collection Dressing est introuvable');
     });
@@ -41,15 +40,22 @@ router.get('/', async (req, res) => {
  */
 router.get(ServiceURLEnum.SERVICE_DRESSING_BY_ID, async (req, res) => {
   console.log('Get Dressing by Id', req.params.idd);
-  if (collections.dressing) {
-    const oId = new ObjectId(req.params.idd);
-    const dressingById = (await collections.dressing.find({ '_id': oId }).toArray())
-      .map((mongoTypeVetement: any) => mongoModelToDressingModel(mongoTypeVetement))
-      .at(0);
-    res.status(200).json(dressingById);
-  } else {
-    res.status(500).send('La collection Dressing est introuvable');
-  }
+  requestMongoDB(MONGO_DB_COLLECTIONS.DRESSING)
+    .then((collection) => {
+      const dressingById = collection?.find({ '_id': new ObjectId(req.params.idd) }).toArray()
+        .then((result) => {
+          result.map((mongoTypeVetement: any) => mongoModelToDressingModel(mongoTypeVetement))
+            .at(0);
+          res.status(200).json(dressingById);
+        })
+        .catch((err) => {
+          console.error('Error connecting to MongoDB', err);
+          res.status(500).send('La collection Dressing est introuvable');
+        });
+    }).catch((err) => {
+      console.error('Error connecting to MongoDB', err);
+      res.status(500).send('La collection Dressing est introuvable');
+    });
 });
 
 
@@ -60,7 +66,7 @@ router.get(ServiceURLEnum.SERVICE_DRESSING_BY_ID, async (req, res) => {
 
 /**
  * GET vetements du dressing
- */
+
 router.get(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
   if (collections.vetements) {
     const listeVetements = (await collections.vetements.find({ 'dressing.id': new ObjectId(req.params.idd) }).toArray())
@@ -71,7 +77,7 @@ router.get(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
   }
 });
 
-
+ */
 /**
  * Enregistre ou met à jour un vêtement dans le dressing spécifié.
  *
