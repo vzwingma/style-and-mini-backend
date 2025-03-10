@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { findInCollection, save, update } from '../services/Mongodb.Service';
+import { deleteInMongo, findInCollection, save, update } from '../services/Mongodb.Service';
 import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
 import VetementModel, { mongoModelToVetementModel, vetementModelToMongoModel } from '../models/vetements.model';
 import DressingModel, { mongoModelToDressingModel } from '../models/dressing.model';
@@ -92,3 +92,13 @@ export function updateVetement(vetement: VetementModel, idVetement: string): Pro
 }
 
 
+/**
+ * Enregistre un vêtement dans la collection MongoDB spécifiée.
+ *
+ * @param {any} vetement - L'objet vêtement à enregistrer.
+ * @returns {Promise<string | null>} Une promesse qui résout à une chaîne de caractères (ID du vêtement enregistré) ou null en cas d'échec.
+ */
+export function deleteVetement(idDressing: string, idVetement: string): Promise<boolean> {
+  const criteres = { 'dressing.id': new ObjectId(idDressing), "_id" : new ObjectId(idVetement) } ;
+  return deleteInMongo(criteres, MONGO_DB_COLLECTIONS.VETEMENTS);
+}

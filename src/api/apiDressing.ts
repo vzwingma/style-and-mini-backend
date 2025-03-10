@@ -1,5 +1,5 @@
 import express from 'express';
-import { getDressingById, getDressings, getVetements, saveVetement, updateVetement } from '../controllers/dressing.controller';
+import { deleteVetement, getDressingById, getDressings, getVetements, saveVetement, updateVetement } from '../controllers/dressing.controller';
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
 
 const router = express.Router();
@@ -51,7 +51,7 @@ router.get(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
       res.status(ApiHTTPStatusEnum.OK).json(listeVetements);
     })
     .catch((err) => {
-      console.error('Error connecting to MongoDB', err);
+      console.error('Erreur MongoDB', err);
       res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Vetements est introuvable');
     });
 });
@@ -68,7 +68,7 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
       res.status(ApiHTTPStatusEnum.OK).json({ idVetement: idSaved });
     })
     .catch((err) => {
-      console.error('Error connecting to MongoDB', err);
+      console.error('Erreur MongoDB', err);
       res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement du vêtement a échoué");
     });
 });
@@ -85,9 +85,27 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
       res.status(ApiHTTPStatusEnum.OK).json({ idVetement: idSaved });
     })
     .catch((err) => {
-      console.error('Error connecting to MongoDB', err);
+      console.error('Erreur MongoDB', err);
       res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement du vêtement a échoué");
     });
 });
+
+
+/**
+ * DELETE) vetements du dressing
+ */
+router.delete(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
+
+  deleteVetement(req.params.idd, req.params.idv)
+    .then((ack: boolean) => {
+      console.log('Vêtement [', req.params.idv, '] '+(ack ? 'correctement':'non')+  ' supprimé du dressing [', req.params.idd, ']');
+      res.status(ApiHTTPStatusEnum.OK).json({ idVetement: req.params.idv, deleted: ack });
+    })
+    .catch((err) => {
+      console.error('Erreur MongoDB', err);
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("La suppression du vêtement a échoué");
+    });
+});
+
 
 export default router;
