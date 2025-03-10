@@ -7,6 +7,8 @@ import dotenv from 'dotenv';
 import * as middlewares from './api/interfaces/middlewares';
 import api from './api';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { connect } from 'http2';
+import { connectToDatabase } from './services/Mongodb.Service';
 
 dotenv.config();
 
@@ -33,6 +35,14 @@ startApp();
 export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   console.log('AWS Lambda event', event);
   try {
+
+    connectToDatabase().then(() => {
+      console.log('Connected to database'); 
+    }
+    ).catch((err) => {
+      console.log('Error connecting to database', err);
+    });
+
     return {
       statusCode: 200,
       body: JSON.stringify({

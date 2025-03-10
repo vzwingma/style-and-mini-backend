@@ -24,10 +24,13 @@ export const collections: {
  * 
  * @returns ci-dessous la fonction connectToDatabase() qui permet de se connecter à la base de données MongoDB
  */
-async function connectToDatabase() {
+export async function connectToDatabase() {
   let conn;
   try {
     conn = await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Deployment pinged - Connecté au cluster MongoDB");
   } catch (e) {
     console.error("Erreur de connexion à ATLAS " + MONGO_DB_URI + "/" + MONGO_DB_DATABASE_NAME, e);
   }
