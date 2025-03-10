@@ -5,6 +5,7 @@ import apiParamsVetements from './apiParamsVetements';
 import apiDressing from './apiDressing';
 import BackendConfigModel from '../models/backendConfig.model';
 import { ServiceURLEnum } from '../constants/APIconstants';
+import { APP_MOBILE_VERSION } from '../constants/AppEnum';
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.get<{}, MessageResponse>('/', (req, res) => {
 router.get<{}, BackendConfigModel>('/status', (req, res) => {
   res.json({
     status: '✅​ OK ✅​',
-    version: process.env.VERSION,
+    version: APP_MOBILE_VERSION,
     env: '' + process.env.NODE_ENV,
   });
 });

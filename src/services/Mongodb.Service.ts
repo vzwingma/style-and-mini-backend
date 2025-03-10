@@ -1,4 +1,4 @@
-import { Collection, MongoClient, ServerApiVersion } from 'mongodb';
+import { Collection, MongoClient, ObjectId, ServerApiVersion } from 'mongodb';
 import { MONGO_DB_COLLECTIONS, MONGO_DB_DATABASE_NAME, MONGO_DB_URI } from '../constants/AppConstants';
 
 
@@ -15,10 +15,6 @@ let connexion : any;
 
 
 export const collections: {
-  paramTypesVetements?  : Collection,
-  paramTaillesMesures?  : Collection,
-  paramUsagesVetements? : Collection,
-  paramEtatsVetements?  : Collection,  
   vetements?: Collection
 } = {};
 
@@ -30,6 +26,7 @@ export async function connectToDatabase(collectionName: MONGO_DB_COLLECTIONS): P
   if(!connexion){
     try {
       connexion = await client.connect();
+      console.log(`Connexion réussie à la base de données [${connexion.databaseName}]`);
     } catch (e) {
       console.error("Erreur de connexion à ATLAS " + MONGO_DB_URI + "/" + MONGO_DB_DATABASE_NAME, e);
     }
@@ -39,7 +36,7 @@ export async function connectToDatabase(collectionName: MONGO_DB_COLLECTIONS): P
     console.error('Erreur de connexion à la base de données ' + MONGO_DB_DATABASE_NAME);
     return null;
   } else {
-    console.log(`Connexion réussie à la base de données [${db.databaseName}]`);
+
     return db.collection(collectionName);
   }
 }
@@ -53,6 +50,7 @@ export async function connectToDatabase(collectionName: MONGO_DB_COLLECTIONS): P
  * @returns {Promise<any>} Une promesse qui résout avec les documents trouvés ou null si la collection n'existe pas.
  */
 export async function findInCollection(collectionName: MONGO_DB_COLLECTIONS, filter: any): Promise<any> {
+  console.log('[MongoDB] findInCollection', collectionName, filter);
   const collection = await connectToDatabase(collectionName);
   if (collection) {
     return collection.find(filter).toArray();
@@ -60,3 +58,64 @@ export async function findInCollection(collectionName: MONGO_DB_COLLECTIONS, fil
     return null;
   }
 }
+
+/**
+ * Enregistre un document MongoDB dans une collection spécifiée.
+ *
+ * @param mongoDocument - Le document MongoDB à enregistrer.
+ * @param collectionName - Le nom de la collection MongoDB où le document sera enregistré.
+ * @returns Une promesse qui résout avec l'ID du document inséré sous forme de chaîne de caractères, ou null en cas d'erreur.
+ */
+export function save(mongoDocument: any, collectionName : MONGO_DB_COLLECTIONS): Promise<string | null> {
+  return new Promise((resolve, reject) => {
+
+      console.log('[MongoDB] Save mongoDocument', mongoDocument);
+      connectToDatabase(collectionName).then((collection) => {
+        if (collection) {
+          collection.insertOne({ ...mongoDocument })
+            .then((result) => {
+              resolve(result.insertedId.toString());
+            })
+            .catch((e) => {
+              console.error("[MongoDB] Erreur lors de l'enregistrement du document", e);
+              reject(null);
+            });
+        } else {
+          reject(null); 
+        }
+      }
+      );
+  }
+  );
+}
+
+
+/**
+ * Enregistre un document MongoDB dans une collection spécifiée.
+ *
+ * @param mongoDocument - Le document MongoDB à enregistrer.
+ * @param collectionName - Le nom de la collection MongoDB où le document sera enregistré.
+ * @returns Une promesse qui résout avec l'ID du document inséré sous forme de chaîne de caractères, ou null en cas d'erreur.
+ */
+export function update(mongoDocument: any, mongoId: string, collectionName : MONGO_DB_COLLECTIONS): Promise<string | null> {
+  return new Promise((resolve, reject) => {
+
+      console.log('[MongoDB] Update mongoDocument', mongoDocument);
+      connectToDatabase(collectionName).then((collection) => {
+        if (collection) {
+          collection.updateOne({ '_id': new ObjectId(mongoId) }, { $set: { ...mongoDocument } })
+            .then((result) => {
+              resolve(result.upsertedId ? result.upsertedId.toString() : null);
+            })
+            .catch((e) => {
+              console.error("[MongoDB] Erreur lors de l'enregistrement du document", e);
+              reject(null);
+            });
+        } else {
+          reject(null); 
+        }
+      }
+      );
+  });
+}
+
