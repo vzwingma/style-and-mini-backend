@@ -11,7 +11,7 @@ export enum StatutVetementEnum {
 
 // Enumération des statuts de vêtements
 export enum SaisonVetementEnum {
-  ETE = 'ETE', HIVER = 'HIVER',
+  ETE = 'ETE', MISAISON = 'MISAISON', HIVER = 'HIVER'
 }
 
 // 

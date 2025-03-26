@@ -1,6 +1,6 @@
 import express from 'express';
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
-import { getParamsEtatsVetement, getParamsTaillesVetement, getParamsTypesVetement, getParamsUsagesVetement } from '../controllers/params.controller';
+import { getParamsEtatsVetement, getParamsMarquesVetement, getParamsTaillesVetement, getParamsTypesVetement, getParamsUsagesVetement } from '../controllers/params.controller';
 
 
 const router = express.Router();
@@ -49,6 +49,21 @@ router.get(ServiceURLEnum.SERVICE_PARAMS_USAGES, async (req, res) => {
   getParamsUsagesVetement()
     .then((listeParamsUsages) => {
       res.status(ApiHTTPStatusEnum.OK).json(listeParamsUsages);
+    })
+    .catch((err) => {
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send(err);
+    });
+});
+
+
+/**
+ * Get all, Marques de Vetements
+ */
+router.get(ServiceURLEnum.SERVICE_PARAMS_MARQUES, async (req, res) => {
+
+  getParamsMarquesVetement()
+    .then((listeParamsMarques) => {
+      res.status(ApiHTTPStatusEnum.OK).json(listeParamsMarques);
     })
     .catch((err) => {
       res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send(err);

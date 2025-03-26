@@ -39,6 +39,7 @@ export enum ServiceURLEnum {
   SERVICE_PARAMS_TYPE_VETEMENTS   = '/types',
   SERVICE_PARAMS_TAILLES_MESURES  = '/taillesMesures',
   SERVICE_PARAMS_USAGES           = '/usages',
+  SERVICE_PARAMS_MARQUES          = '/marques',
   SERVICE_PARAMS_ETATS            = '/etats',
 
   SERVICE_DRESSINGS       = '/dressing',

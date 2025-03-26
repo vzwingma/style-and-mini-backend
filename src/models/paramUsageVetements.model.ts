@@ -1,10 +1,6 @@
-import { CategorieDressingEnum } from '../constants/AppEnum';
+import paramGenericVetementsModel from './paramGenericVetements.model';
 
 /**
  * Modèle représentant un type d'usage de vetements
  */
-export default interface ParamUsageVetementsModel {
-  readonly id         : string;
-  readonly libelle    : string;
-  readonly categories : CategorieDressingEnum[];
-}
+export default interface ParamUsageVetementsModel extends paramGenericVetementsModel {}

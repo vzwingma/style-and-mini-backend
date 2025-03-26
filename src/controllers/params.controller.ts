@@ -4,6 +4,7 @@ import ParamTypeVetementsModel from '../models/paramTypeVetements.model';
 import ParamTailleVetementsModel from '../models/paramTailleVetements.model';
 import ParamUsageVetementsModel from '../models/paramUsageVetements.model';
 import ParamEtatVetementsModel from '../models/paramEtatVetements.model';
+import ParamMarqueVetementsModel from '../models/paramMarqueVetements.model';
 
 
 
@@ -69,7 +70,7 @@ export function getParamsTaillesVetement(): Promise<ParamTailleVetementsModel[]>
         let tailleVetement: ParamTailleVetementsModel = {
           id: mongoTypeVetement._id.toString(),
           libelle: mongoTypeVetement.libelle,
-          categorie: mongoTypeVetement.categorie,
+          categories: typeof mongoTypeVetement.categorie === 'string' ? [mongoTypeVetement.categorie] : mongoTypeVetement.categorie,
           tri: mongoTypeVetement.tri,
           type: mongoTypeVetement.type,
         };
@@ -129,6 +130,31 @@ export function getParamsUsagesVetement(): Promise<ParamUsageVetementsModel[]> {
         return usageVetement;
       });
       return listeParamsUsages;
+    })
+    .catch(() => {
+      return null;
+    });
+}
+
+
+/**
+ * Récupère les marques des vêtements depuis la base de données MongoDB.
+ *
+ * @returns {Promise<ParamUsageVetementsModel[]>} Une promesse qui résout avec une liste de modèles ParamUsageVetementsModel.
+ * Si une erreur survient, la promesse résout avec null.
+ */
+export function getParamsMarquesVetement(): Promise<ParamMarqueVetementsModel[]> {
+  return getParamsVetements(MONGO_DB_COLLECTIONS.PARAM_MARQUES_VETEMENTS)
+    .then((result) => {
+      const listeParamsMarques = result.map((mongoTypeVetement: any) => {
+        let marqueVetement: ParamMarqueVetementsModel = {
+          id: mongoTypeVetement._id.toString(),
+          libelle: mongoTypeVetement.libelle,
+          categories: mongoTypeVetement.categories,
+        };
+        return marqueVetement;
+      });
+      return listeParamsMarques;
     })
     .catch(() => {
       return null;

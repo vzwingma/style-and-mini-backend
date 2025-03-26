@@ -12,15 +12,19 @@ export default interface VetementModel {
   readonly dressing    : DressingModel;
   readonly libelle     : string;
 
+  readonly image?      : VetementImageModel;  
+
   readonly type        : VetementCaracteristiquesModel;
   readonly taille      : VetementCaracteristiquesModel;
   readonly usages      : VetementCaracteristiquesModel[];
   readonly saisons     : SaisonVetementEnum[];
-  readonly etat?       : VetementCaracteristiquesModel;
   readonly couleurs?   : string;
-  readonly description?: string;
-  readonly image?      : VetementImageModel;  
 
+  readonly etat?       : VetementCaracteristiquesModel;
+  readonly marque?     : VetementCaracteristiquesModel;
+  readonly collection? : string;
+  readonly description?: string;
+  
   readonly statut?     : StatutVetementEnum;
 }
 
@@ -66,6 +70,11 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
       hauteur : vetement.image.hauteur,
       largeur : vetement.image.largeur,
     } : null,
+    marque: vetement.marque ? {
+      id: new ObjectId(vetement.marque.id),
+      libelle: vetement.marque.libelle,
+    } : null,
+    collection: vetement.collection,
     description: vetement.description,
     statut: vetement.statut,
   };
@@ -83,14 +92,19 @@ export function mongoModelToVetementModel(mongoVetement: any): VetementModel {
     id         : mongoVetement._id.toString(),
     dressing   : mongoVetement.dressing,
     libelle    : mongoVetement.libelle,
+    image      : mongoVetement.image,
     type       : mongoVetement.type,
     taille     : mongoVetement.taille,
     usages     : mongoVetement.usages,
     saisons    : mongoVetement.saisons,
-    etat       : mongoVetement.etat,
     couleurs   : mongoVetement.couleurs,
-    image      : mongoVetement.image,
+
+    etat       : mongoVetement.etat,
+    marque     : mongoVetement.marque,
+    collection : mongoVetement.collection,
+    
     description: mongoVetement.description,
+    
     statut     : mongoVetement.statut === StatutVetementEnum.ARCHIVE ? StatutVetementEnum.ARCHIVE : StatutVetementEnum.ACTIF,
   };
   return vetement;

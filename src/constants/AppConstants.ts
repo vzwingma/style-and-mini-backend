@@ -11,10 +11,11 @@ export const MONGO_DB_URI = process.env.MONGO_DB_URI || '';
 export const MONGO_DB_DATABASE_NAME = process.env.MONGO_DB_DATABASE || 'style-mini-app-dev';
 
 export enum MONGO_DB_COLLECTIONS {
-  PARAM_TYPES_VETEMENTS = 'paramTypeVetements',
-  PARAM_TAILLES_MESURES = 'paramTaillesMesures',
-  PARAM_USAGES_VETEMENTS= 'paramUsagesVetements',
-  PARAM_ETATS_VETEMENTS = 'paramEtatsVetements', 
+  PARAM_TYPES_VETEMENTS   = 'paramTypeVetements',
+  PARAM_TAILLES_MESURES   = 'paramTaillesMesures',
+  PARAM_USAGES_VETEMENTS  = 'paramUsagesVetements',
+  PARAM_ETATS_VETEMENTS   = 'paramEtatsVetements', 
+  PARAM_MARQUES_VETEMENTS = 'paramMarquesVetements',
   
   DRESSING              = 'dressing',
   VETEMENTS             = 'vetements',
