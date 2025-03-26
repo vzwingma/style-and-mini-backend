@@ -94,10 +94,11 @@ export function patchVetements(idDressing : string): Promise<VetementModel[]> {
                     }
                   ).map((vetement : any) => {
                     console.log('Vetement APRES', vetement);
+
                     return updateVetement(vetement, vetement.id).then((idVetement) => {
                       console.log('Vêtement [', idVetement, '] modifié dans le dressing [', idDressing, ']');
-                  })})
-                  );
+                  })
+                }));
       })
       .catch((err) => {
         console.error('Erreur lors de la récupération des dressings', err);
