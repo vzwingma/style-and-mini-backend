@@ -1,5 +1,5 @@
 import express from 'express';
-import { deleteVetement, getDressingById, getDressings, getVetements, saveVetement, updateVetement } from '../controllers/dressing.controller';
+import { deleteVetement, getDressingById, getDressings, getVetements, patchVetements, saveVetement, updateVetement } from '../controllers/dressing.controller';
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
 
 const router = express.Router();
@@ -56,6 +56,20 @@ router.get(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
     });
 });
 
+/**
+ * UPDATE vetements du dressing
+ */
+router.patch(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
+  console.log('UPDATE Vetements by Id Dressing', req.params.idd);
+  patchVetements(req.params.idd)
+    .then((listeVetements) => {
+      res.status(ApiHTTPStatusEnum.OK).json(listeVetements);
+    })
+    .catch((err) => {
+      console.error('Erreur MongoDB', err);
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Vetements est introuvable');
+    });
+});
 
 /**
  * POST (CREATE) vetements du dressing
