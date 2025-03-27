@@ -143,7 +143,7 @@ export function getParamsMarquesVetement(): Promise<ParamMarqueVetementsModel[]>
           id        : mongoTypeVetement._id.toString(),
           libelle   : mongoTypeVetement.libelle,
           categories: mongoTypeVetement.categories,
-          type      : mongoTypeVetement.type
+          type      : mongoTypeVetement.typeTaille
         };
         return marqueVetement;
       });
