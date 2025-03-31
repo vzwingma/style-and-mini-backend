@@ -38,7 +38,7 @@ export function getParamsTypesVetement(): Promise<ParamTypeVetementsModel[]> {
           id        : mongoTypeVetement._id.toString(),
           libelle   : mongoTypeVetement.libelle,
           categories: mongoTypeVetement.categories,
-          type      : mongoTypeVetement.typeTaille,
+          type      : mongoTypeVetement.type
         };
         return typeVetement;
       });
@@ -143,7 +143,7 @@ export function getParamsMarquesVetement(): Promise<ParamMarqueVetementsModel[]>
           id        : mongoTypeVetement._id.toString(),
           libelle   : mongoTypeVetement.libelle,
           categories: mongoTypeVetement.categories,
-          type      : mongoTypeVetement.typeTaille
+          type      : mongoTypeVetement.type
         };
         return marqueVetement;
       });
