@@ -5,9 +5,6 @@ import VetementModel, { mongoModelToVetementModel, vetementModelToMongoModel } f
 import DressingModel, { mongoModelToDressingModel } from '../models/dressing.model';
 
 
-
-
-
 /**
  * Récupère la liste des dressings depuis la collection MongoDB.
  *
@@ -99,6 +96,10 @@ export function updateVetement(vetement: VetementModel, idVetement: string): Pro
  * @returns {Promise<string | null>} Une promesse qui résout à une chaîne de caractères (ID du vêtement enregistré) ou null en cas d'échec.
  */
 export function deleteVetement(idDressing: string, idVetement: string): Promise<boolean> {
-  const criteres = { 'dressing.id': new ObjectId(idDressing), "_id" : new ObjectId(idVetement) } ;
+  const criteres = 
+    { 
+      'dressing.id': new ObjectId(idDressing), 
+      "_id" : new ObjectId(idVetement) 
+    } ;
   return deleteInMongo(criteres, MONGO_DB_COLLECTIONS.VETEMENTS);
 }

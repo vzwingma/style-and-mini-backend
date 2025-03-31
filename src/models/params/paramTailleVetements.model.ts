@@ -1,4 +1,3 @@
-import { TypeTailleEnum } from '../../constants/AppEnum';
 import ParamGenericVetementsModel from './paramGenericVetementsChaussures.model';
 
 /**
