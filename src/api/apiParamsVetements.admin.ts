@@ -1,7 +1,7 @@
 import express from 'express';
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
 import { getParamsEtatsVetement, getParamsTaillesVetement, getParamsTypesVetement, getParamsUsagesVetement } from '../controllers/params.controller';
-import { patchParamsTaillesVetement } from '../controllers/params.patch.controller';
+import { patchParamsMarquesVetement, patchParamsTaillesVetement, patchParamsTypesVetement } from '../controllers/params.patch.controller';
 
 
 const router = express.Router();
@@ -11,13 +11,13 @@ const router = express.Router();
  */
 
 /**
- * Get all, Type de Vetements
+ * Patch Type de Vetements
  */
 router.patch(ServiceURLEnum.SERVICE_PARAMS_TYPE_VETEMENTS, async (req, res) => {
 
-  getParamsTypesVetement()
+  patchParamsTypesVetement()
     .then((listeParamsTypeVetements) => {
-      res.status(ApiHTTPStatusEnum.OK).json(listeParamsTypeVetements)
+      res.status(ApiHTTPStatusEnum.OK).json(listeParamsTypeVetements.length)
     })
     .catch((err) => {
       res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send(err);
@@ -28,7 +28,7 @@ router.patch(ServiceURLEnum.SERVICE_PARAMS_TYPE_VETEMENTS, async (req, res) => {
 
 
 /**
- * Get all, Tailles et Mesures
+ * Patch Tailles et Mesures
  */
 router.patch(ServiceURLEnum.SERVICE_PARAMS_TAILLES_MESURES, async (req, res) => {
 
@@ -43,31 +43,18 @@ router.patch(ServiceURLEnum.SERVICE_PARAMS_TAILLES_MESURES, async (req, res) => 
 
 
 /**
- * Get all, Usages de Vetements
+ * Patch Marques de Vetements
  */
-router.get(ServiceURLEnum.SERVICE_PARAMS_USAGES, async (req, res) => {
+router.patch(ServiceURLEnum.SERVICE_PARAMS_MARQUES, async (req, res) => {
 
-  getParamsUsagesVetement()
-    .then((listeParamsUsages) => {
-      res.status(ApiHTTPStatusEnum.OK).json(listeParamsUsages);
+  patchParamsMarquesVetement()
+    .then((listeParamsMarques) => {
+      res.status(ApiHTTPStatusEnum.OK).json(listeParamsMarques.length);
     })
     .catch((err) => {
       res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send(err);
     });
 });
 
-/**
- * Get all, Etats de Vetements
- */
-router.get(ServiceURLEnum.SERVICE_PARAMS_ETATS, async (req, res) => {
-
-  getParamsEtatsVetement()
-    .then((listeParamsEtatsVetements) => {
-      res.status(ApiHTTPStatusEnum.OK).json(listeParamsEtatsVetements);
-    })
-    .catch((err) => {
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send(err);
-    });
-});
 
 export default router;

@@ -1,14 +1,9 @@
 import { findInCollection, update } from '../services/Mongodb.Service';
 import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
-import ParamTypeVetementsModel from '../models/paramTypeVetements.model';
-import ParamTailleVetementsModel from '../models/paramTailleVetements.model';
-import ParamUsageVetementsModel from '../models/paramUsageVetements.model';
-import ParamEtatVetementsModel from '../models/paramEtatVetements.model';
-import { resolve } from 'path';
 import { TypeTailleEnum } from '../constants/AppEnum';
-
-
-
+import ParamTypeVetementsModel from '../models/params/paramTypeVetements.model';
+import ParamTailleVetementsModel from '../models/params/paramTailleVetements.model';
+import ParamMarqueVetementsModel from '../models/params/paramMarqueVetements.model';
 
 
 
@@ -35,21 +30,31 @@ function getParamsVetements(paramCollections: MONGO_DB_COLLECTIONS): Promise<any
 /**
  * Récupère les types de vêtements à partir de la collection MongoDB spécifiée.
  *
- * @returns {Promise<ParamTypeVetementsModel[]>} Une promesse qui résout avec une liste de modèles de types de vêtements.
+ * @returns {Promise<any[]>} Une promesse qui résout avec une liste de modèles de types de vêtements.
  * En cas d'erreur, la promesse résout avec null.
  */
-export function getParamsTypesVetement(): Promise<ParamTypeVetementsModel[]> {
+export function patchParamsTypesVetement(): Promise<any[]> {
   return getParamsVetements(MONGO_DB_COLLECTIONS.PARAM_TYPES_VETEMENTS)
     .then((result) => {
       return result.map((mongoTypeVetement: any) => {
-        let typeVetement: ParamTypeVetementsModel = {
-          id: mongoTypeVetement._id.toString(),
-          libelle: mongoTypeVetement.libelle,
-          categories: mongoTypeVetement.categories,
-          typeTaille: mongoTypeVetement.typeTaille,
-        };
-        return typeVetement;
-      });
+        switch (mongoTypeVetement.typeTaille) {
+          case TypeTailleEnum.TAILLE:
+            mongoTypeVetement.type = TypeTailleEnum.VETEMENTS;
+            break;
+          case TypeTailleEnum.POINTURE:
+            mongoTypeVetement.type = TypeTailleEnum.CHAUSSURES;
+            break;
+          default:
+            break;
+        }
+        delete mongoTypeVetement.typeTaille;
+        return mongoTypeVetement;
+      })
+    })
+    .then((result) => {
+      return result.map((mongoTypeVetement: any) => {
+        return update(mongoTypeVetement, mongoTypeVetement._id.toString(), MONGO_DB_COLLECTIONS.PARAM_TYPES_VETEMENTS)
+      })
     })
     .catch(() => {
       return null;
@@ -64,52 +69,27 @@ export function getParamsTypesVetement(): Promise<ParamTypeVetementsModel[]> {
  * @returns {Promise<any>} Une promesse qui résout avec une liste des paramètres de tailles de vêtements,
  * ou `null` en cas d'erreur.
  */
-export function patchParamsTaillesVetement(): Promise<ParamTailleVetementsModel[]> {
+export function patchParamsTaillesVetement(): Promise<any[]> {
   return getParamsVetements(MONGO_DB_COLLECTIONS.PARAM_TAILLES_MESURES)
     .then((result) => {
-        return result.map((mongoTailleVetement: any) => {
-            switch (mongoTailleVetement.type) {
-              case TypeTailleEnum.TAILLE:
-                mongoTailleVetement.type = TypeTailleEnum.VETEMENTS;
-                break;
-              case TypeTailleEnum.POINTURE:
-                mongoTailleVetement.type = TypeTailleEnum.CHAUSSURES;
-                break;
-              default:
-                break;
-            }
-          return mongoTailleVetement;
-      })      
+      return result.map((mongoTailleVetement: any) => {
+        switch (mongoTailleVetement.type) {
+          case TypeTailleEnum.TAILLE:
+            mongoTailleVetement.type = TypeTailleEnum.VETEMENTS;
+            break;
+          case TypeTailleEnum.POINTURE:
+            mongoTailleVetement.type = TypeTailleEnum.CHAUSSURES;
+            break;
+          default:
+            break;
+        }
+        return mongoTailleVetement;
+      })
     })
     .then((result) => {
       return result.map((mongoTailleVetement: any) => {
         return update(mongoTailleVetement, mongoTailleVetement._id.toString(), MONGO_DB_COLLECTIONS.PARAM_TAILLES_MESURES)
-      })})
-    .catch(() => {
-      return null;
-    });
-}
-
-
-/**
- * Récupère les paramètres des états des vêtements depuis la base de données.
- *
- * @returns {Promise<ParamEtatVetementsModel[]>} Une promesse contenant une liste de modèles ParamEtatVetementsModel.
- * Si une erreur survient, la promesse retourne null.
- */
-export function getParamsEtatsVetement(): Promise<ParamEtatVetementsModel[]> {
-  return getParamsVetements(MONGO_DB_COLLECTIONS.PARAM_ETATS_VETEMENTS)
-    .then((result) => {
-      const listeParamsEtatsVetements = result.map((mongoTypeVetement: any) => {
-        let etatVetement: ParamEtatVetementsModel = {
-          id: mongoTypeVetement._id.toString(),
-          libelle: mongoTypeVetement.libelle,
-          tri: mongoTypeVetement.tri,
-          categories: mongoTypeVetement.categories,
-        };
-        return etatVetement;
-      });
-      return listeParamsEtatsVetements;
+      })
     })
     .catch(() => {
       return null;
@@ -119,26 +99,35 @@ export function getParamsEtatsVetement(): Promise<ParamEtatVetementsModel[]> {
 
 
 /**
- * Récupère les usages des vêtements depuis la base de données MongoDB.
+ * Récupère les marques des vêtements depuis la base de données MongoDB.
  *
  * @returns {Promise<ParamUsageVetementsModel[]>} Une promesse qui résout avec une liste de modèles ParamUsageVetementsModel.
  * Si une erreur survient, la promesse résout avec null.
  */
-export function getParamsUsagesVetement(): Promise<ParamUsageVetementsModel[]> {
-  return getParamsVetements(MONGO_DB_COLLECTIONS.PARAM_USAGES_VETEMENTS)
+export function patchParamsMarquesVetement(): Promise<any[]> {
+  return getParamsVetements(MONGO_DB_COLLECTIONS.PARAM_MARQUES_VETEMENTS)
     .then((result) => {
-      const listeParamsUsages = result.map((mongoTypeVetement: any) => {
-        let usageVetement: ParamUsageVetementsModel = {
-          id: mongoTypeVetement._id.toString(),
-          libelle: mongoTypeVetement.libelle,
-          categories: mongoTypeVetement.categories,
-        };
-        return usageVetement;
-      });
-      return listeParamsUsages;
+      return result.map((mongoMarqueVetement: any) => {
+        switch (mongoMarqueVetement.typeTaille) {
+          case TypeTailleEnum.TAILLE:
+            mongoMarqueVetement.type = TypeTailleEnum.VETEMENTS;
+            break;
+          case TypeTailleEnum.POINTURE:
+            mongoMarqueVetement.type = TypeTailleEnum.CHAUSSURES;
+            break;
+          default:
+            break;
+        }
+        delete mongoMarqueVetement.typeTaille;
+        return mongoMarqueVetement;
+      })
+    })
+    .then((result) => {
+      return result.map((mongoMarqueVetement: any) => {
+        return update(mongoMarqueVetement, mongoMarqueVetement._id.toString(), MONGO_DB_COLLECTIONS.PARAM_MARQUES_VETEMENTS)
+      })
     })
     .catch(() => {
       return null;
     });
-
 }
