@@ -1,6 +1,6 @@
 Transform: AWS::Serverless-2016-10-31
 Description: |
-  SAM Template pour l'application Style & Mini __VERSION__ - __ENV__
+  SAM Template pour l'application Style & Mini - __ENV__
 Globals:
   Function:
     Timeout: 3
@@ -54,7 +54,7 @@ Resources:
       Name: !Sub
         - ${AWS::StackName}
         - ResourceName: ApiBackend__ENV__
-      Description: API Gateway pour Style & Mini __VERSION__ - __ENV__
+      Description: API Gateway pour Style & Mini - __ENV__
         - 
       StageName: Qua
       DefinitionBody:
