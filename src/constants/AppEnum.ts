@@ -1,5 +1,5 @@
 
-export const APP_MOBILE_VERSION = '0.0.3';
+export const APP_MOBILE_VERSION = '0.1.0';
 export const APP_MOBILE_NAME = 'Style et Mini';
 // Enumération des statuts de l'application
 
@@ -21,7 +21,14 @@ export enum CategorieDressingEnum {
   ADULTE  = 'ADULTE',
 }
 
+/**
+ * Enumération représentant les différents types de tailles disponibles.
+ * 
+ * @enum {string}
+ * @property {string} VETEMENTS - Taille pour les vêtements.
+ * @property {string} CHAUSSURES - Taille spécifique aux chaussures.
+ */
 export enum TypeTailleEnum {
-  TAILLE    = 'TAILLE',
-  POINTURE  = 'POINTURE',
+  VETEMENTS = 'VETEMENTS',
+  CHAUSSURES = 'CHAUSSURES'
 }

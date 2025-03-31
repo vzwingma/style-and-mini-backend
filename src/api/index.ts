@@ -9,13 +9,13 @@ import { APP_MOBILE_VERSION } from '../constants/AppEnum';
 
 const router = express.Router();
 
-router.get<{}, MessageResponse>('/', (req, res) => {
+router.get<{}, MessageResponse>('/', (_req, res) => {
   res.json({
     message: '👗​ Styles and Mini 👚 - API',
   });
 });
 
-router.get<{}, BackendConfigModel>('/status', (req, res) => {
+router.get<{}, BackendConfigModel>('/status', (_req, res) => {
   res.json({
     status: '✅​ OK ✅​',
     version: APP_MOBILE_VERSION,

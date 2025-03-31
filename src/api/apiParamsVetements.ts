@@ -12,7 +12,7 @@ const router = express.Router();
 /**
  * Get all, Type de Vetements
  */
-router.get(ServiceURLEnum.SERVICE_PARAMS_TYPE_VETEMENTS, async (req, res) => {
+router.get(ServiceURLEnum.SERVICE_PARAMS_TYPE_VETEMENTS, async (_req, res) => {
 
   getParamsTypesVetement()
     .then((listeParamsTypeVetements) => {
@@ -29,7 +29,7 @@ router.get(ServiceURLEnum.SERVICE_PARAMS_TYPE_VETEMENTS, async (req, res) => {
 /**
  * Get all, Tailles et Mesures
  */
-router.get(ServiceURLEnum.SERVICE_PARAMS_TAILLES_MESURES, async (req, res) => {
+router.get(ServiceURLEnum.SERVICE_PARAMS_TAILLES_MESURES, async (_req, res) => {
 
   getParamsTaillesVetement()
     .then((listeParamsTaillesMesures) => {
@@ -44,7 +44,7 @@ router.get(ServiceURLEnum.SERVICE_PARAMS_TAILLES_MESURES, async (req, res) => {
 /**
  * Get all, Usages de Vetements
  */
-router.get(ServiceURLEnum.SERVICE_PARAMS_USAGES, async (req, res) => {
+router.get(ServiceURLEnum.SERVICE_PARAMS_USAGES, async (_req, res) => {
 
   getParamsUsagesVetement()
     .then((listeParamsUsages) => {
@@ -59,7 +59,7 @@ router.get(ServiceURLEnum.SERVICE_PARAMS_USAGES, async (req, res) => {
 /**
  * Get all, Marques de Vetements
  */
-router.get(ServiceURLEnum.SERVICE_PARAMS_MARQUES, async (req, res) => {
+router.get(ServiceURLEnum.SERVICE_PARAMS_MARQUES, async (_req, res) => {
 
   getParamsMarquesVetement()
     .then((listeParamsMarques) => {
@@ -73,7 +73,7 @@ router.get(ServiceURLEnum.SERVICE_PARAMS_MARQUES, async (req, res) => {
 /**
  * Get all, Etats de Vetements
  */
-router.get(ServiceURLEnum.SERVICE_PARAMS_ETATS, async (req, res) => {
+router.get(ServiceURLEnum.SERVICE_PARAMS_ETATS, async (_req, res) => {
 
   getParamsEtatsVetement()
     .then((listeParamsEtatsVetements) => {
