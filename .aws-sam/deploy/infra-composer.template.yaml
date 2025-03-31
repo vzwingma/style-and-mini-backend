@@ -28,7 +28,7 @@ Resources:
             RestApiId: !Ref ApiBackend__ENV__
       Environment:
         Variables:
-          MONGO_DB_URI: __DATABASE_URL__?retryWrites=true&w=majority&appName=ClusterDev
+          MONGO_DB_URI: __DATABASE_URL__
           MONGO_DB_DATABASE: __DATABASE_NAME__
           NODE_ENV: __ENV__
     Metadata:
