@@ -2,7 +2,9 @@ import express from 'express';
 
 import MessageResponse from './interfaces/MessageResponse';
 import apiParamsVetements from './apiParamsVetements';
+import apiAdminParamsVetements from './apiParamsVetements.admin';
 import apiDressing from './apiDressing';
+import apiAdminDressing from './apiDressing.admin';
 import BackendConfigModel from '../models/backendConfig.model';
 import { ServiceURLEnum } from '../constants/APIconstants';
 import { APP_MOBILE_VERSION } from '../constants/AppEnum';
@@ -25,5 +27,7 @@ router.get<{}, BackendConfigModel>('/status', (req, res) => {
 
 router.use(ServiceURLEnum.SERVICE_PARAMS, apiParamsVetements);
 router.use(ServiceURLEnum.SERVICE_DRESSINGS, apiDressing);
+router.use(ServiceURLEnum.SERVICE_ADMIN + ServiceURLEnum.SERVICE_PARAMS, apiAdminParamsVetements);
+router.use(ServiceURLEnum.SERVICE_ADMIN + ServiceURLEnum.SERVICE_DRESSINGS, apiAdminDressing);
 
 export default router;

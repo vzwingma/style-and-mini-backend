@@ -24,4 +24,6 @@ export enum CategorieDressingEnum {
 export enum TypeTailleEnum {
   TAILLE = 'TAILLE',
   POINTURE = 'POINTURE',
+  VETEMENTS = 'VETEMENTS',
+  CHAUSSURES = 'CHAUSSURES'  
 }
