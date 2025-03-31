@@ -11,7 +11,7 @@ const router = express.Router();
 /**
  * Get all dressings
  */
-router.get('/', async (req, res) => {
+router.get('/', async (_req, res) => {
 
   getDressings().then((listeDressings) => {
       res.status(ApiHTTPStatusEnum.OK).json(listeDressings);
