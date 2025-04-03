@@ -39,7 +39,7 @@ jobs:
           sed "s/__ENV__/QUA/g" .aws-sam/deploy/samconfig.template.toml > samconfig.toml
       - name: SAM Infracomposer Config
         run: 
-          sed -e "s/__ENV__/QUA/g" -e "s/__VERSION__/SNAPSHOT/g"  -e "s/__DATABASE_URL__/${{ secrets.DATABASE_URL }}/g" -e "s/__DATABASE_NAME__/${{ secrets.DATABASE_NAME }}/g" .aws-sam/deploy/infra-composer.template.yaml > infra-composer.yaml
+          sed -e "s/__ENV__/QUA/g" -e "s/__VERSION__/SNAPSHOT/g" -e "s/__DATABASE_URL__/${{ secrets.DATABASE_URL }}/g" -e "s/__DATABASE_NAME__/${{ secrets.DATABASE_NAME }}/g" -e "s/__API_AUTH__/${{ secrets.API_AUTH }}/g" -e "s/__API_PWD__/${{ secrets.API_PWD }}/g" .aws-sam/deploy/infra-composer.template.yaml > infra-composer.yaml
 
   ###########################
   #          DEPLOY         #

@@ -1,6 +1,6 @@
 {
   "name": "api-style-mini-backend",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Backend pour exposer les API Style & Mini",
   "main": "src/index.ts",
   "scripts": {
@@ -15,7 +15,7 @@
     "typecheck": "tsc --noEmit"
   },
   "keywords": [],
-  "author": "Vincent Zwingmann ",
+  "author": "Vincent Zwingmann",
   "repository": {
     "type": "git",
     "url": "https://github.com/vzwingma/style-and-mini-backend.git"
@@ -25,8 +25,9 @@
     "api-style-mini-backend": "file:",
     "aws-lambda": "^1.0.7",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.2",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "express-basic-auth": "^1.2.1",
     "helmet": "^8.1.0",
     "mongodb": "^6.15.0",
     "morgan": "^1.10.0",
@@ -38,17 +39,17 @@
     "@types/express": "^5.0.1",
     "@types/jest": "^29.5.14",
     "@types/morgan": "^1.9.9",
-    "@types/node": "^22.13.13",
+    "@types/node": "^22.14.0",
     "@types/supertest": "^6.0.3",
     "dotenv-run-script": "^0.4.1",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.1",
     "eslint-config-airbnb-typescript": "^18.0.0",
-    "eslint-import-resolver-typescript": "^4.2.4",
+    "eslint-import-resolver-typescript": "^4.3.1",
     "eslint-plugin-import": "^2.31.0",
     "jest": "^29.7.0",
     "nodemon": "^3.1.9",
     "supertest": "^7.1.0",
-    "ts-jest": "^29.3.0",
+    "ts-jest": "^29.3.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   }

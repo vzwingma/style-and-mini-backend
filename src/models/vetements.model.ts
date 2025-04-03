@@ -3,6 +3,7 @@ import DressingModel from './dressing.model';
 import VetementCaracteristiquesModel from './vetementCaracteristique.model';
 import { SaisonVetementEnum, StatutVetementEnum } from '../constants/AppEnum';
 import VetementImageModel from './vetements.image.model';
+import VetementPrixModel from './vetements.prix.model';
 
 /**
  * Modèle représentant un vetement
@@ -23,6 +24,8 @@ export default interface VetementModel {
   readonly etat?       : VetementCaracteristiquesModel;
   readonly marque?     : VetementCaracteristiquesModel;
   readonly collection? : string;
+
+  readonly prix?       : VetementPrixModel;
   readonly description?: string;
   
   readonly statut?     : StatutVetementEnum;
@@ -75,6 +78,10 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
       libelle: vetement.marque.libelle,
     } : null,
     collection: vetement.collection,
+    prix: vetement.prix ? {
+      achat: vetement.prix.achat,
+      neuf : vetement.prix.neuf,
+    } : null,
     description: vetement.description,
     statut: vetement.statut,
   };
@@ -102,7 +109,7 @@ export function mongoModelToVetementModel(mongoVetement: any): VetementModel {
     etat       : mongoVetement.etat,
     marque     : mongoVetement.marque,
     collection : mongoVetement.collection,
-    
+    prix       : mongoVetement.prix,
     description: mongoVetement.description,
     
     statut     : mongoVetement.statut === StatutVetementEnum.ARCHIVE ? StatutVetementEnum.ARCHIVE : StatutVetementEnum.ACTIF,

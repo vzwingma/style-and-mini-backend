@@ -31,6 +31,8 @@ Resources:
           MONGO_DB_URI: __DATABASE_URL__
           MONGO_DB_DATABASE: __DATABASE_NAME__
           NODE_ENV: __ENV__
+          API_AUTH: __API_AUTH__
+          API_PWD: __API_PWD__
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
