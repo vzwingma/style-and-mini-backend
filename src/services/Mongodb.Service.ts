@@ -105,7 +105,7 @@ export function update(mongoDocument: any, mongoId: string, collectionName : MON
         if (collection) {
           collection.updateOne({ '_id': new ObjectId(mongoId) }, { $set: { ...mongoDocument } })
             .then((result) => {
-              resolve(result.upsertedId ? result.upsertedId.toString() : null);
+              resolve(result.upsertedId ? result.upsertedId.toString() : mongoId);
             })
             .catch((e) => {
               console.error("[MongoDB] Erreur lors de l'enregistrement du document", e);
