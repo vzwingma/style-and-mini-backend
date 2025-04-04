@@ -40,9 +40,10 @@ export default interface VetementModel {
  */
 export function vetementModelToMongoModel(vetement : VetementModel) {
 
-  console.log('vetementModel' + vetement);
-  const v = JSON.parse(JSON.stringify(vetement));
-  console.log('vetementModel' + v);
+  console.log('vetementModel' , vetement);
+  const v : VetementModel = JSON.parse(JSON.stringify(vetement));
+  console.log('vetementModel' , v);
+  console.log('vetementModel' + v.dressing);
 
   const mongoVetement = {
     _id: new ObjectId(vetement.id),
