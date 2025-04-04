@@ -39,7 +39,12 @@ export default interface VetementModel {
  * @returns {Object} Un objet formaté pour être stocké dans MongoDB.
  */
 export function vetementModelToMongoModel(vetement : VetementModel) {
-  return {
+
+  console.log('vetementModel' + vetement);
+  const v = JSON.parse(JSON.stringify(vetement));
+  console.log('vetementModel' + v);
+
+  const mongoVetement = {
     _id: new ObjectId(vetement.id),
     dressing: {
       id: new ObjectId(vetement.dressing.id),
@@ -85,6 +90,8 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
     description: vetement.description,
     statut: vetement.statut,
   };
+
+  console.log('ToMongoModel : '+mongoVetement);
 }
 
 

@@ -1,6 +1,7 @@
 import express from 'express';
 import { deleteVetement, getDressingById, getDressings, getVetements, saveVetement, updateVetement } from '../controllers/dressing.controller';
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
+import VetementModel from '../models/vetements.model';
 
 const router = express.Router();
 
@@ -79,7 +80,11 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
  */
 router.post(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
 
-  updateVetement(req.body, req.params.idv)
+  const body : string = JSON.stringify(req.body);
+  const vetement : VetementModel = JSON.parse(body);
+  console.log('Vêtement à modifier : ', vetement);
+
+  updateVetement(vetement, req.params.idv)
     .then((idSaved: string | null) => {
       console.log('Vêtement [', idSaved, '] modifié dans le dressing [', req.params.idd, ']');
       res.status(ApiHTTPStatusEnum.OK).json({ idVetement: idSaved });
