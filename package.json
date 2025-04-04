@@ -1,6 +1,6 @@
 {
   "name": "api-style-mini-backend",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Backend pour exposer les API Style & Mini",
   "main": "src/index.ts",
   "scripts": {

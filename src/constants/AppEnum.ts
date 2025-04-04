@@ -1,5 +1,5 @@
-
-export const APP_MOBILE_VERSION = '0.2.0';
+const packageJSON = require("./../../package.json");
+export const APP_MOBILE_VERSION = packageJSON.version;
 export const APP_MOBILE_NAME = 'Style et Mini';
 // Enumération des statuts de l'application
 
