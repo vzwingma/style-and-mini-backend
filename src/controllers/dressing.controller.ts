@@ -18,7 +18,7 @@ export function getDressings(): Promise<DressingModel> {
       })
       .catch((err) => {
         console.error('Erreur lors de la récupération des dressings', err);
-        reject(null);
+        reject(new Error('Erreur lors de la récupération des dressings' + err));
       });
   });
 }
@@ -38,7 +38,7 @@ export function getDressingById(dressingId: string): Promise<DressingModel> {
       })
       .catch((err) => {
         console.error('Erreur lors de la récupération du dressing', err);
-        reject(null);
+        reject(new Error('Erreur lors de la récupération du dressing' + err));
       });
   });
 }
@@ -59,8 +59,8 @@ export function getVetements(idDressing : string): Promise<VetementModel[]> {
         resolve(mongoVetements.map((mongoTypeVetement: any) => mongoModelToVetementModel(mongoTypeVetement)));
       })
       .catch((err) => {
-        console.error('Erreur lors de la récupération des dressings', err);
-        reject(null);
+        console.error('Erreur lors de la récupération des vêtements', err);
+        reject(new Error('Erreur lors de la récupération des vêtements' + err));
       });
   });
 }

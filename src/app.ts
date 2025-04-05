@@ -16,8 +16,8 @@ dotenv.config();
 export const app = express();
 
 // Utilisation de variables d'environnement pour la configuration de l'authentification
-const userAuth      = process.env.API_AUTH || 'dev';
-const passwordAuth  = process.env.API_PWD  || 'password';
+const userAuth      = process.env.API_AUTH ?? 'dev';
+const passwordAuth  = process.env.API_PWD  ?? 'password';
 
   
 

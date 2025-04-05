@@ -78,10 +78,10 @@ export function save(mongoDocument: any, collectionName : MONGO_DB_COLLECTIONS):
             })
             .catch((e) => {
               console.error("[MongoDB] Erreur lors de l'enregistrement du document", e);
-              reject(null);
+              reject(new Error('Erreur lors de l\'enregistrement du document' + e));
             });
         } else {
-          reject(null); 
+          reject(new Error('Erreur de connexion à la base de données ' + MONGO_DB_DATABASE_NAME)); 
         }
       }
       );
@@ -109,10 +109,10 @@ export function update(mongoDocument: any, mongoId: string, collectionName : MON
             })
             .catch((e) => {
               console.error("[MongoDB] Erreur lors de l'enregistrement du document", e);
-              reject(null);
+              reject(new Error('Erreur lors de l\'enregistrement du document' + e));
             });
         } else {
-          reject(null); 
+          reject(new Error('Erreur de connexion à la base de données ' + MONGO_DB_DATABASE_NAME)); 
         }
       }
       );
@@ -140,11 +140,11 @@ export function deleteInMongo(criteres: any, collectionName : MONGO_DB_COLLECTIO
               resolve(result.acknowledged);
             })
             .catch((e) => {
-              console.error("[MongoDB] Erreur lors de l'enregistrement du document", e);
-              reject(false);
+              console.error("[MongoDB] Erreur lors de la suppression du document", e);
+              reject(new Error('Erreur lors de la suppression du document' + e));
             });
         } else {
-          reject(false); 
+          reject(new Error('Erreur de connexion à la base de données ' + MONGO_DB_DATABASE_NAME)); 
         }
       }
       );

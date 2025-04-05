@@ -18,7 +18,7 @@ function getParamsVetements(paramCollections: MONGO_DB_COLLECTIONS): Promise<any
       .then((result) => resolve(result))
       .catch((err) => {
         console.error('Erreur lors de la récupération depuis' + paramCollections, err);
-        reject(null);
+        reject(new Error('Erreur lors de la récupération depuis' + paramCollections + err));
       });
   });
 }
