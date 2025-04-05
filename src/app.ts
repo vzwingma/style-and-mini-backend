@@ -45,7 +45,8 @@ const initAppRoutes = () => {
     challenge: true,
     unauthorizedResponse: 'Unauthorized'
   }));
-  app.use(express.json({strict: false}));
+  app.use(express.json({strict: true, limit: '5mb'}));
+  app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
   // Routes
   app.use('/api/v1', api);
