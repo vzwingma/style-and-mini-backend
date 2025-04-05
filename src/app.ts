@@ -45,7 +45,7 @@ const initAppRoutes = () => {
     challenge: true,
     unauthorizedResponse: 'Unauthorized'
   }));
-  app.use(express.json());
+  app.use(express.json({strict: false}));
 
   // Routes
   app.use('/api/v1', api);
