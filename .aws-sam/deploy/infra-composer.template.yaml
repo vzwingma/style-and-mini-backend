@@ -16,7 +16,7 @@ Resources:
         - ResourceName: StyleMiniBackend__ENV__
       CodeUri: dist/
       Handler: app.lambdaHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs22.x
       MemorySize: 3008
       Policies: AWSLambdaBasicExecutionRole
       Events:

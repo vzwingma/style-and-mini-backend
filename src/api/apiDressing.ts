@@ -80,8 +80,7 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
  */
 router.post(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
 
-  const body : string = JSON.stringify(req.body);
-  const vetement : VetementModel = JSON.parse(body);
+  const vetement : VetementModel = JSON.parse(req.body.toString());
   console.log('Vêtement à modifier : ', vetement);
 
   updateVetement(vetement, req.params.idv)

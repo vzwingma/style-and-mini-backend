@@ -9,11 +9,17 @@ import api from './api';
 import { BACKEND_PORT } from './constants/AppConstants';
 
 const serverless = require('serverless-http');
+const basicAuth = require('express-basic-auth')
 dotenv.config();
 
 
 export const app = express();
- 
+
+// Utilisation de variables d'environnement pour la configuration de l'authentification
+const userAuth      = process.env.API_AUTH || 'dev';
+const passwordAuth  = process.env.API_PWD  || 'password';
+
+  
 
 /**
  * Initialise les routes de l'application.
@@ -33,7 +39,12 @@ const initAppRoutes = () => {
   app.use(helmet());
 
   app.use(cors());
-
+  
+  app.use(basicAuth({
+    users: { [userAuth]: passwordAuth },
+    challenge: true,
+    unauthorizedResponse: 'Unauthorized'
+  }));
   app.use(express.json());
 
   // Routes
