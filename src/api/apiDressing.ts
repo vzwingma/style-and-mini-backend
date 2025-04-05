@@ -64,7 +64,7 @@ router.get(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
  */
 router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
   const vetement : VetementModel = JSON.parse(req.body.toString());
-  console.log('Vêtement à modifier : ', vetement);
+  console.log('Vêtement à créer : ', vetement);
   saveVetement(vetement)
     .then((
       idSaved: string | null) => {
@@ -84,10 +84,11 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
 router.post(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
 
   const vetement : VetementModel = JSON.parse(req.body.toString());
+  console.log('Vêtement à modifier : ', vetement);
 
   updateVetement(vetement, req.params.idv)
     .then((idSaved: string | null) => {
-      console.log('Vêtement [', idSaved, '] modifié dans le dressing [', req.params.idd, ']', req.body);
+      console.log('Vêtement [', idSaved, '] modifié dans le dressing [', req.params.idd, ']', vetement);
       res.status(ApiHTTPStatusEnum.OK).json({ idVetement: idSaved });
     })
     .catch((err) => {
