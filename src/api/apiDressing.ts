@@ -49,6 +49,7 @@ router.get(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
   console.log('Get Vetements by Id Dressing', req.params.idd);
   getVetements(req.params.idd)
     .then((listeVetements) => {
+      console.log('Nombre de vetements chargés : ', listeVetements.length);
       res.status(ApiHTTPStatusEnum.OK).json(listeVetements);
     })
     .catch((err) => {
@@ -65,7 +66,7 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
   saveVetement(req.body)
     .then((
       idSaved: string | null) => {
-      console.log('Vêtement [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']');
+      console.log('Vêtement [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']', req.body);
       res.status(ApiHTTPStatusEnum.OK).json({ idVetement: idSaved });
     })
     .catch((err) => {
@@ -84,7 +85,7 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
 
   updateVetement(vetement, req.params.idv)
     .then((idSaved: string | null) => {
-      console.log('Vêtement [', idSaved, '] modifié dans le dressing [', req.params.idd, ']');
+      console.log('Vêtement [', idSaved, '] modifié dans le dressing [', req.params.idd, ']', req.body);
       res.status(ApiHTTPStatusEnum.OK).json({ idVetement: idSaved });
     })
     .catch((err) => {

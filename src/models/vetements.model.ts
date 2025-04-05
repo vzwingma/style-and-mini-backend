@@ -86,8 +86,6 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
     description: vetement.description,
     statut: vetement.statut,
   };
-
-  console.log('ToMongoModel : '+mongoVetement);
 }
 
 

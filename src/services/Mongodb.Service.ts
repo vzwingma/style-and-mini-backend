@@ -69,7 +69,7 @@ export async function findInCollection(collectionName: MONGO_DB_COLLECTIONS, fil
 export function save(mongoDocument: any, collectionName : MONGO_DB_COLLECTIONS): Promise<string | null> {
   return new Promise((resolve, reject) => {
 
-      console.log('[MongoDB] Save mongoDocument', mongoDocument);
+      console.log('[MongoDB] Save mongoDocument', JSON.stringify(mongoDocument));
       connectToDatabase(collectionName).then((collection) => {
         if (collection) {
           collection.insertOne({ ...mongoDocument })
@@ -100,7 +100,7 @@ export function save(mongoDocument: any, collectionName : MONGO_DB_COLLECTIONS):
 export function update(mongoDocument: any, mongoId: string, collectionName : MONGO_DB_COLLECTIONS): Promise<string | null> {
   return new Promise((resolve, reject) => {
 
-      console.log('[MongoDB] Update mongoDocument', mongoDocument);
+      console.log('[MongoDB] Update mongoDocument', JSON.stringify(mongoDocument));
       connectToDatabase(collectionName).then((collection) => {
         if (collection) {
           collection.updateOne({ '_id': new ObjectId(mongoId) }, { $set: { ...mongoDocument } })
