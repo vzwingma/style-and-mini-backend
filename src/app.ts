@@ -64,7 +64,7 @@ const startServer = async () => {
   initAppRoutes();
   app.listen(port, () => {
     /* eslint-disable no-console */
-    console.log(`Listening: http://0.0.0.0:${port}`);
+    console.log(`[⚡️ Server ⚡️]: Serveur démarré sur le port ${port}`);
     /* eslint-enable no-console */
   });
 };
