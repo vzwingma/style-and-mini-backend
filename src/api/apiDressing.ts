@@ -13,7 +13,7 @@ const router = express.Router();
  * Get all dressings
  */
 router.get('/', async (_req, res) => {
-
+  console.log('[API] Get all Dressings');
   getDressings().then((listeDressings) => {
       res.status(ApiHTTPStatusEnum.OK).json(listeDressings);
     })
@@ -26,7 +26,7 @@ router.get('/', async (_req, res) => {
  * Get dressing by id
  */
 router.get(ServiceURLEnum.SERVICE_DRESSING_BY_ID, async (req, res) => {
-  console.log('Get Dressing by Id', req.params.idd);
+  console.log('[API] Get Dressing by Id', req.params.idd);
   getDressingById(req.params.idd)
     .then((dressing) => {
       res.status(ApiHTTPStatusEnum.OK).json(dressing);
@@ -46,7 +46,7 @@ router.get(ServiceURLEnum.SERVICE_DRESSING_BY_ID, async (req, res) => {
  * GET vetements du dressing
  */
 router.get(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
-  console.log('Get Vetements by Id Dressing', req.params.idd);
+  console.log('[API] Get Vetements by Id Dressing', req.params.idd);
   getVetements(req.params.idd)
     .then((listeVetements) => {
       console.log('Nombre de vetements chargés : ', listeVetements.length);
@@ -64,11 +64,11 @@ router.get(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
  */
 router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
   const vetement : VetementModel = JSON.parse(req.body.toString());
-  console.log('Vêtement à créer : ', vetement);
+  console.log('[API] Création vêtement : ', vetement);
   saveVetement(vetement)
     .then((
       idSaved: string | null) => {
-      console.log('Vêtement [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']', vetement);
+      console.log('Vêtement [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']');
       res.status(ApiHTTPStatusEnum.OK).json({ idVetement: idSaved });
     })
     .catch((err) => {
@@ -84,11 +84,11 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
 router.post(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
 
   const vetement : VetementModel = JSON.parse(req.body.toString());
-  console.log('Vêtement à modifier : ', vetement);
+  console.log('[API] Modification vêtement : ', vetement);
 
   updateVetement(vetement, req.params.idv)
     .then((idSaved: string | null) => {
-      console.log('Vêtement [', idSaved, '] modifié dans le dressing [', req.params.idd, ']', vetement);
+      console.log('Vêtement [', idSaved, '] modifié dans le dressing [', req.params.idd, ']');
       res.status(ApiHTTPStatusEnum.OK).json({ idVetement: idSaved });
     })
     .catch((err) => {
@@ -102,7 +102,7 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
  * DELETE) vetements du dressing
  */
 router.delete(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
-
+  console.log('[API] Suppression vêtement : ', req.params.idv);
   deleteVetement(req.params.idd, req.params.idv)
     .then((ack: boolean) => {
       console.log('Vêtement [', req.params.idv, '] '+(ack ? 'correctement':'non')+  ' supprimé du dressing [', req.params.idd, ']');
