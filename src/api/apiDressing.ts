@@ -1,10 +1,11 @@
 import express from 'express';
-import { deleteVetement, getDressingById, getDressings, getVetements, saveVetement, updateVetement } from '../controllers/dressing.controller';
+import { deleteVetement, getDressingById, getDressings, getImages, getVetements, saveVetement, updateImageVetement, updateVetement } from '../controllers/dressing.controller';
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
 import VetementModel from '../models/vetements.model';
+import multer from 'multer';
 
 const router = express.Router();
-
+const upload = multer();
 /**
  * ROOT URL : '/dressing'
  */
@@ -15,8 +16,8 @@ const router = express.Router();
 router.get('/', async (_req, res) => {
   console.log('[API] Get all Dressings');
   getDressings().then((listeDressings) => {
-      res.status(ApiHTTPStatusEnum.OK).json(listeDressings);
-    })
+    res.status(ApiHTTPStatusEnum.OK).json(listeDressings);
+  })
     .catch((err) => {
       res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send(err);
     });
@@ -63,9 +64,9 @@ router.get(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
  * POST (CREATE) vetements du dressing
  */
 router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
-  let vetement : VetementModel
+  let vetement: VetementModel
   try {
-    vetement  = JSON.parse(req.body);
+    vetement = JSON.parse(req.body);
   } catch (error) {
     vetement = req.body;
   }
@@ -88,9 +89,9 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
  */
 router.post(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
 
-  let vetement : VetementModel
+  let vetement: VetementModel
   try {
-    vetement  = JSON.parse(req.body);
+    vetement = JSON.parse(req.body);
   } catch (error) {
     vetement = req.body;
   }
@@ -115,7 +116,7 @@ router.delete(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
   console.log('[API] Suppression vêtement : ', req.params.idv);
   deleteVetement(req.params.idd, req.params.idv)
     .then((ack: boolean) => {
-      console.log('Vêtement [', req.params.idv, '] '+(ack ? 'correctement':'non')+  ' supprimé du dressing [', req.params.idd, ']');
+      console.log('Vêtement [', req.params.idv, '] ' + (ack ? 'correctement' : 'non') + ' supprimé du dressing [', req.params.idd, ']');
       res.status(ApiHTTPStatusEnum.OK).json({ idVetement: req.params.idv, deleted: ack });
     })
     .catch((err) => {
@@ -124,5 +125,48 @@ router.delete(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
     });
 });
 
+/**
+ * POST (UPDATE) vetements du dressing - IMAGE
+ */
+router.post(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, upload.single('image'), async (req, res) => {
 
+  console.log('[API] Enregistrement de l\'image du vêtement : ', req.params.idv);
+
+  if (req.file) {
+
+    updateImageVetement(req.params.idv, req.file.buffer)
+      .then((idSaved: string | null) => {
+        console.log('Image Vêtement [', idSaved, '] enregistrée dans le dressing [', req.params.idd, ']');
+        res.status(ApiHTTPStatusEnum.OK).json({ idImage: idSaved });
+      })
+      .catch((err) => {
+        console.error('Erreur MongoDB', err);
+        res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement de l\'image du vêtement a échoué");
+      });
+  } else {
+    console.error('Erreur MongoDB', 'Aucune image trouvée dans la requête');
+    res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement de l\'image du vêtement a échoué");
+  }
+});
+
+
+/**
+ * GET vetements du dressing - IMAGE
+ */
+router.get(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, async (req, res) => {
+
+  console.log('[API] Chargement de l\'image du vêtement : ', req.params.idv);
+  getImages()
+    .then((image: any) => {
+      console.log('Image Vêtement []', image);
+      res.status(ApiHTTPStatusEnum.OK)
+        .set('Content-Type', 'image/jpg')
+        .set('Content-Disposition', 'inline; filename="image.jpg"')
+        .send(Buffer.alloc(image.size, image.image));
+    })
+    .catch((err) => {
+      console.error('Erreur MongoDB', err);
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("Le chargement de l\'image du vêtement a échoué");
+    });
+});
 export default router;

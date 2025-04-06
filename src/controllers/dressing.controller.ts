@@ -89,6 +89,33 @@ export function updateVetement(vetement: VetementModel, idVetement: string): Pro
 }
 
 
+export function updateImageVetement(idVetement: string, image: any): Promise<string | null> {
+  return save({ image }, MONGO_DB_COLLECTIONS.VETEMENTS_IMAGE);
+}
+
+
+/**
+ * Récupère la liste des dressings depuis la collection MongoDB.
+ *
+ * @returns {Promise<any>} Une promesse qui se résout avec le résultat de la collection ou se rejette avec une erreur.
+ */
+export function getImages(): Promise<DressingModel> {
+  return new Promise((resolve, reject) => {
+    findInCollection(MONGO_DB_COLLECTIONS.VETEMENTS_IMAGE, { })
+      .then((mongoImageVetement) => {
+        resolve(mongoImageVetement);
+      })
+      .catch((err) => {
+        console.error('Erreur lors de la récupération de l\'image du vêtement', err);
+        reject(new Error('Erreur lors de la récupération de l\'image du vêtement' + err));
+      });
+  });
+}
+
+
+
+
+
 /**
  * Enregistre un vêtement dans la collection MongoDB spécifiée.
  *

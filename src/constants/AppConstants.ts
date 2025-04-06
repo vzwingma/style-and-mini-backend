@@ -19,4 +19,5 @@ export enum MONGO_DB_COLLECTIONS {
   
   DRESSING              = 'dressing',
   VETEMENTS             = 'vetements',
+  VETEMENTS_IMAGE       = 'vetementsImages',
 };

@@ -46,6 +46,7 @@ export enum ServiceURLEnum {
   SERVICE_DRESSING_BY_ID  = '/' + ServicesParamsEnum.ID_DRESSING,
   SERVICE_VETEMENTS       = SERVICE_DRESSING_BY_ID + '/vetements',
   SERVICE_VETEMENTS_BY_ID = SERVICE_VETEMENTS + '/' + ServicesParamsEnum.ID_VETEMENT,
+  SERVICE_VETEMENTS_IMAGE = SERVICE_VETEMENTS_BY_ID+"/image"
 }
 
 
