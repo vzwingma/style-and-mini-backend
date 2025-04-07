@@ -103,7 +103,7 @@ export function getImages(): Promise<DressingModel> {
   return new Promise((resolve, reject) => {
     findInCollection(MONGO_DB_COLLECTIONS.VETEMENTS_IMAGE, { })
       .then((mongoImageVetement) => {
-        resolve(mongoImageVetement);
+        resolve(mongoImageVetement[0].image);
       })
       .catch((err) => {
         console.error('Erreur lors de la récupération de l\'image du vêtement', err);
