@@ -50,7 +50,7 @@ export async function connectToDatabase(collectionName: MONGO_DB_COLLECTIONS): P
  * @returns {Promise<any>} Une promesse qui résout avec les documents trouvés ou null si la collection n'existe pas.
  */
 export async function findInCollection(collectionName: MONGO_DB_COLLECTIONS, filter: any): Promise<any> {
-  console.log('[MongoDB] findInCollection', collectionName, filter);
+  console.log('[MongoDB] findInCollection', collectionName, "critères:", filter);
   const collection = await connectToDatabase(collectionName);
   if (collection) {
     return collection.find(filter).toArray();
