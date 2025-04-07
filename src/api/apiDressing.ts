@@ -153,22 +153,24 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, upload.single('image'), asyn
     console.log('[API]', 'Image trouvée dans la requête : ', image.length, ' octets');
     // Get signed URL from S3 and upload image to S3
     await createPresignedS3Url(req.params.idv + ".jpg")
-      .then((url) => {
-        return putToS3(url, image);
-      })
+      .then((url) => putToS3(url, image))
       .then((result) => {
         console.log('Photo du vêtement [', req.params.idv, '] enregistrée dans le dressing [', req.params.idd, ']');
-        res.status(ApiHTTPStatusEnum.OK).json({
-          resultat: result,
-          id: req.params.idv + ".jpg",
-        });
+        res.status(ApiHTTPStatusEnum.OK)
+          .json(
+            {
+              resultat: result,
+              id: req.params.idv + ".jpg",
+            });
       })
       .catch((err) => {
         console.error('[API]', 'Erreur lors du chargement d\'image', err);
-        res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).json({
-          message: 'Erreur lors du chargement d\'image pour le vêtement ' + req.params.idv,
-          error: err,
-        });
+        res.status(ApiHTTPStatusEnum.INTERNAL_ERROR)
+          .json(
+            {
+              message: 'Erreur lors du chargement d\'image pour le vêtement ' + req.params.idv,
+              error: err,
+            });
       });
   } else {
     console.error('[API]', 'Aucune image trouvée dans la requête');
