@@ -151,8 +151,8 @@ router.put(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, async (req, res) => {
         res.status(ApiHTTPStatusEnum.OK)
           .json(
             {
-              url: presignedS3Url,
-              id: req.params.idv + ".jpg",
+              url   : presignedS3Url,
+              s3uri : process.env.NODE_ENV+ "/" + req.params.idv + ".jpg",
             });
       })
       .catch((err) => {
@@ -166,15 +166,4 @@ router.put(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, async (req, res) => {
       });
   });
 
-
-
-
-/**
- * GET vetements du dressing - IMAGE
- */
-router.get(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, async (req, res) => {
-
-  console.log('[API] Chargement de l\'image du vêtement : ', req.params.idv);
-  res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("Le chargement de l'image du vêtement a échoué");
-});
 export default router;
