@@ -18,7 +18,10 @@ Resources:
       Handler: app.lambdaHandler
       Runtime: nodejs22.x
       MemorySize: 3008
-      Policies: AWSLambdaBasicExecutionRole
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - S3WritePolicy:
+            BucketName: !Ref S3ImagesBucket
       Events:
         ApiBackend__ENV__ANYapiv1uri:
           Type: Api
@@ -33,6 +36,7 @@ Resources:
           NODE_ENV: __ENV__
           API_AUTH: __API_AUTH__
           API_PWD: __API_PWD__
+          UploadBucket: !Ref S3ImagesBucket
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -57,7 +61,6 @@ Resources:
         - ${AWS::StackName}
         - ResourceName: ApiBackend__ENV__
       Description: API Gateway pour Style & Mini - __ENV__
-        - 
       StageName: Qua
       DefinitionBody:
         openapi: '3.0'
@@ -74,3 +77,21 @@ Resources:
       TracingEnabled: true
       Cors:
         MaxAge: 5
+  ## S3 bucket
+  S3ImagesBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+              - PUT
+              - HEAD
+            AllowedOrigins:
+              - '*'
+      Description: !Sub
+        - S3 ${AWS::StackName}
+        - ResourceName: S3 Buckets pour Style & Mini
+      BucketName: !Sub ${AWS::StackName}-S3Imagesbucket
