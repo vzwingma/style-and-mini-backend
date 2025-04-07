@@ -1,0 +1,53 @@
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+  getSignedUrl,
+} from "@aws-sdk/s3-request-presigner";
+import https from "node:https";
+
+
+const bucketName = process.env.UploadBucket || 'style-mini-app-images';
+const region = process.env.AWS_REGION || 'eu-west-3';
+
+
+export const createPresignedS3Url = (key : string) => {
+  const client = new S3Client({region: region});
+  const command = new PutObjectCommand({ 
+    Bucket: bucketName, 
+    Key: key,
+    ContentType: 'image/jpeg'
+});
+  return getSignedUrl(client, command, { expiresIn: 3600 });
+};
+
+/**
+ * Make a PUT request to the provided URL.
+ *
+ * @param {string} url
+ * @param {string} data
+ */
+export const putToS3 = (url : string, data : any) => {
+  return new Promise((resolve, reject) => {
+    const req = https.request(
+      url,
+      { method: "PUT", headers: { "Content-Length": new Blob([data]).size } },
+      (res) => {
+        let responseBody = "";
+        res.on("data", (chunk) => {
+          responseBody += chunk;
+        });
+        res.on("end", () => {
+          if ((res.statusCode ?? 0) >= 200 && (res.statusCode ?? 0) <= 299) {
+            resolve("Successfully uploaded data to S3 bucket");
+          } else {
+            reject("Error uploading data to S3 bucket: " + responseBody);
+          }
+        });
+      },
+    );
+    req.on("error", (err) => {
+      reject(err);
+    });
+    req.write(data);
+    req.end();
+  });
+};

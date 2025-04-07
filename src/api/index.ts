@@ -3,7 +3,6 @@ import express from 'express';
 import MessageResponse from './interfaces/MessageResponse';
 import apiParamsVetements from './apiParamsVetements';
 import apiDressing from './apiDressing';
-import apiUpload from './apiUpload';
 import BackendConfigModel from '../models/backendConfig.model';
 import { ServiceURLEnum } from '../constants/APIconstants';
 import { APP_MOBILE_VERSION } from '../constants/AppEnum';
@@ -26,5 +25,4 @@ router.get<{}, BackendConfigModel>('/status', (_req, res) => {
 
 router.use(ServiceURLEnum.SERVICE_PARAMS,     apiParamsVetements);
 router.use(ServiceURLEnum.SERVICE_DRESSINGS,  apiDressing);
-router.use(ServiceURLEnum.SERVICE_UPLOAD,     apiUpload);
 export default router;

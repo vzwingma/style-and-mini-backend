@@ -3,6 +3,7 @@ import { deleteVetement, getDressingById, getDressings, getImages, getVetements,
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
 import VetementModel from '../models/vetements.model';
 import multer from 'multer';
+import { createPresignedS3Url, putToS3 } from '../services/S3.Service';
 
 const router = express.Router();
 const upload = multer({
@@ -63,6 +64,18 @@ router.get(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
     });
 });
 
+
+
+/**
+ * Extrait un objet VetementModel à partir de la requête HTTP.
+ * 
+ * Cette fonction tente de parser le corps de la requête en tant que JSON.
+ * Si une erreur survient lors du parsing, elle retourne directement le corps
+ * de la requête tel quel.
+ * 
+ * @param req - La requête HTTP de type `express.Request` contenant les données du vêtement.
+ * @returns Un objet de type `VetementModel` extrait du corps de la requête.
+ */
 const getVetementFromRequest = (req: express.Request): VetementModel => {
   let vetement: VetementModel
   try {
@@ -113,7 +126,7 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
 
 
 /**
- * DELETE) vetements du dressing
+ * DELETE vetements du dressing
  */
 router.delete(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
   console.log('[API] Suppression vêtement : ', req.params.idv);
@@ -133,21 +146,32 @@ router.delete(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
  */
 router.post(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, upload.single('image'), async (req, res) => {
 
-  console.log('[API] Enregistrement de l\'image du vêtement : ', req.params.idv);
+  console.log('[API]', 'Enregistrement de l\'image du vêtement : ', req.params.idv);
 
   if (req.file) {
-
-    updateImageVetement(req.params.idv, req.file.buffer)
-      .then((idSaved: string | null) => {
-        console.log('Image Vêtement [', idSaved, '] enregistrée dans le dressing [', req.params.idd, ']');
-        res.status(ApiHTTPStatusEnum.OK).json({ idImage: idSaved });
+    const image = req.file.buffer;
+    console.log('[API]', 'Image trouvée dans la requête : ', image.length, ' octets');
+    // Get signed URL from S3 and upload image to S3
+    await createPresignedS3Url(req.params.idv + ".jpg")
+      .then((url) => {
+        return putToS3(url, image);
+      })
+      .then((result) => {
+        console.log('Photo du vêtement [', req.params.idv, '] enregistrée dans le dressing [', req.params.idd, ']');
+        res.status(ApiHTTPStatusEnum.OK).json({
+          put: result,
+          id: req.params.idv + ".jpg",
+        });
       })
       .catch((err) => {
-        console.error('Erreur MongoDB', err);
-        res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement de l'image du vêtement a échoué");
+        console.error('[API]', 'Erreur lors du chargement d\'image', err);
+        res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).json({
+          message: 'Erreur lors du chargement d\'image pour le vêtement ' + req.params.idv,
+          error: err,
+        });
       });
   } else {
-    console.error('Erreur MongoDB', 'Aucune image trouvée dans la requête');
+    console.error('[API]', 'Aucune image trouvée dans la requête');
     res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement de l'image du vêtement a échoué");
   }
 });
