@@ -90,10 +90,11 @@ export function updateVetement(vetement: VetementModel, idVetement: string): Pro
 
 
 /**
- * Enregistre un vêtement dans la collection MongoDB spécifiée.
+ * Supprime un vêtement d'un dressing spécifique dans la base de données.
  *
- * @param {any} vetement - L'objet vêtement à enregistrer.
- * @returns {Promise<string | null>} Une promesse qui résout à une chaîne de caractères (ID du vêtement enregistré) ou null en cas d'échec.
+ * @param idDressing - L'identifiant unique du dressing auquel appartient le vêtement.
+ * @param idVetement - L'identifiant unique du vêtement à supprimer.
+ * @returns Une promesse qui résout à `true` si la suppression a réussi, sinon `false`.
  */
 export function deleteVetement(idDressing: string, idVetement: string): Promise<boolean> {
   const criteres = 

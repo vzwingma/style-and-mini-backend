@@ -69,8 +69,7 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
     } : null,
     couleurs: vetement.couleurs,
     image: vetement.image ? {
-      id      : vetement.image.id,
-      contenu : vetement.image.contenu,
+      s3uri   : vetement.image.s3uri,
       hauteur : vetement.image.hauteur,
       largeur : vetement.image.largeur,
     } : null,

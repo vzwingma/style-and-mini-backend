@@ -23,7 +23,6 @@ router.get<{}, BackendConfigModel>('/status', (_req, res) => {
   });
 });
 
-router.use(ServiceURLEnum.SERVICE_PARAMS, apiParamsVetements);
-router.use(ServiceURLEnum.SERVICE_DRESSINGS, apiDressing);
-
+router.use(ServiceURLEnum.SERVICE_PARAMS,     apiParamsVetements);
+router.use(ServiceURLEnum.SERVICE_DRESSINGS,  apiDressing);
 export default router;
