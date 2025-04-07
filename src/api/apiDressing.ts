@@ -2,15 +2,9 @@ import express from 'express';
 import { deleteVetement, getDressingById, getDressings, getVetements, saveVetement, updateVetement } from '../controllers/dressing.controller';
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
 import VetementModel from '../models/vetements.model';
-import multer from 'multer';
-import { createPresignedS3Url, putToS3 } from '../services/S3.Service';
+import { createPresignedS3Url } from '../services/S3.Service';
 
 const router = express.Router();
-const upload = multer({
-  limits: {
-    fileSize: 10000000 // Sensitive: 10MB is more than the recommended limit of 8MB
-  }
-});
 /**
  * ROOT URL : '/dressing'
  */
@@ -81,7 +75,6 @@ const getVetementFromRequest = (req: express.Request): VetementModel => {
   try {
     vetement = JSON.parse(req.body);
   } catch (error) {
-    console.trace("parsing error", error);
     vetement = req.body;
   }
   return vetement;
@@ -141,30 +134,29 @@ router.delete(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
     });
 });
 
+
+
 /**
- * POST (UPDATE) vetements du dressing - IMAGE
+ * PUT IMAGE vetements du dressing to S3
+ * Génère une URL signée pour le téléchargement de l'image du vêtement.
+ * Le fichier est enregistré dans le bucket S3 avec le nom du vêtement et l'extension .jpg.
  */
-router.post(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, upload.single('image'), async (req, res) => {
+router.put(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, async (req, res) => {
 
   console.log('[API]', 'Enregistrement de l\'image du vêtement : ', req.params.idv);
-
-  if (req.file) {
-    const image = req.file.buffer;
-    console.log('[API]', 'Image trouvée dans la requête : ', image.length, ' octets');
     // Get signed URL from S3 and upload image to S3
-    await createPresignedS3Url(req.params.idv + ".jpg")
-      .then((url) => putToS3(url, image))
-      .then((result) => {
-        console.log('Photo du vêtement [', req.params.idv, '] enregistrée dans le dressing [', req.params.idd, ']');
+    createPresignedS3Url(req.params.idv + ".jpg")
+      .then((presignedS3Url) => {
+        console.log('URL présignée disponible pour le vêtement [', req.params.idv, ']');
         res.status(ApiHTTPStatusEnum.OK)
           .json(
             {
-              resultat: result,
+              url: presignedS3Url,
               id: req.params.idv + ".jpg",
             });
       })
       .catch((err) => {
-        console.error('[API]', 'Erreur lors du chargement d\'image', err);
+        console.error('[API]', 'Erreur lors du chargement de l\'URL présignée', err);
         res.status(ApiHTTPStatusEnum.INTERNAL_ERROR)
           .json(
             {
@@ -172,11 +164,9 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, upload.single('image'), asyn
               error: err,
             });
       });
-  } else {
-    console.error('[API]', 'Aucune image trouvée dans la requête');
-    res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement de l'image du vêtement a échoué");
-  }
-});
+  });
+
+
 
 
 /**
