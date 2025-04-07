@@ -35,6 +35,9 @@ export const enum ServicesParamsEnum {
  */
 export enum ServiceURLEnum {
   SERVICE_CONFIG = '/status',
+
+  SERVICE_UPLOAD = '/upload/images',
+
   SERVICE_PARAMS = '/params/vetements',
   SERVICE_PARAMS_TYPE_VETEMENTS   = '/types',
   SERVICE_PARAMS_TAILLES_MESURES  = '/taillesMesures',
@@ -44,6 +47,7 @@ export enum ServiceURLEnum {
 
   SERVICE_DRESSINGS       = '/dressing',
   SERVICE_DRESSING_BY_ID  = '/' + ServicesParamsEnum.ID_DRESSING,
+
   SERVICE_VETEMENTS       = SERVICE_DRESSING_BY_ID + '/vetements',
   SERVICE_VETEMENTS_BY_ID = SERVICE_VETEMENTS + '/' + ServicesParamsEnum.ID_VETEMENT,
   SERVICE_VETEMENTS_IMAGE = SERVICE_VETEMENTS_BY_ID+"/image"
