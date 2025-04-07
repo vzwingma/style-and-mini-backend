@@ -18,6 +18,5 @@ export enum MONGO_DB_COLLECTIONS {
   PARAM_MARQUES_VETEMENTS = 'paramMarquesVetements',
   
   DRESSING              = 'dressing',
-  VETEMENTS             = 'vetements',
-  VETEMENTS_IMAGE       = 'vetementsImages',
+  VETEMENTS             = 'vetements'
 };

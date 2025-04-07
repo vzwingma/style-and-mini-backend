@@ -1,5 +1,5 @@
 import express from 'express';
-import { deleteVetement, getDressingById, getDressings, getImages, getVetements, saveVetement, updateImageVetement, updateVetement } from '../controllers/dressing.controller';
+import { deleteVetement, getDressingById, getDressings, getVetements, saveVetement, updateVetement } from '../controllers/dressing.controller';
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
 import VetementModel from '../models/vetements.model';
 import multer from 'multer';
@@ -159,7 +159,7 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, upload.single('image'), asyn
       .then((result) => {
         console.log('Photo du vêtement [', req.params.idv, '] enregistrée dans le dressing [', req.params.idd, ']');
         res.status(ApiHTTPStatusEnum.OK).json({
-          put: result,
+          resultat: result,
           id: req.params.idv + ".jpg",
         });
       })
@@ -183,17 +183,6 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, upload.single('image'), asyn
 router.get(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, async (req, res) => {
 
   console.log('[API] Chargement de l\'image du vêtement : ', req.params.idv);
-  getImages()
-    .then((image: any) => {
-      console.log('Image Vêtement []', image);
-      res.status(ApiHTTPStatusEnum.OK)
-        .set('Content-Type', 'image/jpg')
-        .set('Content-Disposition', 'inline; filename="image.jpg"')
-        .send(Buffer.alloc(image.size, image.image));
-    })
-    .catch((err) => {
-      console.error('Erreur MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("Le chargement de l'image du vêtement a échoué");
-    });
+  res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("Le chargement de l'image du vêtement a échoué");
 });
 export default router;
