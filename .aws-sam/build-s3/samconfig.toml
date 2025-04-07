@@ -1,8 +1,0 @@
-version = 0.1
-[default.deploy.parameters]
-stack_name = "style-and-mini-app-images"
-resolve_s3 = true
-s3_prefix = "style-and-mini-app-images"
-region = "eu-west-3"
-capabilities = "CAPABILITY_IAM"
-image_repositories = []

@@ -91,7 +91,4 @@ Resources:
               - HEAD
             AllowedOrigins:
               - '*'
-      Description: !Sub
-        - S3 ${AWS::StackName}
-        - ResourceName: S3 Buckets pour Style & Mini
-      BucketName: !Sub ${AWS::StackName}-S3Imagesbucket
+      BucketName: !Sub ${AWS::StackName}-images
