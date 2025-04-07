@@ -5,7 +5,11 @@ import VetementModel from '../models/vetements.model';
 import multer from 'multer';
 
 const router = express.Router();
-const upload = multer();
+const upload = multer({
+  limits: {
+    fileSize: 10000000 // Sensitive: 10MB is more than the recommended limit of 8MB
+  }
+});
 /**
  * ROOT URL : '/dressing'
  */
@@ -59,17 +63,21 @@ router.get(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
     });
 });
 
-
-/**
- * POST (CREATE) vetements du dressing
- */
-router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
+const getVetementFromRequest = (req: express.Request): VetementModel => {
   let vetement: VetementModel
   try {
     vetement = JSON.parse(req.body);
   } catch (error) {
+    console.trace("parsing error", error);
     vetement = req.body;
   }
+  return vetement;
+}
+/**
+ * POST (CREATE) vetements du dressing
+ */
+router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
+  let vetement = getVetementFromRequest(req);
   console.log('[API] Création vêtement : ', vetement);
   saveVetement(vetement)
     .then((
@@ -89,12 +97,7 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
  */
 router.post(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
 
-  let vetement: VetementModel
-  try {
-    vetement = JSON.parse(req.body);
-  } catch (error) {
-    vetement = req.body;
-  }
+  let vetement = getVetementFromRequest(req);
   console.log('[API] Modification vêtement : ', vetement);
 
   updateVetement(vetement, req.params.idv)
@@ -141,11 +144,11 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, upload.single('image'), asyn
       })
       .catch((err) => {
         console.error('Erreur MongoDB', err);
-        res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement de l\'image du vêtement a échoué");
+        res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement de l'image du vêtement a échoué");
       });
   } else {
     console.error('Erreur MongoDB', 'Aucune image trouvée dans la requête');
-    res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement de l\'image du vêtement a échoué");
+    res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement de l'image du vêtement a échoué");
   }
 });
 
@@ -166,7 +169,7 @@ router.get(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, async (req, res) => {
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("Le chargement de l\'image du vêtement a échoué");
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("Le chargement de l'image du vêtement a échoué");
     });
 });
 export default router;
