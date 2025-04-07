@@ -21,7 +21,7 @@ Resources:
       Policies:
         - AWSLambdaBasicExecutionRole
         - S3WritePolicy:
-            BucketName: !Ref S3ImagesBucket
+            BucketName: !Ref StyleMiniS3Images
       Events:
         ApiBackend__ENV__ANYapiv1uri:
           Type: Api
@@ -36,7 +36,7 @@ Resources:
           NODE_ENV: __ENV__
           API_AUTH: __API_AUTH__
           API_PWD: __API_PWD__
-          UploadBucket: !Ref S3ImagesBucket
+          UploadBucket: !Ref StyleMiniS3Images
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -78,7 +78,7 @@ Resources:
       Cors:
         MaxAge: 5
   ## S3 bucket
-  S3ImagesBucket:
+  StyleMiniS3Images:
     Type: AWS::S3::Bucket
     Properties:
       CorsConfiguration:
@@ -91,4 +91,4 @@ Resources:
               - HEAD
             AllowedOrigins:
               - '*'
-      BucketName: !Sub ${AWS::StackName}-images
+      BucketName: style-mini-app-images
