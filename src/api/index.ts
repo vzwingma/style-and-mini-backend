@@ -5,7 +5,7 @@ import apiParamsVetements from './apiParamsVetements';
 import apiDressing from './apiDressing';
 import BackendConfigModel from '../models/backendConfig.model';
 import { ServiceURLEnum } from '../constants/APIconstants';
-import { APP_MOBILE_VERSION } from '../constants/AppEnum';
+import { APP_MOBILE_VERSION } from '../constants/AppConstants';
 
 const router = express.Router();
 

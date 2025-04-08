@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+export const APP_MOBILE_VERSION = "0.3.0";
 export const BACKEND_PORT = process.env.PORT ?? 3000;
 
 /**
