@@ -1,21 +1,21 @@
 // Enumération des statuts de l'application
 
 export enum StatutVetementEnum {
-  ACTIF   = 'ACTIF',
-  ARCHIVE = 'ARCHIVE',
+  ACTIF,
+  ARCHIVE,
 }
 
 
 // Enumération des statuts de vêtements
 export enum SaisonVetementEnum {
-  ETE = 'ETE', MISAISON = 'MISAISON', HIVER = 'HIVER'
+  ETE, MISAISON, HIVER
 }
 
 // 
 export enum CategorieDressingEnum {
-  BEBE    = 'BEBE',
-  ENFANT  = 'ENFANT',
-  ADULTE  = 'ADULTE',
+  BEBE,
+  ENFANT,
+  ADULTE
 }
 
 /**
@@ -26,8 +26,8 @@ export enum CategorieDressingEnum {
  * @property {string} CHAUSSURES - Taille spécifique aux chaussures.
  */
 export enum TypeTailleEnum {
-  VETEMENTS = 'VETEMENTS',
-  CHAUSSURES = 'CHAUSSURES'
+  VETEMENTS, 
+  CHAUSSURES
 }
 
 
@@ -43,10 +43,10 @@ export enum TypeTailleEnum {
  * - `DRESSING` : Référence au dressing ou à l'organisation des vêtements.
  */
 export enum ParametragesVetementEnum {
-  TYPE      = 'TYPE',
-  TAILLES   = 'TAILLES',
-  MARQUES   = 'MARQUES',
-  USAGES    = 'USAGES',
-  ETATS     = 'ETATS',
-  DRESSING  = 'DRESSING'
+  TYPES = 'TYPES',
+  TAILLES = 'TAILLES',
+  MARQUES = 'MARQUES',
+  USAGES = 'USAGES',
+  ETATS = 'ETATS',
+  DRESSING = 'DRESSING'
 }
