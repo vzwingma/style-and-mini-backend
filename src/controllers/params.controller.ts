@@ -1,10 +1,36 @@
 import { findInCollection } from '../services/Mongodb.Service';
 import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
-import ParamTypeVetementsModel from '../models/params/paramTypeVetements.model';
-import ParamTailleVetementsModel from '../models/params/paramTailleVetements.model';
-import ParamUsageVetementsModel from '../models/params/paramUsageVetements.model';
-import ParamEtatVetementsModel from '../models/params/paramEtatVetements.model';
-import ParamMarqueVetementsModel from '../models/params/paramMarqueVetements.model';
+import { ParametragesVetementEnum } from '../constants/AppEnum';
+import ParamGenericVetementsModel from '../models/params/paramGenericVetements.model';
+
+
+
+
+
+/**
+ * Récupère les paramètres des vêtements en fonction du type spécifié.
+ *
+ * @param typeParams - Le type de paramètre à récupérer, basé sur l'énumération `ParametragesVetementEnum`.
+ * @returns Une promesse résolvant un tableau de modèles génériques de paramètres de vêtements (`ParamGenericVetementsModel[]`).
+ * @throws Une erreur si le type de paramètre est inconnu.
+ */
+export function getParametresVetements(typeParams : ParametragesVetementEnum): Promise<ParamGenericVetementsModel[]> {
+  switch (typeParams) {
+    case ParametragesVetementEnum.TYPE:
+      return getParamsTypesVetement();
+    case ParametragesVetementEnum.TAILLES:
+      return getParamsTaillesVetement();
+    case ParametragesVetementEnum.USAGES:
+      return getParamsUsagesVetement();
+    case ParametragesVetementEnum.ETATS:
+      return getParamsEtatsVetement();
+    case ParametragesVetementEnum.MARQUES:
+      return getParamsMarquesVetement();
+    default:
+      return Promise.reject(new Error('Type de paramètre inconnu : ' + typeParams));
+  }
+}
+
 
 /**
  * Récupère les paramètres des vêtements depuis une collection MongoDB.
@@ -12,7 +38,7 @@ import ParamMarqueVetementsModel from '../models/params/paramMarqueVetements.mod
  * @param {MONGO_DB_COLLECTIONS} paramCollections - La collection MongoDB à partir de laquelle récupérer les paramètres.
  * @returns {Promise<any>} Une promesse qui se résout avec les résultats de la collection ou se rejette avec une erreur.
  */
-function getParamsVetements(paramCollections: MONGO_DB_COLLECTIONS): Promise<any> {
+function loadParametrages(paramCollections: MONGO_DB_COLLECTIONS): Promise<any> {
   return new Promise((resolve, reject) => {
     findInCollection(paramCollections, {})
       .then((result) => resolve(result))
@@ -24,17 +50,18 @@ function getParamsVetements(paramCollections: MONGO_DB_COLLECTIONS): Promise<any
 }
 
 
+
 /**
  * Récupère les types de vêtements à partir de la collection MongoDB spécifiée.
  *
  * @returns {Promise<ParamTypeVetementsModel[]>} Une promesse qui résout avec une liste de modèles de types de vêtements.
  * En cas d'erreur, la promesse résout avec null.
  */
-export function getParamsTypesVetement(): Promise<ParamTypeVetementsModel[]> {
-  return getParamsVetements(MONGO_DB_COLLECTIONS.PARAM_TYPES_VETEMENTS)
+export function getParamsTypesVetement(): Promise<ParamGenericVetementsModel[]> {
+  return loadParametrages(MONGO_DB_COLLECTIONS.PARAM_TYPES_VETEMENTS)
     .then((result) => {
       return result.map((mongoTypeVetement: any) => {
-        let typeVetement: ParamTypeVetementsModel = {
+        let typeVetement: ParamGenericVetementsModel = {
           id        : mongoTypeVetement._id.toString(),
           libelle   : mongoTypeVetement.libelle,
           categories: mongoTypeVetement.categories,
@@ -42,9 +69,6 @@ export function getParamsTypesVetement(): Promise<ParamTypeVetementsModel[]> {
         };
         return typeVetement;
       });
-    })
-    .catch(() => {
-      return null;
     });
 }
 
@@ -56,11 +80,11 @@ export function getParamsTypesVetement(): Promise<ParamTypeVetementsModel[]> {
  * @returns {Promise<any>} Une promesse qui résout avec une liste des paramètres de tailles de vêtements,
  * ou `null` en cas d'erreur.
  */
-export function getParamsTaillesVetement(): Promise<ParamTailleVetementsModel[]> {
-  return getParamsVetements(MONGO_DB_COLLECTIONS.PARAM_TAILLES_MESURES)
+export function getParamsTaillesVetement(): Promise<ParamGenericVetementsModel[]> {
+  return loadParametrages(MONGO_DB_COLLECTIONS.PARAM_TAILLES_MESURES)
     .then((result) => {
       const listeParamsTaillesMesures = result.map((mongoTypeVetement: any) => {
-        let tailleVetement: ParamTailleVetementsModel = {
+        let tailleVetement: ParamGenericVetementsModel = {
           id        : mongoTypeVetement._id.toString(),
           libelle   : mongoTypeVetement.libelle,
           categories: typeof mongoTypeVetement.categorie === 'string' ? [mongoTypeVetement.categorie] : mongoTypeVetement.categorie,
@@ -70,9 +94,6 @@ export function getParamsTaillesVetement(): Promise<ParamTailleVetementsModel[]>
         return tailleVetement;
       });
       return listeParamsTaillesMesures;
-    })
-    .catch(() => {
-      return null;
     });
 }
 
@@ -84,11 +105,11 @@ export function getParamsTaillesVetement(): Promise<ParamTailleVetementsModel[]>
  * @returns {Promise<ParamEtatVetementsModel[]>} Une promesse contenant une liste de modèles ParamEtatVetementsModel.
  * Si une erreur survient, la promesse retourne null.
  */
-export function getParamsEtatsVetement(): Promise<ParamEtatVetementsModel[]> {
-  return getParamsVetements(MONGO_DB_COLLECTIONS.PARAM_ETATS_VETEMENTS)
+export function getParamsEtatsVetement(): Promise<ParamGenericVetementsModel[]> {
+  return loadParametrages(MONGO_DB_COLLECTIONS.PARAM_ETATS_VETEMENTS)
     .then((result) => {
       return result.map((mongoTypeVetement: any) => {
-        let etatVetement: ParamEtatVetementsModel = {
+        let etatVetement: ParamGenericVetementsModel = {
           id          : mongoTypeVetement._id.toString(),
           libelle     : mongoTypeVetement.libelle,
           tri         : mongoTypeVetement.tri,
@@ -96,9 +117,6 @@ export function getParamsEtatsVetement(): Promise<ParamEtatVetementsModel[]> {
         };
         return etatVetement;
       });
-    })
-    .catch(() => {
-      return null;
     });
 }
 
@@ -110,11 +128,11 @@ export function getParamsEtatsVetement(): Promise<ParamEtatVetementsModel[]> {
  * @returns {Promise<ParamUsageVetementsModel[]>} Une promesse qui résout avec une liste de modèles ParamUsageVetementsModel.
  * Si une erreur survient, la promesse résout avec null.
  */
-export function getParamsUsagesVetement(): Promise<ParamUsageVetementsModel[]> {
-  return getParamsVetements(MONGO_DB_COLLECTIONS.PARAM_USAGES_VETEMENTS)
+export function getParamsUsagesVetement(): Promise<ParamGenericVetementsModel[]> {
+  return loadParametrages(MONGO_DB_COLLECTIONS.PARAM_USAGES_VETEMENTS)
     .then((result) => {
       const listeParamsUsages = result.map((mongoTypeVetement: any) => {
-        let usageVetement: ParamUsageVetementsModel = {
+        let usageVetement: ParamGenericVetementsModel = {
           id          : mongoTypeVetement._id.toString(),
           libelle     : mongoTypeVetement.libelle,
           categories  : mongoTypeVetement.categories,
@@ -122,9 +140,6 @@ export function getParamsUsagesVetement(): Promise<ParamUsageVetementsModel[]> {
         return usageVetement;
       });
       return listeParamsUsages;
-    })
-    .catch(() => {
-      return null;
     });
 }
 
@@ -135,11 +150,11 @@ export function getParamsUsagesVetement(): Promise<ParamUsageVetementsModel[]> {
  * @returns {Promise<ParamUsageVetementsModel[]>} Une promesse qui résout avec une liste de modèles ParamUsageVetementsModel.
  * Si une erreur survient, la promesse résout avec null.
  */
-export function getParamsMarquesVetement(): Promise<ParamMarqueVetementsModel[]> {
-  return getParamsVetements(MONGO_DB_COLLECTIONS.PARAM_MARQUES_VETEMENTS)
+export function getParamsMarquesVetement(): Promise<ParamGenericVetementsModel[]> {
+  return loadParametrages(MONGO_DB_COLLECTIONS.PARAM_MARQUES_VETEMENTS)
     .then((result) => {
       return result.map((mongoTypeVetement: any) => {
-        let marqueVetement: ParamMarqueVetementsModel = {
+        let marqueVetement: ParamGenericVetementsModel = {
           id        : mongoTypeVetement._id.toString(),
           libelle   : mongoTypeVetement.libelle,
           categories: mongoTypeVetement.categories,
@@ -147,9 +162,6 @@ export function getParamsMarquesVetement(): Promise<ParamMarqueVetementsModel[]>
         };
         return marqueVetement;
       });
-    })
-    .catch(() => {
-      return null;
     });
 
 }
