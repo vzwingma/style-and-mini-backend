@@ -57,7 +57,7 @@ export function transformMongoModelToParametrageModel(typeParametrage: Parametra
   let parametrage: ParamGenericVetementsModel = {
     id: mongoParametrage._id.toString(),
     libelle: mongoParametrage.libelle,
-    categories: typeof mongoParametrage.categorie === 'string' ? [mongoParametrage.categorie] : mongoParametrage.categorie,
+    categories: mongoParametrage.categorie !== undefined && mongoParametrage.categorie !== null ? (typeof mongoParametrage.categorie === 'string' ? [mongoParametrage.categorie] : mongoParametrage.categorie) : mongoParametrage.categories,
   };
 
   // Complétion des éléments spécifiques au type de paramétrage
