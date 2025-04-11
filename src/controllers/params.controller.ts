@@ -74,7 +74,7 @@ function loadParametrages(paramCollections: MONGO_DB_COLLECTIONS): Promise<any> 
  * @returns {Promise<string | null>} Une promesse qui résout à une chaîne de caractères (ID du vêtement enregistré) ou null en cas d'échec.
  */
 export function saveParametrage(typeParametrage: ParametragesVetementEnum, parametrage: ParamGenericVetementsModel): Promise<string | null> {
-  return save(transformParametrageModelToMongoModel(typeParametrage, parametrage), MONGO_DB_COLLECTIONS.VETEMENTS);
+  return save(transformParametrageModelToMongoModel(typeParametrage, parametrage), collectionTypeParametrage(typeParametrage) as MONGO_DB_COLLECTIONS);
 }
 
 
@@ -86,5 +86,5 @@ export function saveParametrage(typeParametrage: ParametragesVetementEnum, param
  * @returns {Promise<string | null>} Une promesse qui résout à une chaîne de caractères (ID du vêtement enregistré) ou null en cas d'échec.
  */
 export function updateParametrage(typeParametrage: ParametragesVetementEnum, parametrage: ParamGenericVetementsModel, idParametrage: string): Promise<string | null> {
-  return update(transformParametrageModelToMongoModel(typeParametrage, parametrage), idParametrage, MONGO_DB_COLLECTIONS.VETEMENTS);
+  return update(transformParametrageModelToMongoModel(typeParametrage, parametrage), idParametrage, collectionTypeParametrage(typeParametrage) as MONGO_DB_COLLECTIONS);
 }
