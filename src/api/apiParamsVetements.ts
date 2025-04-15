@@ -30,7 +30,7 @@ router.get(ServiceURLEnum.SERVICE_POST_PARAMS, async (req, res) => {
       });
   }
   else {
-    res.status(ApiHTTPStatusEnum.BAD_REQUEST).send('Type de paramètre inconnu : ' + req.params.type);
+    res.status(ApiHTTPStatusEnum.BAD_REQUEST).json( { error : 'Type de paramètre inconnu : ' + req.params.type });
   }
 
 });
@@ -68,7 +68,7 @@ router.post(ServiceURLEnum.SERVICE_POST_PARAMS, async (req, res) => {
   let parametrage = getParametrageFromRequest(req);
   console.log('[API] Création d\'un paramètrage de vêtements', typeParam, parametrage);
   if (typeParam === null) {
-    res.status(ApiHTTPStatusEnum.BAD_REQUEST).send('Type de paramètre inconnu : ' + req.params.type);
+    res.status(ApiHTTPStatusEnum.BAD_REQUEST).json( { error : 'Type de paramètre inconnu : ' + req.params.type });
     return;
   }
   saveParametrage(typeParam, parametrage)
@@ -79,7 +79,7 @@ router.post(ServiceURLEnum.SERVICE_POST_PARAMS, async (req, res) => {
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement du paramétrage " + req.params.type + " a échoué");
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).json( {error : "L'enregistrement du paramétrage " + req.params.type + " a échoué"});
     });
 });
 
@@ -95,7 +95,7 @@ router.post(ServiceURLEnum.SERVICE_POST_PARAMS_BY_ID, async (req, res) => {
   let parametrage = getParametrageFromRequest(req);
   console.log('[API] Mise à jour du paramètrage de vetements', req.params.type, " id=", req.params.idp, parametrage);
   if (typeParam === null) {
-    res.status(ApiHTTPStatusEnum.BAD_REQUEST).send('Type de paramètre inconnu : ' + req.params.type);
+    res.status(ApiHTTPStatusEnum.BAD_REQUEST).json({ error : 'Type de paramètre inconnu : ' + req.params.type});
     return;
   }
   updateParametrage(typeParam, parametrage, req.params.idp)
@@ -105,7 +105,7 @@ router.post(ServiceURLEnum.SERVICE_POST_PARAMS_BY_ID, async (req, res) => {
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement du paramétrage " + req.params.type + " a échoué");
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).json({error : "L'enregistrement du paramétrage " + req.params.type + " a échoué"});
     });
 });
 

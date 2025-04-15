@@ -40,12 +40,25 @@ export function transformParametrageModelToMongoModel(typeParametrage: Parametra
       break;
     case ParametragesVetementEnum.ETATS:
       mongoVetement = { ...mongoVetement, tri: parametrage.tri };
+      break;
     default:
       break;
   }
   return mongoVetement;
 }
 
+
+export function transformCategoriesVetementToMongoModel(mongoParametrage : any) {
+  // Si le champ legacy categorie est défini, on le traite comme un tableau de catégories
+  // sinon on utilise le champ categories qui est un tableau de catégories
+  if(mongoParametrage.categories !== undefined && mongoParametrage.categories !== null){
+    return mongoParametrage.categories;
+  }
+  if(mongoParametrage.categorie !== undefined && mongoParametrage.categorie !== null){
+    return (typeof mongoParametrage.categorie === 'string' ? [mongoParametrage.categorie] : mongoParametrage.categorie) 
+  } 
+  return mongoParametrage.categories;
+}
 
 /**
  * Convertit un objet MongoDB Vetement en un objet VetementModel.
@@ -57,7 +70,7 @@ export function transformMongoModelToParametrageModel(typeParametrage: Parametra
   let parametrage: ParamGenericVetementsModel = {
     id: mongoParametrage._id.toString(),
     libelle: mongoParametrage.libelle,
-    categories: mongoParametrage.categorie !== undefined && mongoParametrage.categorie !== null ? (typeof mongoParametrage.categorie === 'string' ? [mongoParametrage.categorie] : mongoParametrage.categorie) : mongoParametrage.categories,
+    categories: transformCategoriesVetementToMongoModel(mongoParametrage),
   };
 
   // Complétion des éléments spécifiques au type de paramétrage
@@ -71,6 +84,7 @@ export function transformMongoModelToParametrageModel(typeParametrage: Parametra
       break;
     case ParametragesVetementEnum.ETATS:
       parametrage = { ...parametrage, tri: mongoParametrage.tri };
+      break;
     default:
       break;
   }

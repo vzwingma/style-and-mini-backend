@@ -45,7 +45,7 @@ export function getParametresVetements(typeParams: ParametragesVetementEnum): Pr
   }
   return loadParametrages(collection)
     .then((result) => {
-      return result.map((mongoTypeVetement: any) => transformMongoModelToParametrageModel(typeParams, mongoTypeVetement) as ParamGenericVetementsModel);
+      return result.map((mongoTypeVetement: any) => transformMongoModelToParametrageModel(typeParams, mongoTypeVetement));
     });
   };
 
