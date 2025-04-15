@@ -1,7 +1,8 @@
-import { findInCollection, save, update } from '../services/Mongodb.Service';
+import { findInCollection, findInCollections, save, update } from '../services/Mongodb.Service';
 import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
 import { ParametragesVetementEnum } from '../constants/AppEnum';
-import ParamGenericVetementsModel, { transformMongoModelToParametrageModel, transformParametrageModelToMongoModel } from '../models/params/paramGenericVetements.model';
+import ParamGenericVetementsModel, { transformMongoModelToParametrageModel, transformParametrageModelToMongoModel } from '../models/paramGenericVetements.model';
+
 
 
 
@@ -11,7 +12,7 @@ import ParamGenericVetementsModel, { transformMongoModelToParametrageModel, tran
  * @param typeParam - Le type de paramétrage à utiliser, basé sur l'énumération `ParametragesVetementEnum`.
  * @returns La collection MongoDB correspondante de type `MONGO_DB_COLLECTIONS`, ou `null` si le type de paramétrage n'est pas reconnu.
  */
-const collectionTypeParametrage = (typeParam: ParametragesVetementEnum): MONGO_DB_COLLECTIONS | null => {
+const getCollectionTypeParametrage = (typeParam: ParametragesVetementEnum): MONGO_DB_COLLECTIONS | null => {
   switch (typeParam) {
     case ParametragesVetementEnum.TYPES:
       return MONGO_DB_COLLECTIONS.PARAM_TYPES_VETEMENTS;
@@ -28,6 +29,48 @@ const collectionTypeParametrage = (typeParam: ParametragesVetementEnum): MONGO_D
   }
 }
 
+const getLookupJoinWithVetements = (typeParam: ParametragesVetementEnum): MONGO_DB_COLLECTIONS | {} => {
+  let jointAttribute = 'id';
+  switch (typeParam) {
+    case ParametragesVetementEnum.TYPES:
+      jointAttribute = 'type.id';
+      break;
+    case ParametragesVetementEnum.TAILLES:
+      jointAttribute = 'taille.id';
+      break;
+    case ParametragesVetementEnum.USAGES:
+      jointAttribute = 'usage.id';
+      break;
+    case ParametragesVetementEnum.ETATS:
+      jointAttribute = 'etat.id';
+      break;
+    case ParametragesVetementEnum.MARQUES:
+      jointAttribute = 'marque.id'; 
+      break;
+    default:
+      return {};
+  }
+  /** Construction de la requete de jointure avec le nombre de vêtement */
+  const lookupVetement = [
+    {
+      $lookup: {
+          from: "vetements",
+          localField: "_id",
+          foreignField: jointAttribute,
+          as: "vetements",
+        },
+    },
+    {
+      $addFields:
+        {
+          vetements: {
+            $size: "$vetements",
+          },
+        },
+    },
+  ];
+  return lookupVetement;
+}
 
 
 /**
@@ -38,12 +81,13 @@ const collectionTypeParametrage = (typeParam: ParametragesVetementEnum): MONGO_D
  * @throws Une erreur si le type de paramètre est inconnu.
  */
 export function getParametresVetements(typeParams: ParametragesVetementEnum): Promise<ParamGenericVetementsModel[]> {
-  console.log('[API] Chargement de tous les paramètrages de Vetements', typeParams);
-  const collection = collectionTypeParametrage(typeParams);
+  console.log('[API] Chargement de tous les paramétrages de Vetements', typeParams);
+  const collection = getCollectionTypeParametrage(typeParams);
+  const lookupVetement = getLookupJoinWithVetements(typeParams);
   if(collection === undefined || collection === null) {
     throw new Error('Type de paramètre inconnu : ' + typeParams);
   }
-  return loadParametrages(collection)
+  return loadParametrages(collection, lookupVetement)
     .then((result) => {
       return result.map((mongoTypeVetement: any) => transformMongoModelToParametrageModel(typeParams, mongoTypeVetement));
     });
@@ -55,15 +99,16 @@ export function getParametresVetements(typeParams: ParametragesVetementEnum): Pr
  * @param {MONGO_DB_COLLECTIONS} paramCollections - La collection MongoDB à partir de laquelle récupérer les paramètres.
  * @returns {Promise<any>} Une promesse qui se résout avec les résultats de la collection ou se rejette avec une erreur.
  */
-function loadParametrages(paramCollections: MONGO_DB_COLLECTIONS): Promise<any> {
-  return new Promise((resolve, reject) => {
-    findInCollection(paramCollections, {})
-      .then((result) => resolve(result))
+function loadParametrages(paramCollections: MONGO_DB_COLLECTIONS, lookupVetement : any): Promise<any> {
+    return findInCollections(paramCollections, lookupVetement)
+      .then((result) => {
+                          console.log('Résultat de la recherche dans la collection', paramCollections, result);
+                          return result
+                        })
       .catch((err) => {
         console.error('Erreur lors de la récupération depuis' + paramCollections, err);
-        reject(new Error('Erreur lors de la récupération depuis' + paramCollections + err));
+        return new Error('Erreur lors de la récupération depuis' + paramCollections + err);
       });
-  });
 }
 
 
@@ -74,7 +119,7 @@ function loadParametrages(paramCollections: MONGO_DB_COLLECTIONS): Promise<any> 
  * @returns {Promise<string | null>} Une promesse qui résout à une chaîne de caractères (ID du vêtement enregistré) ou null en cas d'échec.
  */
 export function saveParametrage(typeParametrage: ParametragesVetementEnum, parametrage: ParamGenericVetementsModel): Promise<string | null> {
-  return save(transformParametrageModelToMongoModel(typeParametrage, parametrage), collectionTypeParametrage(typeParametrage) as MONGO_DB_COLLECTIONS);
+  return save(transformParametrageModelToMongoModel(typeParametrage, parametrage), getCollectionTypeParametrage(typeParametrage) as MONGO_DB_COLLECTIONS);
 }
 
 
@@ -86,5 +131,5 @@ export function saveParametrage(typeParametrage: ParametragesVetementEnum, param
  * @returns {Promise<string | null>} Une promesse qui résout à une chaîne de caractères (ID du vêtement enregistré) ou null en cas d'échec.
  */
 export function updateParametrage(typeParametrage: ParametragesVetementEnum, parametrage: ParamGenericVetementsModel, idParametrage: string): Promise<string | null> {
-  return update(transformParametrageModelToMongoModel(typeParametrage, parametrage), idParametrage, collectionTypeParametrage(typeParametrage) as MONGO_DB_COLLECTIONS);
+  return update(transformParametrageModelToMongoModel(typeParametrage, parametrage), idParametrage, getCollectionTypeParametrage(typeParametrage) as MONGO_DB_COLLECTIONS);
 }
