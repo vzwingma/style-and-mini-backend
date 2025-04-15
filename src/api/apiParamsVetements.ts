@@ -2,7 +2,7 @@ import express from 'express';
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
 import { ParametragesVetementEnum } from '../constants/AppEnum';
 import { getParametresVetements, saveParametrage, updateParametrage } from '../controllers/params.controller';
-import ParamGenericVetementsModel from '../models/params/paramGenericVetements.model';
+import ParamGenericVetementsModel from '../models/paramGenericVetements.model';
 
 
 const router = express.Router();

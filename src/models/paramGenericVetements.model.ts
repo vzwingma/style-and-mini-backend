@@ -10,7 +10,7 @@ interface ParamGenericVetementsModel {
   readonly categories: CategorieDressingEnum[];
   readonly type?: TypeTailleEnum;
   readonly tri?: number;
-  readonly nombreUtilisation?: number;
+  readonly nombreVetements?: number;
 }
 
 
@@ -72,6 +72,7 @@ export function transformMongoModelToParametrageModel(typeParametrage: Parametra
     id: mongoParametrage._id.toString(),
     libelle: mongoParametrage.libelle,
     categories: transformCategoriesVetementToMongoModel(mongoParametrage),
+    nombreVetements: mongoParametrage.vetements,
   };
 
   // Complétion des éléments spécifiques au type de paramétrage

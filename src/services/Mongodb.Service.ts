@@ -41,7 +41,22 @@ export async function connectToDatabase(collectionName: MONGO_DB_COLLECTIONS): P
   }
 }
 
-
+/**
+ * Recherche des documents dans une collection MongoDB spécifiée en fonction d'un filtre donné.
+ *
+ * @param {MONGO_DB_COLLECTIONS} collectionName - Le nom de la collection MongoDB dans laquelle effectuer la recherche.
+ * @param {any} filter - Le filtre à appliquer pour la recherche des documents.
+ * @returns {Promise<any>} Une promesse qui résout avec les documents trouvés ou null si la collection n'existe pas.
+ */
+export async function findInCollections(collectionName: MONGO_DB_COLLECTIONS, aggregate: any): Promise<any> {
+  console.log("[MongoDB]", "findInCollection", collectionName, "aggregate:", aggregate);
+  const collection = await connectToDatabase(collectionName);
+  if (collection) {
+    return collection.aggregate(aggregate).toArray();
+  } else {
+    return null;
+  }
+}
 /**
  * Recherche des documents dans une collection MongoDB spécifiée en fonction d'un filtre donné.
  *
