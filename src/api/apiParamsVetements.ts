@@ -22,7 +22,7 @@ router.get(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE, async (req, res) => {
   if (typeParam !== null) {
     getParametresVetements(typeParam)
       .then((listeParamsTypeVetements) => {
-        console.log('[API] Chargement de tous les paramètrages de Vetements', listeParamsTypeVetements);
+        console.debug('Paramètrages de Vetements', typeParam, listeParamsTypeVetements);
         res.status(ApiHTTPStatusEnum.OK).json(listeParamsTypeVetements)
       })
       .catch((err) => {

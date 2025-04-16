@@ -4,6 +4,7 @@ import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
 import VetementModel from '../models/vetements.model';
 import { createPresignedS3Url } from '../services/S3.Service';
 import APIResultVetementModel from '../models/api.result.vetements.model';
+import { v7 as uuidGen } from 'uuid';
 
 const router = express.Router();
 /**
@@ -145,16 +146,17 @@ router.delete(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
  */
 router.put(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, async (req, res) => {
 
-  console.log('[API]', 'Enregistrement de l\'image du vêtement : ', req.params.idv);
+  const idVetement = req.params.idv === "undefined" ? uuidGen().replaceAll("-", "").substring(0,24) : req.params.idv;
+  console.log('[API]', 'Enregistrement de l\'image du vêtement : ', idVetement);
     // Get signed URL from S3 and upload image to S3
-    createPresignedS3Url(req.params.idv + ".jpg")
+    createPresignedS3Url(idVetement + ".jpg")
       .then((presignedS3Url) => {
-        console.log('URL présignée disponible pour le vêtement [', req.params.idv, ']');
+        console.log('URL présignée disponible pour le vêtement [', idVetement, ']');
         res.status(ApiHTTPStatusEnum.OK)
           .json(
             {
               url   : presignedS3Url,
-              s3uri : process.env.NODE_ENV+ "/" + req.params.idv + ".jpg",
+              s3uri : process.env.NODE_ENV+ "/" + idVetement + ".jpg",
             });
       })
       .catch((err) => {

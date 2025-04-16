@@ -1,11 +1,11 @@
-import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import {
   getSignedUrl,
 } from "@aws-sdk/s3-request-presigner";
 
 
-const bucketName = process.env.UploadBucket || 'style-mini-app-images';
-const region = process.env.AWS_REGION       || 'eu-west-3';
+const bucketName = process.env.UploadBucket ?? 'style-mini-app-images';
+const region = process.env.AWS_REGION       ?? 'eu-west-3';
 
 
 /**

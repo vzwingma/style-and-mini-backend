@@ -84,7 +84,7 @@ export async function findInCollection(collectionName: MONGO_DB_COLLECTIONS, fil
 export function save(mongoDocument: any, collectionName : MONGO_DB_COLLECTIONS): Promise<string> {
   return new Promise((resolve, reject) => {
 
-      console.log("[MongoDB]", "Save mongoDocument");
+      console.log("[MongoDB]", "Save mongoDocument in ", collectionName);
       connectToDatabase(collectionName).then((collection) => {
         if (collection) {
           collection.insertOne({ ...mongoDocument })
