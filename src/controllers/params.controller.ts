@@ -1,7 +1,8 @@
-import { findInCollection, findInCollections, save, update } from '../services/Mongodb.Service';
+import { deleteInMongo, findInCollections, save, update } from '../services/Mongodb.Service';
 import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
 import { ParametragesVetementEnum } from '../constants/AppEnum';
 import ParamGenericVetementsModel, { transformMongoModelToParametrageModel, transformParametrageModelToMongoModel } from '../models/paramGenericVetements.model';
+import { ObjectId } from 'mongodb';
 
 
 
@@ -132,4 +133,19 @@ export function saveParametrage(typeParametrage: ParametragesVetementEnum, param
  */
 export function updateParametrage(typeParametrage: ParametragesVetementEnum, parametrage: ParamGenericVetementsModel, idParametrage: string): Promise<string | null> {
   return update(transformParametrageModelToMongoModel(typeParametrage, parametrage), idParametrage, getCollectionTypeParametrage(typeParametrage) as MONGO_DB_COLLECTIONS);
+}
+
+
+/**
+ * Supprime un paramétrage de vêtement dans la collection MongoDB spécifiée.
+ * @param typeParametrage spécifie le type de paramétrage à supprimer
+ * @param idParametrage identifiant du paramétrage à supprimer
+ * @returns {Promise<boolean>} une promesse qui résout à true si la suppression a réussi, sinon false
+ */
+export function deleteParametrage(typeParametrage: ParametragesVetementEnum, idParametrage: string): Promise<boolean> {
+    const criteres = 
+      { 
+        "_id" : new ObjectId(idParametrage) 
+      } ;
+  return deleteInMongo(criteres, getCollectionTypeParametrage(typeParametrage) as MONGO_DB_COLLECTIONS);
 }

@@ -72,7 +72,7 @@ export function getVetements(idDressing : string): Promise<VetementModel[]> {
  * @param {any} vetement - L'objet vêtement à enregistrer.
  * @returns {Promise<string | null>} Une promesse qui résout à une chaîne de caractères (ID du vêtement enregistré) ou null en cas d'échec.
  */
-export function saveVetement(vetement: VetementModel): Promise<string | null> {
+export function saveVetement(vetement: VetementModel): Promise<string> {
   return save(vetementModelToMongoModel(vetement), MONGO_DB_COLLECTIONS.VETEMENTS);
 }
 
@@ -84,7 +84,7 @@ export function saveVetement(vetement: VetementModel): Promise<string | null> {
  * @param {any} vetement - L'objet vêtement à enregistrer.
  * @returns {Promise<string | null>} Une promesse qui résout à une chaîne de caractères (ID du vêtement enregistré) ou null en cas d'échec.
  */
-export function updateVetement(vetement: VetementModel, idVetement: string): Promise<string | null> {
+export function updateVetement(vetement: VetementModel, idVetement: string): Promise<string> {
   return update(vetementModelToMongoModel(vetement), idVetement, MONGO_DB_COLLECTIONS.VETEMENTS);
 }
 

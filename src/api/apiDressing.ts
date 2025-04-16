@@ -3,6 +3,7 @@ import { deleteVetement, getDressingById, getDressings, getVetements, saveVeteme
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
 import VetementModel from '../models/vetements.model';
 import { createPresignedS3Url } from '../services/S3.Service';
+import APIResultVetementModel from '../models/api.result.vetements.model';
 
 const router = express.Router();
 /**
@@ -87,9 +88,10 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
   console.log('[API] Création vêtement : ', vetement);
   saveVetement(vetement)
     .then((
-      idSaved: string | null) => {
-      console.log('Vêtement [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']');
-      res.status(ApiHTTPStatusEnum.OK).json({ idVetement: idSaved });
+      idSaved: string) => {
+        vetement.id = idSaved;
+        console.log('Vêtement [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']', vetement);
+      res.status(ApiHTTPStatusEnum.OK).json({ idVetement: idSaved, vetement : vetement, created: true  } as APIResultVetementModel);
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
@@ -109,7 +111,7 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
   updateVetement(vetement, req.params.idv)
     .then((idSaved: string | null) => {
       console.log('Vêtement [', idSaved, '] modifié dans le dressing [', req.params.idd, ']');
-      res.status(ApiHTTPStatusEnum.OK).json({ idVetement: idSaved });
+      res.status(ApiHTTPStatusEnum.OK).json({ idVetement: idSaved, vetement : vetement, updated: true } as APIResultVetementModel);
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
@@ -126,7 +128,7 @@ router.delete(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
   deleteVetement(req.params.idd, req.params.idv)
     .then((ack: boolean) => {
       console.log('Vêtement [', req.params.idv, '] ' + (ack ? 'correctement' : 'non') + ' supprimé du dressing [', req.params.idd, ']');
-      res.status(ApiHTTPStatusEnum.OK).json({ idVetement: req.params.idv, deleted: ack });
+      res.status(ApiHTTPStatusEnum.OK).json({ idVetement: req.params.idv, deleted: ack } as APIResultVetementModel);
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
