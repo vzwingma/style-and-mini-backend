@@ -38,8 +38,8 @@ export enum ServiceURLEnum {
   SERVICE_CONFIG = '/status',
 
   SERVICE_PARAMS = '/params/vetements',
-  SERVICE_POST_PARAMS       = '/' + ServicesParamsEnum.TYPE_PARAM,
-  SERVICE_POST_PARAMS_BY_ID = SERVICE_POST_PARAMS + '/' + ServicesParamsEnum.ID_PARAM,
+  SERVICE_PARAMS_BY_TYPE          = '/' + ServicesParamsEnum.TYPE_PARAM,
+  SERVICE_PARAMS_BY_TYPE_AND_ID   = SERVICE_PARAMS_BY_TYPE + '/' + ServicesParamsEnum.ID_PARAM,
   SERVICE_PARAMS_TYPE_VETEMENTS   = '/types',
   SERVICE_PARAMS_TAILLES_MESURES  = '/taillesMesures',
   SERVICE_PARAMS_USAGES           = '/usages',
