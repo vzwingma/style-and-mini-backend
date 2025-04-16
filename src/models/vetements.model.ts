@@ -9,7 +9,7 @@ import VetementPrixModel from './vetements.prix.model';
  * Modèle représentant un vetement
  */
 export default interface VetementModel {
-  readonly id          : string;
+  id                   : string;
   readonly dressing    : DressingModel;
   readonly libelle     : string;
 

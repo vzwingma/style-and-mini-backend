@@ -81,7 +81,7 @@ export async function findInCollection(collectionName: MONGO_DB_COLLECTIONS, fil
  * @param collectionName - Le nom de la collection MongoDB où le document sera enregistré.
  * @returns Une promesse qui résout avec l'ID du document inséré sous forme de chaîne de caractères, ou null en cas d'erreur.
  */
-export function save(mongoDocument: any, collectionName : MONGO_DB_COLLECTIONS): Promise<string | null> {
+export function save(mongoDocument: any, collectionName : MONGO_DB_COLLECTIONS): Promise<string> {
   return new Promise((resolve, reject) => {
 
       console.log("[MongoDB]", "Save mongoDocument");
@@ -112,7 +112,7 @@ export function save(mongoDocument: any, collectionName : MONGO_DB_COLLECTIONS):
  * @param collectionName - Le nom de la collection MongoDB où le document sera enregistré.
  * @returns Une promesse qui résout avec l'ID du document inséré sous forme de chaîne de caractères, ou null en cas d'erreur.
  */
-export function update(mongoDocument: any, mongoId: string, collectionName : MONGO_DB_COLLECTIONS): Promise<string | null> {
+export function update(mongoDocument: any, mongoId: string, collectionName : MONGO_DB_COLLECTIONS): Promise<string> {
   return new Promise((resolve, reject) => {
 
       console.log("[MongoDB]", "Update mongoDocument", JSON.stringify(mongoDocument));
