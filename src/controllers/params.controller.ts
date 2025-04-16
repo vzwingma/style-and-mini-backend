@@ -1,4 +1,4 @@
-import { deleteInMongo, findInCollections, save, update } from '../services/Mongodb.Service';
+import { deleteInMongo, save, update } from '../services/Mongodb.Service';
 import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
 import { ParametragesVetementEnum } from '../constants/AppEnum';
 import ParamGenericVetementsModel, { transformMongoModelToParametrageModel, transformParametrageModelToMongoModel } from '../models/paramGenericVetements.model';
