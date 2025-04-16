@@ -3,6 +3,7 @@ import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
 import { ParametragesVetementEnum } from '../constants/AppEnum';
 import ParamGenericVetementsModel, { transformMongoModelToParametrageModel, transformParametrageModelToMongoModel } from '../models/paramGenericVetements.model';
 import { ObjectId } from 'mongodb';
+import { loadParametrages } from '../services/params.service';
 
 
 
@@ -30,49 +31,6 @@ const getCollectionTypeParametrage = (typeParam: ParametragesVetementEnum): MONG
   }
 }
 
-const getLookupJoinWithVetements = (typeParam: ParametragesVetementEnum): MONGO_DB_COLLECTIONS | {} => {
-  let jointAttribute = 'id';
-  switch (typeParam) {
-    case ParametragesVetementEnum.TYPES:
-      jointAttribute = 'type.id';
-      break;
-    case ParametragesVetementEnum.TAILLES:
-      jointAttribute = 'taille.id';
-      break;
-    case ParametragesVetementEnum.USAGES:
-      jointAttribute = 'usage.id';
-      break;
-    case ParametragesVetementEnum.ETATS:
-      jointAttribute = 'etat.id';
-      break;
-    case ParametragesVetementEnum.MARQUES:
-      jointAttribute = 'marque.id'; 
-      break;
-    default:
-      return {};
-  }
-  /** Construction de la requete de jointure avec le nombre de vêtement */
-  const lookupVetement = [
-    {
-      $lookup: {
-          from: "vetements",
-          localField: "_id",
-          foreignField: jointAttribute,
-          as: "vetements",
-        },
-    },
-    {
-      $addFields:
-        {
-          vetements: {
-            $size: "$vetements",
-          },
-        },
-    },
-  ];
-  return lookupVetement;
-}
-
 
 /**
  * Récupère les paramètres des vêtements en fonction du type spécifié.
@@ -82,35 +40,16 @@ const getLookupJoinWithVetements = (typeParam: ParametragesVetementEnum): MONGO_
  * @throws Une erreur si le type de paramètre est inconnu.
  */
 export function getParametresVetements(typeParams: ParametragesVetementEnum): Promise<ParamGenericVetementsModel[]> {
-  console.log('[API] Chargement de tous les paramétrages de Vetements', typeParams);
   const collection = getCollectionTypeParametrage(typeParams);
-  const lookupVetement = getLookupJoinWithVetements(typeParams);
+  
   if(collection === undefined || collection === null) {
     throw new Error('Type de paramètre inconnu : ' + typeParams);
   }
-  return loadParametrages(collection, lookupVetement)
+  return loadParametrages(collection, typeParams)
     .then((result) => {
       return result.map((mongoTypeVetement: any) => transformMongoModelToParametrageModel(typeParams, mongoTypeVetement));
     });
   };
-
-/**
- * Récupère les paramètres des vêtements depuis une collection MongoDB.
- *
- * @param {MONGO_DB_COLLECTIONS} paramCollections - La collection MongoDB à partir de laquelle récupérer les paramètres.
- * @returns {Promise<any>} Une promesse qui se résout avec les résultats de la collection ou se rejette avec une erreur.
- */
-function loadParametrages(paramCollections: MONGO_DB_COLLECTIONS, lookupVetement : any): Promise<any> {
-    return findInCollections(paramCollections, lookupVetement)
-      .then((result) => {
-                          console.log('Résultat de la recherche dans la collection', paramCollections, result);
-                          return result
-                        })
-      .catch((err) => {
-        console.error('Erreur lors de la récupération depuis' + paramCollections, err);
-        return new Error('Erreur lors de la récupération depuis' + paramCollections + err);
-      });
-}
 
 
 /**
