@@ -127,8 +127,6 @@ const getLookupJoinWithVetements = (typeParam: ParametragesVetementEnum): MONGO_
             paramCollections = MONGO_DB_COLLECTIONS.VETEMENTS;
         }
 
-
-        console.log('[API] Lookup avec les vêtements', lookupVetement);
         return findInCollections(paramCollections, lookupVetement)
             .then((result) => {
                 console.log('Résultat de la recherche dans la collection', paramCollections, result);
