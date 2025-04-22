@@ -24,7 +24,8 @@ export const createPresignedS3Url = (key : string) => {
   const command = new PutObjectCommand({ 
     Bucket      : bucketName, 
     Key         : process.env.NODE_ENV+ "/" + key,
-    ContentType : 'image/jpg'
+    ContentType : 'image/jpg',
+    StorageClass: 'ONEZONE_IA',
 });
   return getSignedUrl(client, command, { expiresIn: 3600 });
 };
