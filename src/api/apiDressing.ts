@@ -146,17 +146,18 @@ router.delete(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
  */
 router.put(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, async (req, res) => {
 
-  const idVetement = req.params.idv === "undefined" ? uuidGen().replaceAll("-", "").substring(0,24) : req.params.idv;
-  console.log('[API]', 'Enregistrement de l\'image du vêtement : ', idVetement);
+  const idImage = uuidGen().replaceAll("-", "").substring(0,24);
+  const idVetement = req.params.idv === "undefined" ? "[NOUVEAU]": req.params.idv;
+  console.log('[API]', 'Enregistrement de l\'image [', idImage, '] du vêtement [', idVetement, ']');
     // Get signed URL from S3 and upload image to S3
-    createPresignedS3Url(idVetement + ".jpg")
+    createPresignedS3Url(idImage + ".jpg")
       .then((presignedS3Url) => {
         console.log('URL présignée disponible pour le vêtement [', idVetement, ']');
         res.status(ApiHTTPStatusEnum.OK)
           .json(
             {
               url   : presignedS3Url,
-              s3uri : process.env.NODE_ENV+ "/" + idVetement + ".jpg",
+              s3uri : process.env.NODE_ENV+ "/" + idImage + ".jpg",
             });
       })
       .catch((err) => {
