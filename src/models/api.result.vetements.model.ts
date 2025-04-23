@@ -1,4 +1,4 @@
-import VetementModel from "./vetements.model";
+import VetementModel from "./vetements/vetements.model";
 
 /**
  * Modèle représentant un vetement avec le backend

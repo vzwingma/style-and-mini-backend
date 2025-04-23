@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { CategorieDressingEnum, ParametragesVetementEnum, TypeTailleEnum } from '../constants/AppEnum';
+import { CategorieDressingEnum, ParametragesVetementEnum, TypeTailleEnum } from '../../constants/AppEnum';
 
 /**
  * Modèle représentant un type générique de param de vetements
