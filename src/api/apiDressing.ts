@@ -232,7 +232,7 @@ router.post(ServiceURLEnum.SERVICE_TENUES, async (req, res) => {
       idSaved: string) => {
         tenue.id = idSaved;
         console.log('Tenue [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']', tenue);
-      res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, vetement : tenue, created: true  } as APIResultTenueModel);
+      res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, tenue : tenue, created: true  } as APIResultTenueModel);
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
@@ -252,7 +252,7 @@ router.post(ServiceURLEnum.SERVICE_TENUES_BY_ID, async (req, res) => {
   updateTenue(tenue, req.params.idt)
     .then((idSaved: string | null) => {
       console.log('Tenue [', idSaved, '] modifié dans le dressing [', req.params.idd, ']');
-      res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, vetement : tenue, updated: true } as APIResultTenueModel);
+      res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, tenue : tenue, updated: true } as APIResultTenueModel);
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
