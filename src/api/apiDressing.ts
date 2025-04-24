@@ -1,10 +1,14 @@
 import express from 'express';
-import { deleteVetement, getDressingById, getDressings, getVetements, saveVetement, updateVetement } from '../controllers/dressing.controller';
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
-import VetementModel from '../models/vetements.model';
+
 import { createPresignedS3Url } from '../services/S3.Service';
-import APIResultVetementModel from '../models/api.result.vetements.model';
+import APIResultFormVetementModel from '../models/api.result.vetements.model';
 import { v7 as uuidGen } from 'uuid';
+import APIResultFormTenueModel from '../models/api.result.tenues.model';
+import VetementModel from '../models/vetements/vetements.model';
+import { getDressingById, getDressings } from '../controllers/dressing.controller';
+import { deleteVetement, getVetements, saveVetement, updateVetement } from '../controllers/vetements.controller';
+import { deleteTenue, getTenues, saveTenue, updateTenue } from '../controllers/tenues.controller';
 
 const router = express.Router();
 /**
@@ -92,7 +96,7 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
       idSaved: string) => {
         vetement.id = idSaved;
         console.log('Vêtement [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']', vetement);
-      res.status(ApiHTTPStatusEnum.OK).json({ idVetement: idSaved, vetement : vetement, created: true  } as APIResultVetementModel);
+      res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, vetement : vetement, created: true  } as APIResultFormVetementModel);
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
@@ -112,7 +116,7 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
   updateVetement(vetement, req.params.idv)
     .then((idSaved: string | null) => {
       console.log('Vêtement [', idSaved, '] modifié dans le dressing [', req.params.idd, ']');
-      res.status(ApiHTTPStatusEnum.OK).json({ idVetement: idSaved, vetement : vetement, updated: true } as APIResultVetementModel);
+      res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, vetement : vetement, updated: true } as APIResultFormVetementModel);
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
@@ -129,7 +133,7 @@ router.delete(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
   deleteVetement(req.params.idd, req.params.idv)
     .then((ack: boolean) => {
       console.log('Vêtement [', req.params.idv, '] ' + (ack ? 'correctement' : 'non') + ' supprimé du dressing [', req.params.idd, ']');
-      res.status(ApiHTTPStatusEnum.OK).json({ idVetement: req.params.idv, deleted: ack } as APIResultVetementModel);
+      res.status(ApiHTTPStatusEnum.OK).json({ id: req.params.idv, deleted: ack } as APIResultFormVetementModel);
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
@@ -170,5 +174,107 @@ router.put(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, async (req, res) => {
             });
       });
   });
+
+
+
+
+  
+/**
+ * ** TENUES **
+ */
+
+
+/**
+ * GET tenues du dressing
+ */
+router.get(ServiceURLEnum.SERVICE_TENUES, async (req, res) => {
+  console.log('[API] Get Tenues by Id Dressing', req.params.idd);
+  getTenues(req.params.idd)
+    .then((listeTenues) => {
+      console.log('Nombre de tenues chargées : ', listeTenues.length);
+      res.status(ApiHTTPStatusEnum.OK).json(listeTenues);
+    })
+    .catch((err) => {
+      console.error('Erreur MongoDB', err);
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Tenues est introuvable');
+    });
+});
+
+
+
+/**
+ * Extrait un objet VetementModel à partir de la requête HTTP.
+ * 
+ * Cette fonction tente de parser le corps de la requête en tant que JSON.
+ * Si une erreur survient lors du parsing, elle retourne directement le corps
+ * de la requête tel quel.
+ * 
+ * @param req - La requête HTTP de type `express.Request` contenant les données du vêtement.
+ * @returns Un objet de type `VetementModel` extrait du corps de la requête.
+ */
+const getTenueFromRequest = (req: express.Request): VetementModel => {
+  let vetement: VetementModel
+  try {
+    vetement = JSON.parse(req.body);
+  } catch (error) {
+    vetement = req.body;
+  }
+  return vetement;
+}
+/**
+ * POST (CREATE) tenues du dressing
+ */
+router.post(ServiceURLEnum.SERVICE_TENUES, async (req, res) => {
+  let tenue = getTenueFromRequest(req);
+  console.log('[API] Création tenue : ', tenue);
+  saveTenue(tenue)
+    .then((
+      idSaved: string) => {
+        tenue.id = idSaved;
+        console.log('Tenue [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']', tenue);
+      res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, tenue : tenue, created: true  } as APIResultFormTenueModel);
+    })
+    .catch((err) => {
+      console.error('Erreur MongoDB', err);
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement du vêtement a échoué");
+    });
+});
+
+
+/**
+ * POST (UPDATE) tenues du dressing
+ */
+router.post(ServiceURLEnum.SERVICE_TENUES_BY_ID, async (req, res) => {
+
+  let tenue = getTenueFromRequest(req);
+  console.log('[API] Modification tenue : ', tenue);
+
+  updateTenue(tenue, req.params.idt)
+    .then((idSaved: string | null) => {
+      console.log('Tenue [', idSaved, '] modifié dans le dressing [', req.params.idd, ']');
+      res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, tenue : tenue, updated: true } as APIResultFormTenueModel);
+    })
+    .catch((err) => {
+      console.error('Erreur MongoDB', err);
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement du vêtement a échoué");
+    });
+});
+
+
+/**
+ * DELETE tenues du dressing
+ */
+router.delete(ServiceURLEnum.SERVICE_TENUES_BY_ID, async (req, res) => {
+  console.log('[API] Suppression tenue : ', req.params.idt);
+  deleteTenue(req.params.idd, req.params.idt)
+    .then((ack: boolean) => {
+      console.log('Tenue [', req.params.idt, '] ' + (ack ? 'correctement' : 'non') + ' supprimé du dressing [', req.params.idd, ']');
+      res.status(ApiHTTPStatusEnum.OK).json({ id: req.params.idt, deleted: ack } as APIResultFormTenueModel);
+    })
+    .catch((err) => {
+      console.error('Erreur MongoDB', err);
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("La suppression de la tenue a échoué");
+    });
+});
 
 export default router;

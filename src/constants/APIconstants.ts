@@ -26,6 +26,7 @@ export enum ApiHTTPStatusEnum {
 export const enum ServicesParamsEnum {
   ID_DRESSING         = ':idd',
   ID_VETEMENT         = ':idv',
+  ID_TENUE            = ':idt',
   ID_PARAM            = ':idp',
   TYPE_PARAM          = ':type',
 }
@@ -51,7 +52,10 @@ export enum ServiceURLEnum {
 
   SERVICE_VETEMENTS       = SERVICE_DRESSING_BY_ID + '/vetements',
   SERVICE_VETEMENTS_BY_ID = SERVICE_VETEMENTS + '/' + ServicesParamsEnum.ID_VETEMENT,
-  SERVICE_VETEMENTS_IMAGE = SERVICE_VETEMENTS_BY_ID+"/image"
+  SERVICE_VETEMENTS_IMAGE = SERVICE_VETEMENTS_BY_ID+"/image",
+
+  SERVICE_TENUES          = SERVICE_DRESSING_BY_ID+"/tenues",
+  SERVICE_TENUES_BY_ID    = SERVICE_TENUES +"/"+ServicesParamsEnum.ID_TENUE,
 }
 
 

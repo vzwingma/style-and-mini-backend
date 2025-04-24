@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export const APP_MOBILE_VERSION = "0.4.1";
+export const APP_MOBILE_VERSION = process.env.VERSION ?? "1.0.0";
 export const BACKEND_PORT = process.env.PORT ?? 3000;
 
 /**
@@ -19,5 +19,6 @@ export enum MONGO_DB_COLLECTIONS {
   PARAM_MARQUES_VETEMENTS = 'paramMarquesVetements',
   
   DRESSING                = 'dressing',
-  VETEMENTS               = 'vetements'
+  VETEMENTS               = 'vetements',
+  TENUES                  = 'tenues'
 };
