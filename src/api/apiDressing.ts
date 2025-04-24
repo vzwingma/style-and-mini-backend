@@ -9,6 +9,7 @@ import VetementModel from '../models/vetements/vetements.model';
 import { getDressingById, getDressings } from '../controllers/dressing.controller';
 import { deleteVetement, getVetements, saveVetement, updateVetement } from '../controllers/vetements.controller';
 import { deleteTenue, getTenues, saveTenue, updateTenue } from '../controllers/tenues.controller';
+import TenueModel from '../models/tenues/tenues.model';
 
 const router = express.Router();
 /**
@@ -212,14 +213,14 @@ router.get(ServiceURLEnum.SERVICE_TENUES, async (req, res) => {
  * @param req - La requête HTTP de type `express.Request` contenant les données du vêtement.
  * @returns Un objet de type `VetementModel` extrait du corps de la requête.
  */
-const getTenueFromRequest = (req: express.Request): VetementModel => {
-  let vetement: VetementModel
+const getTenueFromRequest = (req: express.Request): TenueModel => {
+  let tenue: TenueModel
   try {
-    vetement = JSON.parse(req.body);
+    tenue = JSON.parse(req.body);
   } catch (error) {
-    vetement = req.body;
+    tenue = req.body;
   }
-  return vetement;
+  return tenue;
 }
 /**
  * POST (CREATE) tenues du dressing
