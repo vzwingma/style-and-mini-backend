@@ -2,9 +2,9 @@ import express from 'express';
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
 
 import { createPresignedS3Url } from '../services/S3.Service';
-import APIResultVetementModel from '../models/api.result.vetements.model';
+import APIResultFormVetementModel from '../models/api.result.vetements.model';
 import { v7 as uuidGen } from 'uuid';
-import APIResultTenueModel from '../models/api.result.tenues.model';
+import APIResultFormTenueModel from '../models/api.result.tenues.model';
 import VetementModel from '../models/vetements/vetements.model';
 import { getDressingById, getDressings } from '../controllers/dressing.controller';
 import { deleteVetement, getVetements, saveVetement, updateVetement } from '../controllers/vetements.controller';
@@ -96,7 +96,7 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
       idSaved: string) => {
         vetement.id = idSaved;
         console.log('Vêtement [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']', vetement);
-      res.status(ApiHTTPStatusEnum.OK).json({ idVetement: idSaved, vetement : vetement, created: true  } as APIResultVetementModel);
+      res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, vetement : vetement, created: true  } as APIResultFormVetementModel);
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
@@ -116,7 +116,7 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
   updateVetement(vetement, req.params.idv)
     .then((idSaved: string | null) => {
       console.log('Vêtement [', idSaved, '] modifié dans le dressing [', req.params.idd, ']');
-      res.status(ApiHTTPStatusEnum.OK).json({ idVetement: idSaved, vetement : vetement, updated: true } as APIResultVetementModel);
+      res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, vetement : vetement, updated: true } as APIResultFormVetementModel);
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
@@ -133,7 +133,7 @@ router.delete(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
   deleteVetement(req.params.idd, req.params.idv)
     .then((ack: boolean) => {
       console.log('Vêtement [', req.params.idv, '] ' + (ack ? 'correctement' : 'non') + ' supprimé du dressing [', req.params.idd, ']');
-      res.status(ApiHTTPStatusEnum.OK).json({ idVetement: req.params.idv, deleted: ack } as APIResultVetementModel);
+      res.status(ApiHTTPStatusEnum.OK).json({ id: req.params.idv, deleted: ack } as APIResultFormVetementModel);
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
@@ -232,7 +232,7 @@ router.post(ServiceURLEnum.SERVICE_TENUES, async (req, res) => {
       idSaved: string) => {
         tenue.id = idSaved;
         console.log('Tenue [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']', tenue);
-      res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, tenue : tenue, created: true  } as APIResultTenueModel);
+      res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, tenue : tenue, created: true  } as APIResultFormTenueModel);
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
@@ -252,7 +252,7 @@ router.post(ServiceURLEnum.SERVICE_TENUES_BY_ID, async (req, res) => {
   updateTenue(tenue, req.params.idt)
     .then((idSaved: string | null) => {
       console.log('Tenue [', idSaved, '] modifié dans le dressing [', req.params.idd, ']');
-      res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, tenue : tenue, updated: true } as APIResultTenueModel);
+      res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, tenue : tenue, updated: true } as APIResultFormTenueModel);
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
@@ -269,7 +269,7 @@ router.delete(ServiceURLEnum.SERVICE_TENUES_BY_ID, async (req, res) => {
   deleteTenue(req.params.idd, req.params.idt)
     .then((ack: boolean) => {
       console.log('Tenue [', req.params.idt, '] ' + (ack ? 'correctement' : 'non') + ' supprimé du dressing [', req.params.idd, ']');
-      res.status(ApiHTTPStatusEnum.OK).json({ id: req.params.idt, deleted: ack } as APIResultTenueModel);
+      res.status(ApiHTTPStatusEnum.OK).json({ id: req.params.idt, deleted: ack } as APIResultFormTenueModel);
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
