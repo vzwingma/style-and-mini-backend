@@ -9,9 +9,8 @@ export default interface CapsuleModel {
   readonly libelle      : string;
   readonly dressing     : DressingModel;
   criteres              : string[] | [];
-  nbVetements           : {
-    capsule    : number | 0;
-    dressing   : number | 0;
+  nbrVetements          : {
+    capsule    : number | 0
   };
 }
 
@@ -32,7 +31,7 @@ export function capsuleModelToMongoModel(capsule : CapsuleModel) {
     },
     criteres    : capsule.criteres,
     libelle     : capsule.libelle,
-    nbVetements : capsule.nbVetements,
+    nbVetements : capsule.nbrVetements.capsule,
   };
   return mongoCapsule;
 }
@@ -50,7 +49,9 @@ export function mongoModelToCapsuleModel(mongoVetement: any): CapsuleModel {
     dressing    : mongoVetement.dressing,
     libelle     : mongoVetement.libelle,
     criteres    : mongoVetement.criteres,
-    nbVetements : mongoVetement.nbVetements
+    nbrVetements : {
+      capsule : mongoVetement.nbVetements
+    }
   }
   return capsule;
 }
