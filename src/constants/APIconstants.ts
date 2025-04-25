@@ -27,6 +27,7 @@ export const enum ServicesParamsEnum {
   ID_DRESSING         = ':idd',
   ID_VETEMENT         = ':idv',
   ID_TENUE            = ':idt',
+  ID_CAPSULE          = ':idc',
   ID_PARAM            = ':idp',
   TYPE_PARAM          = ':type',
 }
@@ -56,6 +57,9 @@ export enum ServiceURLEnum {
 
   SERVICE_TENUES          = SERVICE_DRESSING_BY_ID+"/tenues",
   SERVICE_TENUES_BY_ID    = SERVICE_TENUES +"/"+ServicesParamsEnum.ID_TENUE,
+
+  SERVICE_CAPSULES          = SERVICE_DRESSING_BY_ID+"/capsules",
+  SERVICE_CAPSULES_BY_ID    = SERVICE_CAPSULES +"/"+ServicesParamsEnum.ID_CAPSULE,
 }
 
 

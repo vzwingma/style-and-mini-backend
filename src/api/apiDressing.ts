@@ -2,14 +2,17 @@ import express from 'express';
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
 
 import { createPresignedS3Url } from '../services/S3.Service';
-import APIResultFormVetementModel from '../models/api.result.vetements.model';
+import APIResultFormVetementModel from '../models/apiResults/api.result.vetements.model';
 import { v7 as uuidGen } from 'uuid';
-import APIResultFormTenueModel from '../models/api.result.tenues.model';
+import APIResultFormTenueModel from '../models/apiResults/api.result.tenues.model';
 import VetementModel from '../models/vetements/vetements.model';
 import { getDressingById, getDressings } from '../controllers/dressing.controller';
 import { deleteVetement, getVetements, saveVetement, updateVetement } from '../controllers/vetements.controller';
 import { deleteTenue, getTenues, saveTenue, updateTenue } from '../controllers/tenues.controller';
 import TenueModel from '../models/tenues/tenues.model';
+import CapsuleModel from '../models/capsules/capsules.model';
+import APIResultFormCapsuleModel from '../models/apiResults/api.result.capsules.model';
+import { deleteCapsule, getCapsules, saveCapsule, updateCapsule } from '../controllers/capsules.controller';
 
 const router = express.Router();
 /**
@@ -237,7 +240,7 @@ router.post(ServiceURLEnum.SERVICE_TENUES, async (req, res) => {
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement du vêtement a échoué");
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement de la tenue a échoué");
     });
 });
 
@@ -257,7 +260,7 @@ router.post(ServiceURLEnum.SERVICE_TENUES_BY_ID, async (req, res) => {
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement du vêtement a échoué");
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement de la tenue a échoué");
     });
 });
 
@@ -275,6 +278,108 @@ router.delete(ServiceURLEnum.SERVICE_TENUES_BY_ID, async (req, res) => {
     .catch((err) => {
       console.error('Erreur MongoDB', err);
       res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("La suppression de la tenue a échoué");
+    });
+});
+
+
+
+
+
+/**
+ * ** CAPSULES **
+ */
+
+
+/**
+ * GET capsules du dressing
+ */
+router.get(ServiceURLEnum.SERVICE_CAPSULES, async (req, res) => {
+  console.log('[API] Get Capsules by Id Dressing', req.params.idd);
+  getCapsules(req.params.idd)
+    .then((listeCapsules) => {
+      console.log('Nombre de capsules chargées : ', listeCapsules.length);
+      res.status(ApiHTTPStatusEnum.OK).json(listeCapsules);
+    })
+    .catch((err) => {
+      console.error('Erreur MongoDB', err);
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Capsules est introuvable');
+    });
+});
+
+
+
+/**
+ * Extrait un objet CapsuleModel à partir de la requête HTTP.
+ * 
+ * Cette fonction tente de parser le corps de la requête en tant que JSON.
+ * Si une erreur survient lors du parsing, elle retourne directement le corps
+ * de la requête tel quel.
+ * 
+ * @param req - La requête HTTP de type `express.Request` contenant les données du vêtement.
+ * @returns Un objet de type `CapsuleModel` extrait du corps de la requête.
+ */
+const getCapsuleFromRequest = (req: express.Request): CapsuleModel => {
+  let capsule: CapsuleModel
+  try {
+    capsule = JSON.parse(req.body);
+  } catch (error) {
+    capsule = req.body;
+  }
+  return capsule;
+}
+/**
+ * POST (CREATE) capsules du dressing
+ */
+router.post(ServiceURLEnum.SERVICE_CAPSULES, async (req, res) => {
+  let capsule = getCapsuleFromRequest(req);
+  console.log('[API] Création capsule : ', capsule);
+  saveCapsule(capsule)
+    .then((
+      idSaved: string) => {
+        capsule.id = idSaved;
+        console.log('Capsule [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']', capsule);
+      res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, capsule : capsule, created: true  } as APIResultFormCapsuleModel);
+    })
+    .catch((err) => {
+      console.error('Erreur MongoDB', err);
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement de la capsule a échoué");
+    });
+});
+
+
+/**
+ * POST (UPDATE) capsules du dressing
+ */
+router.post(ServiceURLEnum.SERVICE_CAPSULES_BY_ID, async (req, res) => {
+
+  let capsule = getCapsuleFromRequest(req);
+  console.log('[API] Modification caspule : ', capsule);
+
+  updateCapsule(capsule, req.params.idc)
+    .then((idSaved: string | null) => {
+      console.log('Capsule [', idSaved, '] modifié dans le dressing [', req.params.idd, ']');
+      res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, capsule : capsule, updated: true } as APIResultFormCapsuleModel);
+    })
+    .catch((err) => {
+      console.error('Erreur MongoDB', err);
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("L'enregistrement de la capsule a échoué");
+    });
+});
+
+
+/**
+ * DELETE capsules du dressing
+ */
+router.delete(ServiceURLEnum.SERVICE_CAPSULES_BY_ID, async (req, res) => {
+  console.log('[API] Suppression capsule : ', req.params.idc);
+  deleteCapsule(req.params.idd, req.params.idc)
+    .then((ack: boolean) => {
+      console.log('Capsule [', req.params.idc, '] ' + (ack ? 'correctement' : 'non') + ' supprimé du dressing [', req.params.idd, ']');
+      res.status(ApiHTTPStatusEnum.OK).json({ id: req.params.idc, deleted: ack } as APIResultFormTenueModel);
+    })
+    .catch((err) => {
+      console.error('Erreur MongoDB', err);
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("La suppression de la capsule a échoué");
     });
 });
 
