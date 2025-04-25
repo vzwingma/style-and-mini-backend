@@ -8,10 +8,17 @@ Le projet "Style et Mini" vise à fournir une API backend pour la gestion d'un d
 
 L'application backend "Style et Mini" est une API RESTful développée avec Express.js et TypeScript. Elle offre plusieurs points de terminaison pour gérer les vêtements et leurs caractéristiques. Voici quelques fonctionnalités clés de l'application :
 
-- **Gestion des types de vêtements** : Ajout, modification et récupération des types de vêtements.
-- **Gestion des tailles de vêtements** : Ajout, modification et récupération des tailles de vêtements.
-- **Gestion des usages de vêtements** : Ajout, modification et récupération des usages de vêtements.
+- **Gestion des paramètres de vêtements** : Ajout, modification et récupération des paramètres de vêtements.
+    - ***types de vêtements***
+    - ***tailles de vêtements***
+    - ***usages de vêtements***
+    - ***états des vêtements***  (neuf, usagé, etc.).
+    - ***marques de vêtements***
+
 - **Gestion des dressings** : Ajout, modification et récupération des dressings et des vêtements associés.
+- **Gestion des tenues** : Création, modification et suppression de tenues composées de plusieurs vêtements.
+- **Gestion des images des vêtements** : Téléchargement et stockage des images des vêtements.
+- **Statistiques des vêtements** : Association des paramètres (types, tailles, usages, etc.) avec le nombre de vêtements correspondants.
 
 L'application utilise des middlewares tels que `morgan` pour le logging des requêtes HTTP, `helmet` pour la sécurité, `cors` pour gérer les requêtes cross-origin, et `dotenv` pour la gestion des variables d'environnement.
 
@@ -69,8 +76,8 @@ Assurez-vous de configurer les variables d'environnement nécessaires dans un fi
 
 ```
 PORT=3000
-MONGO_DB_URI=mongodb://localhost:27017/style-mini-app-dev
-MONGO_DB_DATABASE=style-mini-app-dev
+MONGO_DB_URI=mongodb://localhost:27017/dev
+MONGO_DB_DATABASE=dev
 ```
 
 Avec ces informations, vous devriez être en mesure de configurer, construire et exécuter l'application backend "Style et Mini".
