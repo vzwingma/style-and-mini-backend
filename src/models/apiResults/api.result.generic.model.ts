@@ -1,13 +1,10 @@
-import VetementModel from "./vetements/vetements.model";
-
 /**
  * Modèle représentant une tenue avec le backend
  */
-interface APIResultFormTenueModel {
+interface APIResultFormGenericModel {
     readonly id         : string;
-    readonly tenue?     : VetementModel;
     readonly deleted?   : boolean;
     readonly created?   : boolean;
     readonly updated?   : boolean;
 }
-export default APIResultFormTenueModel;
+export default APIResultFormGenericModel;
