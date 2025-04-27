@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { deleteInMongo, findInCollection, save, update } from '../services/Mongodb.Service';
+import { countInCollection, deleteInMongo, findInCollection, save, update } from '../services/Mongodb.Service';
 import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
 import TenueModel, { mongoModelToTenueModel, tenueModelToMongoModel } from '../models/tenues/tenues.model';
 
@@ -21,6 +21,15 @@ export function getTenues(idDressing : string): Promise<TenueModel[]> {
         reject(new Error('Erreur lors de la récupération des tenues' + err));
       });
   });
+}
+
+/**
+ * Récupère la liste des dressings depuis la collection MongoDB.
+ *
+ * @returns {Promise<any>} Une promesse qui se résout avec le résultat de la collection ou se rejette avec une erreur.
+ */
+export function countTenues(idDressing : string): Promise<number> {
+  return countInCollection(MONGO_DB_COLLECTIONS.TENUES, { 'dressing.id': new ObjectId(idDressing) });
 }
 
 

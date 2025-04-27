@@ -33,6 +33,7 @@ export const enum ServicesParamsEnum {
 }
 
 
+  export const SERVICE_ACTION_COUNT = "?count"
 /**
  * URLs pour différents services.
  */
