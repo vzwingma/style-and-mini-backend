@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { deleteInMongo, findInCollection, save, update } from '../services/Mongodb.Service';
+import { countInCollection, deleteInMongo, findInCollection, save, update } from '../services/Mongodb.Service';
 import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
 import CapsuleModel, { capsuleModelToMongoModel, mongoModelToCapsuleModel } from '../models/capsules/capsules.model';
 
@@ -23,6 +23,14 @@ export function getCapsules(idDressing : string): Promise<CapsuleModel[]> {
   });
 }
 
+/**
+ * Récupère la liste des capsules depuis la collection MongoDB.
+ *
+ * @returns {Promise<any>} Une promesse qui se résout avec le résultat de la collection ou se rejette avec une erreur.
+ */
+export function countCapsules(idDressing : string): Promise<number> {
+    return countInCollection(MONGO_DB_COLLECTIONS.CAPSULES, { 'dressing.id': new ObjectId(idDressing) });
+}
 
 /**
  * Sauvegarde une capsule dans la base de données MongoDB.

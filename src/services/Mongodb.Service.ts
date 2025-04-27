@@ -74,6 +74,24 @@ export async function findInCollection(collectionName: MONGO_DB_COLLECTIONS, fil
   }
 }
 
+
+/**
+ * Recherche des documents dans une collection MongoDB spécifiée en fonction d'un filtre donné.
+ *
+ * @param {MONGO_DB_COLLECTIONS} collectionName - Le nom de la collection MongoDB dans laquelle effectuer la recherche.
+ * @param {any} filter - Le filtre à appliquer pour la recherche des documents.
+ * @returns {Promise<any>} Une promesse qui résout avec les documents trouvés ou null si la collection n'existe pas.
+ */
+export async function countInCollection(collectionName: MONGO_DB_COLLECTIONS, filter: any): Promise<number> {
+  console.log("[MongoDB]", "countInCollection", collectionName, "critères:", filter);
+  const collection = await connectToDatabase(collectionName);
+  if (collection) {
+    return collection.countDocuments(filter);
+  } else {
+    return 0;
+  }
+}
+
 /**
  * Enregistre un document MongoDB dans une collection spécifiée.
  *

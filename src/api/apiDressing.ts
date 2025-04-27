@@ -8,11 +8,11 @@ import APIResultFormTenueModel from '../models/apiResults/api.result.tenues.mode
 import VetementModel from '../models/vetements/vetements.model';
 import { getDressingById, getDressings } from '../controllers/dressing.controller';
 import { deleteVetement, getVetements, saveVetement, updateVetement } from '../controllers/vetements.controller';
-import { deleteTenue, getTenues, saveTenue, updateTenue } from '../controllers/tenues.controller';
+import { countTenues, deleteTenue, getTenues, saveTenue, updateTenue } from '../controllers/tenues.controller';
 import TenueModel from '../models/tenues/tenues.model';
 import CapsuleModel from '../models/capsules/capsules.model';
 import APIResultFormCapsuleModel from '../models/apiResults/api.result.capsules.model';
-import { deleteCapsule, getCapsules, saveCapsule, updateCapsule } from '../controllers/capsules.controller';
+import { countCapsules, deleteCapsule, getCapsules, saveCapsule, updateCapsule } from '../controllers/capsules.controller';
 
 const router = express.Router();
 /**
@@ -192,8 +192,10 @@ router.put(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, async (req, res) => {
  * GET tenues du dressing
  */
 router.get(ServiceURLEnum.SERVICE_TENUES, async (req, res) => {
-  console.log('[API] Get Tenues by Id Dressing', req.params.idd);
-  getTenues(req.params.idd)
+  
+  if(req.query.count === undefined){
+    console.log('[API] Get Tenues by Id Dressing', req.params.idd);
+    getTenues(req.params.idd)
     .then((listeTenues) => {
       console.log('Nombre de tenues chargées : ', listeTenues.length);
       res.status(ApiHTTPStatusEnum.OK).json(listeTenues);
@@ -202,6 +204,20 @@ router.get(ServiceURLEnum.SERVICE_TENUES, async (req, res) => {
       console.error('Erreur MongoDB', err);
       res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Tenues est introuvable');
     });
+  }
+  else{
+    console.log('[API] Count Tenues by Id Dressing', req.params.idd);
+    countTenues(req.params.idd)
+    .then((nbTenues) => {
+      console.log('Nombre de tenues chargées : ', nbTenues);
+      res.status(ApiHTTPStatusEnum.OK).json(nbTenues);
+    })
+    .catch((err) => {
+      console.error('Erreur MongoDB', err);
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Tenues est introuvable');
+    });
+
+  }
 });
 
 
@@ -294,6 +310,7 @@ router.delete(ServiceURLEnum.SERVICE_TENUES_BY_ID, async (req, res) => {
  * GET capsules du dressing
  */
 router.get(ServiceURLEnum.SERVICE_CAPSULES, async (req, res) => {
+  if(req.query.count === undefined){
   console.log('[API] Get Capsules by Id Dressing', req.params.idd);
   getCapsules(req.params.idd)
     .then((listeCapsules) => {
@@ -304,6 +321,20 @@ router.get(ServiceURLEnum.SERVICE_CAPSULES, async (req, res) => {
       console.error('Erreur MongoDB', err);
       res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Capsules est introuvable');
     });
+  }
+  else{
+    console.log('[API] Count Capsules by Id Dressing', req.params.idd);
+    countCapsules(req.params.idd)
+    .then((nbCapsules) => {
+      console.log('Nombre de capsules chargées : ', nbCapsules);
+      res.status(ApiHTTPStatusEnum.OK).json(nbCapsules);
+    })
+    .catch((err) => {
+      console.error('Erreur MongoDB', err);
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Capsules est introuvable');
+    });
+
+  }
 });
 
 
