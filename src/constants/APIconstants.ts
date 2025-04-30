@@ -71,7 +71,10 @@ export enum ServiceURLEnum {
 
 
 /**
- * Paramètres clé-valeur pour les URL
+ * Interface représentant une paire clé-valeur pour les paramètres des URL.
+ *
+ * @property {ServicesParamsEnum} key - La clé du paramètre, qui est une énumération de type ServicesParamsEnum.
+ * @property {string} value - La valeur associée à la clé du paramètre.
  */
 export interface KeyValueParams {
   key: ServicesParamsEnum;
