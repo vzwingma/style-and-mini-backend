@@ -34,8 +34,14 @@ export const enum ServicesParamsEnum {
 
 
   export const SERVICE_ACTION_COUNT = "?count"
+
 /**
- * URLs pour différents services.
+ * Enumération des URLs des services.
+ *
+ * Chaque entrée représente une URL spécifique pour un service donné.
+ * Ces URLs sont utilisées pour accéder aux différentes fonctionnalités
+ * de l'API, telles que la configuration, les paramètres, les dressings,
+ * les vêtements, les tenues et les capsules.
  */
 export enum ServiceURLEnum {
   SERVICE_CONFIG = '/status',
