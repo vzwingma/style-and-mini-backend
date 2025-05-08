@@ -68,3 +68,4 @@ dist
 .env.qua
 .aws-sam/build*
 node_modules_layer.zip
+.env.prod
