@@ -34,8 +34,14 @@ export const enum ServicesParamsEnum {
 
 
   export const SERVICE_ACTION_COUNT = "?count"
+
 /**
- * URLs pour différents services.
+ * Enumération des URLs des services.
+ *
+ * Chaque entrée représente une URL spécifique pour un service donné.
+ * Ces URLs sont utilisées pour accéder aux différentes fonctionnalités
+ * de l'API, telles que la configuration, les paramètres, les dressings,
+ * les vêtements, les tenues et les capsules.
  */
 export enum ServiceURLEnum {
   SERVICE_CONFIG = '/status',
@@ -65,7 +71,10 @@ export enum ServiceURLEnum {
 
 
 /**
- * Paramètres clé-valeur pour les URL
+ * Interface représentant une paire clé-valeur pour les paramètres des URL.
+ *
+ * @property {ServicesParamsEnum} key - La clé du paramètre, qui est une énumération de type ServicesParamsEnum.
+ * @property {string} value - La valeur associée à la clé du paramètre.
  */
 export interface KeyValueParams {
   key: ServicesParamsEnum;
