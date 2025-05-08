@@ -12,6 +12,7 @@ export default interface CapsuleModel {
   nbrVetements          : {
     capsule    : number | 0
   };
+  commentaire?         : string;
 }
 
 
@@ -32,6 +33,7 @@ export function capsuleModelToMongoModel(capsule : CapsuleModel) {
     criteres    : capsule.criteres,
     libelle     : capsule.libelle,
     nbVetements : capsule.nbrVetements.capsule,
+    commentaire : capsule.commentaire
   };
   return mongoCapsule;
 }
@@ -51,7 +53,8 @@ export function mongoModelToCapsuleModel(mongoVetement: any): CapsuleModel {
     criteres    : mongoVetement.criteres,
     nbrVetements : {
       capsule : mongoVetement.nbVetements
-    }
+    },
+    commentaire : mongoVetement.commentaire
   }
   return capsule;
 }
