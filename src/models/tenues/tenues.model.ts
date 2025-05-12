@@ -2,6 +2,7 @@ import { ObjectId } from 'mongodb';
 import DressingModel from '../dressing.model';
 import { StatutVetementEnum } from '../../constants/AppEnum';
 import TenueVetementModel from './tenue.vetements.model';
+import VetementImageModel from '../vetements/vetements.image.model';
 
 /**
  * Modèle représentant un vetement
@@ -12,6 +13,7 @@ export default interface TenueModel {
   readonly dressing    : DressingModel;
   readonly vetements?  : TenueVetementModel[] | null;
   readonly statut?     : StatutVetementEnum;
+  readonly image?      : VetementImageModel | null;
 }
 
 
@@ -32,6 +34,7 @@ export function tenueModelToMongoModel(tenue : TenueModel) {
     vetements: tenue.vetements,
     libelle: tenue.libelle,
     statut: tenue.statut,
+    image: tenue.image,
   };
   return mongoTenue;
 }
@@ -50,6 +53,7 @@ export function mongoModelToTenueModel(mongoVetement: any): TenueModel {
     libelle    : mongoVetement.libelle,
     vetements  : mongoVetement.vetements,
     statut     : mongoVetement.statut === StatutVetementEnum.ARCHIVE ? StatutVetementEnum.ARCHIVE : StatutVetementEnum.ACTIF,
+    image      : mongoVetement.image
   };
   return tenue;
 }
