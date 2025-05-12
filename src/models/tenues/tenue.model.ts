@@ -2,7 +2,7 @@ import { ObjectId } from 'mongodb';
 import DressingModel from '../dressing.model';
 import { StatutVetementEnum } from '../../constants/AppEnum';
 import TenueVetementModel from './tenue.vetements.model';
-import VetementImageModel from '../vetements/vetements.image.model';
+import TenueImageModel from './tenue.image.model';
 
 /**
  * Modèle représentant un vetement
@@ -13,7 +13,7 @@ export default interface TenueModel {
   readonly dressing    : DressingModel;
   readonly vetements?  : TenueVetementModel[] | null;
   readonly statut?     : StatutVetementEnum;
-  readonly image?      : VetementImageModel | null;
+  readonly image?      : TenueImageModel | null;
 }
 
 
