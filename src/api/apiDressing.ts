@@ -9,7 +9,7 @@ import VetementModel from '../models/vetements/vetements.model';
 import { getDressingById, getDressings } from '../controllers/dressing.controller';
 import { deleteVetement, getVetements, saveVetement, updateVetement } from '../controllers/vetements.controller';
 import { countTenues, deleteTenue, getTenues, saveTenue, updateTenue } from '../controllers/tenues.controller';
-import TenueModel from '../models/tenues/tenues.model';
+import TenueModel from '../models/tenues/tenue.model';
 import CapsuleModel from '../models/capsules/capsules.model';
 import APIResultFormCapsuleModel from '../models/apiResults/api.result.capsules.model';
 import { countCapsules, deleteCapsule, getCapsules, saveCapsule, updateCapsule } from '../controllers/capsules.controller';
