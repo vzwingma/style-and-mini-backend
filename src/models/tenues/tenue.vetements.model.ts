@@ -1,4 +1,4 @@
-import VetementImageModel from "../vetements/vetements.image.model";
+import TenueImageModel from "./tenue.image.model";
 
 /**
  * Modèle représentant un vetement avec le backend
@@ -6,6 +6,6 @@ import VetementImageModel from "../vetements/vetements.image.model";
 interface TenueVetementModel {
     readonly id         : string;
     readonly libelle    : string;    
-    image?              : VetementImageModel | null;
+    image?              : TenueImageModel | null;
 }
 export default TenueVetementModel;
