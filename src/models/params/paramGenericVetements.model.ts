@@ -8,7 +8,7 @@ interface ParamGenericVetementsModel {
   readonly id: string;
   readonly libelle: string;
   readonly categories: CategorieDressingEnum[];
-  readonly type?: TypeTailleEnum;
+  readonly types?: TypeTailleEnum[];
   readonly tri?: number;
   readonly nombreVetements?: number;
 }
@@ -33,11 +33,11 @@ export function transformParametrageModelToMongoModel(typeParametrage: Parametra
   // Complétion des éléments spécifiques au type de paramétrage
   switch (typeParametrage) {
     case ParametragesVetementEnum.TAILLES:
-      mongoVetement = { ...mongoVetement, type: parametrage.type, tri: parametrage.tri };
+      mongoVetement = { ...mongoVetement, types: parametrage.types, tri: parametrage.tri };
       break;
     case ParametragesVetementEnum.TYPES:
     case ParametragesVetementEnum.MARQUES:
-      mongoVetement = { ...mongoVetement, type: parametrage.type };
+      mongoVetement = { ...mongoVetement, types: parametrage.types };
       break;
     case ParametragesVetementEnum.ETATS:
       mongoVetement = { ...mongoVetement, tri: parametrage.tri };
@@ -78,11 +78,11 @@ export function transformMongoModelToParametrageModel(typeParametrage: Parametra
   // Complétion des éléments spécifiques au type de paramétrage
   switch (typeParametrage) {
     case ParametragesVetementEnum.TAILLES:
-      parametrage = { ...parametrage, type: mongoParametrage.type, tri: mongoParametrage.tri };
+      parametrage = { ...parametrage, types: mongoParametrage.types ? mongoParametrage.types : [mongoParametrage.type], tri: mongoParametrage.tri };
       break;
     case ParametragesVetementEnum.TYPES:
     case ParametragesVetementEnum.MARQUES:
-      parametrage = { ...parametrage, type: mongoParametrage.type };
+      parametrage = { ...parametrage, types: mongoParametrage.types ? mongoParametrage.types : [mongoParametrage.type] };
       break;
     case ParametragesVetementEnum.ETATS:
       parametrage = { ...parametrage, tri: mongoParametrage.tri };
