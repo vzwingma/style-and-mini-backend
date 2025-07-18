@@ -25,11 +25,13 @@ export enum CategorieDressingEnum {
  * 
  * @enum {string}
  * @property {string} VETEMENTS - Taille pour les vêtements.
- * @property {string} CHAUSSURES - Taille spécifique aux chaussures.
+ * @property {string} CHAUSSETTES - Représente les tailles pour les vêtements.
+ * @property {string} CHAUSSURES - Représente les tailles pour les chaussures.
  */
 export enum TypeTailleEnum {
-  VETEMENTS = 'VETEMENTS', 
-  CHAUSSURES = 'CHAUSSURES',
+  VETEMENTS = 'VETEMENTS',
+  CHAUSSETTES = 'CHAUSSETTES',
+  CHAUSSURES = 'CHAUSSURES'
 }
 
 
