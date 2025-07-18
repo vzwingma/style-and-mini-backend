@@ -33,7 +33,7 @@
     "express-basic-auth": "^1.2.1",
     "helmet": "^8.1.0",
     "mongodb": "^6.16.0",
-    "morgan": "^1.10.0",
+    "morgan": "^1.10.1",
     "serverless-http": "^3.2.0",
     "uuid": "^11.1.0"
   },
