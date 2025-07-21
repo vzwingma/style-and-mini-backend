@@ -99,23 +99,23 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
  */
 export function mongoModelToVetementModel(mongoVetement: any): VetementModel {
   let vetement: VetementModel = {
-    id         : mongoVetement._id.toString(),
-    dressing   : mongoVetement.dressing,
-    libelle    : mongoVetement.libelle,
-    image      : mongoVetement.image,
-    type       : mongoVetement.type,
-    taille     : mongoVetement.taille,
-    usages     : mongoVetement.usages,
-    saisons    : mongoVetement.saisons,
-    couleurs   : mongoVetement.couleurs,
+    id          : mongoVetement._id.toString(),
+    dressing    : mongoVetement.dressing,
+    libelle     : mongoVetement.libelle,
+    image       : mongoVetement.image,
+    type        : mongoVetement.type,
+    taille      : mongoVetement.taille,
+    usages      : mongoVetement.usages,
+    saisons     : mongoVetement.saisons,
+    couleurs    : mongoVetement.couleurs,
 
-    etat       : mongoVetement.etat,
-    marque     : mongoVetement.marque,
-    collection : mongoVetement.collection,
-    prix       : mongoVetement.prix,
-    description: mongoVetement.description,
+    etat        : mongoVetement.etat,
+    marque      : mongoVetement.marque,
+    collection  : mongoVetement.collection,
+    prix        : mongoVetement.prix,
+    description : mongoVetement.description,
     
-    statut     : mongoVetement.statut === StatutVetementEnum.ARCHIVE ? StatutVetementEnum.ARCHIVE : StatutVetementEnum.ACTIF,
+    statut      : mongoVetement.statut === StatutVetementEnum.ARCHIVE ? StatutVetementEnum.ARCHIVE : StatutVetementEnum.ACTIF,
     dateCreation: mongoVetement.dateCreation
   };
   return vetement;
