@@ -94,6 +94,7 @@ const getVetementFromRequest = (req: express.Request): VetementModel => {
  */
 router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
   let vetement = getVetementFromRequest(req);
+  vetement.dateCreation = new Date();
   console.log('[API] Création vêtement : ', vetement);
   saveVetement(vetement)
     .then((
