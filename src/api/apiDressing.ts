@@ -237,7 +237,7 @@ const getTenueFromRequest = (req: express.Request): TenueModel => {
   let tenue: TenueModel
   try {
     tenue = JSON.parse(req.body);
-  } catch (error) {
+  } catch (_) {
     tenue = req.body;
   }
   return tenue;
@@ -354,7 +354,7 @@ const getCapsuleFromRequest = (req: express.Request): CapsuleModel => {
   let capsule: CapsuleModel
   try {
     capsule = JSON.parse(req.body);
-  } catch (error) {
+  } catch (_) {
     capsule = req.body;
   }
   return capsule;
