@@ -10,7 +10,7 @@ export default interface CapsuleModel {
   readonly dressing     : DressingModel;
   criteres              : string[] | [];
   nbrVetements          : {
-    capsule    : number | 0
+    capsule             : number
   };
   commentaire?         : string;
 }
