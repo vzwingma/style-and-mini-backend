@@ -1,0 +1,16 @@
+meta {
+  name: Get Vetements by IdDressing
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://{{backend-url}}/api/v1/dressing/67bb87eb445ea1ea588258e8/vetements
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

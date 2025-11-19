@@ -1,0 +1,16 @@
+meta {
+  name: Params Etat
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://{{backend-url}}/api/v1/params/vetements/etats
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

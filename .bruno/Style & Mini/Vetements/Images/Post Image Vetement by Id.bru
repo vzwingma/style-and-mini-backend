@@ -1,0 +1,20 @@
+meta {
+  name: Post Image Vetement by Id
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://{{backend-url}}/api/v1/dressing/67bb87eb445ea1ea588258e8/vetements/67da7c041c71fbc5208e4553/image
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  image: @file(/C:/Users/vzwingma/Pictures/moi6.png)
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

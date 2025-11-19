@@ -1,0 +1,16 @@
+meta {
+  name: Params Marques
+  type: http
+  seq: 4
+}
+
+patch {
+  url: https://{{backend-url}}/api/v1/admin/params/vetements/marques
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
