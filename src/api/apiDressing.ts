@@ -1,7 +1,7 @@
 import express from 'express';
 import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
 
-import { createPresignedS3Url } from '../services/S3.Service';
+import { createPresignedS3Url } from '../services/s3.service';
 import APIResultFormVetementModel from '../models/apiResults/api.result.vetements.model';
 import { v7 as uuidGen } from 'uuid';
 import APIResultFormTenueModel from '../models/apiResults/api.result.tenues.model';
