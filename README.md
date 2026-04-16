@@ -50,7 +50,7 @@ Assurez-vous de configurer les variables d'environnement nécessaires dans un fi
 ```
 PORT=3000
 NODE_ENV=dev
-VERSION=1.4.0
+VERSION=1.5.0
 API_AUTH=user
 API_PWD=password
 MONGO_DB_URI=mongodb+srv://...
