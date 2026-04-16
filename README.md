@@ -85,20 +85,20 @@ Authentification : **Basic Auth** sur toutes les routes (`API_AUTH` / `API_PWD`)
 | GET | `/api/v1/dressing/:idd` | Détail d'un dressing |
 | GET | `/api/v1/dressing/:idd/vetements` | Liste les vêtements d'un dressing |
 | POST | `/api/v1/dressing/:idd/vetements` | Crée un vêtement |
-| POST | `/api/v1/dressing/:idd/vetements/:idv` | Modifie un vêtement |
+| PUT | `/api/v1/dressing/:idd/vetements/:idv` | Modifie un vêtement |
 | DELETE | `/api/v1/dressing/:idd/vetements/:idv` | Supprime un vêtement |
 | PUT | `/api/v1/dressing/:idd/vetements/:idv/image` | Génère une URL S3 présignée pour upload image |
 | GET | `/api/v1/dressing/:idd/tenues[?count]` | Liste les tenues (ou le nombre si `?count`) |
 | POST | `/api/v1/dressing/:idd/tenues` | Crée une tenue |
-| POST | `/api/v1/dressing/:idd/tenues/:idt` | Modifie une tenue |
+| PUT | `/api/v1/dressing/:idd/tenues/:idt` | Modifie une tenue |
 | DELETE | `/api/v1/dressing/:idd/tenues/:idt` | Supprime une tenue |
 | GET | `/api/v1/dressing/:idd/capsules[?count]` | Liste les capsules (ou le nombre si `?count`) |
 | POST | `/api/v1/dressing/:idd/capsules` | Crée une capsule |
-| POST | `/api/v1/dressing/:idd/capsules/:idc` | Modifie une capsule |
+| PUT | `/api/v1/dressing/:idd/capsules/:idc` | Modifie une capsule |
 | DELETE | `/api/v1/dressing/:idd/capsules/:idc` | Supprime une capsule |
 | GET | `/api/v1/params/vetements/:type` | Paramètres par type (TYPES, TAILLES, MARQUES, USAGES, ETATS) |
 | POST | `/api/v1/params/vetements/:type` | Crée un paramètre |
-| POST | `/api/v1/params/vetements/:type/:idp` | Modifie un paramètre |
+| PUT | `/api/v1/params/vetements/:type/:idp` | Modifie un paramètre |
 | DELETE | `/api/v1/params/vetements/:type/:idp` | Supprime un paramètre |
 
 ## Déploiement dual

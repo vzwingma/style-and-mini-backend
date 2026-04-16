@@ -87,9 +87,9 @@ router.post(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE, async (req, res) => {
 
 
 /**
- * POST (UPDATE) Type de Vetements
+ * PUT (UPDATE) Type de Vetements
  */
-router.post(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE_AND_ID, async (req, res) => {
+router.put(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE_AND_ID, async (req, res) => {
 
   const typeParam = getTypeParametrageFromRequest(req.params.type);
   let parametrage = getParametrageFromRequestBody(req);

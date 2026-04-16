@@ -111,9 +111,9 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
 
 
 /**
- * POST (UPDATE) vetements du dressing
+ * PUT (UPDATE) vetements du dressing
  */
-router.post(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
+router.put(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
 
   let vetement = getVetementFromRequest(req);
   console.log('[API] Modification vêtement : ', vetement);
@@ -263,9 +263,9 @@ router.post(ServiceURLEnum.SERVICE_TENUES, async (req, res) => {
 
 
 /**
- * POST (UPDATE) tenues du dressing
+ * PUT (UPDATE) tenues du dressing
  */
-router.post(ServiceURLEnum.SERVICE_TENUES_BY_ID, async (req, res) => {
+router.put(ServiceURLEnum.SERVICE_TENUES_BY_ID, async (req, res) => {
 
   let tenue = getTenueFromRequest(req);
   console.log('[API] Modification tenue : ', tenue);
@@ -380,9 +380,9 @@ router.post(ServiceURLEnum.SERVICE_CAPSULES, async (req, res) => {
 
 
 /**
- * POST (UPDATE) capsules du dressing
+ * PUT (UPDATE) capsules du dressing
  */
-router.post(ServiceURLEnum.SERVICE_CAPSULES_BY_ID, async (req, res) => {
+router.put(ServiceURLEnum.SERVICE_CAPSULES_BY_ID, async (req, res) => {
 
   let capsule = getCapsuleFromRequest(req);
   console.log('[API] Modification caspule : ', capsule);
