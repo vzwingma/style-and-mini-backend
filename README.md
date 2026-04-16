@@ -130,7 +130,16 @@ Avec ces informations, vous devriez être en mesure de configurer, construire et
 
 ## Tests
 
-### Backend
-- Framework : Jest + ts-jest + Supertest (configuré dans `jest.config.js`)
-- Aucun test présent actuellement (à créer dans `test/`)
-- Commande : `npm test` (non définie dans `package.json` — à ajouter)
+```sh
+npm test
+```
+
+Framework : Jest + ts-jest + Supertest. Les tests sont dans le dossier `test/`.
+
+| Suite | Description |
+|-------|-------------|
+| `test/models/paramGenericVetements.model.test.ts` | Fonctions de mapping MongoDB ↔ modèle paramètres (18 tests) |
+| `test/models/vetements.model.test.ts` | Mapping `mongoModelToVetementModel` — champs optionnels, statuts (5 tests) |
+| `test/models/dressing.model.test.ts` | Mapping `mongoModelToDressingModel` (4 tests) |
+| `test/controllers/params.controller.test.ts` | `getParametresVetements` — collection correcte, type inconnu (7 tests) |
+| `test/api/apiParamsVetements.test.ts` | Routes GET/POST/DELETE avec supertest + BasicAuth (5 tests) |

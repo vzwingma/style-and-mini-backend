@@ -4,6 +4,7 @@
   "description": "Backend pour exposer les API Style & Mini",
   "main": "src/index.ts",
   "scripts": {
+    "test": "jest",
     "start": "npx ts-node src/app.ts",
     "debug": "nodemon src/app.ts",
     "dev": "dotenv-run-script .env .env.dev -- debug",
