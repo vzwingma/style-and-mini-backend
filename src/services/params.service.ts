@@ -1,6 +1,6 @@
 import { MONGO_DB_COLLECTIONS } from "../constants/AppConstants";
 import { ParametragesVetementEnum } from "../constants/AppEnum";
-import { findInCollections } from "./Mongodb.Service";
+import { findInCollections } from "./mongodb.service";
 
 
 

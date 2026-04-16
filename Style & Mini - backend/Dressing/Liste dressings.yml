@@ -1,0 +1,15 @@
+info:
+  name: Liste dressings
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{HOST}}/api/v1/dressing"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

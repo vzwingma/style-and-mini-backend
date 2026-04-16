@@ -133,7 +133,7 @@ export function save(mongoDocument: any, collectionName : MONGO_DB_COLLECTIONS):
 export function update(mongoDocument: any, mongoId: string, collectionName : MONGO_DB_COLLECTIONS): Promise<string> {
   return new Promise((resolve, reject) => {
 
-      console.log("[MongoDB]", "Update mongoDocument", JSON.stringify(mongoDocument));
+      console.log("[MongoDB]", "Update mongoDocument in", collectionName, "with id:", mongoId);
       connectToDatabase(collectionName).then((collection) => {
         if (collection) {
           collection.updateOne({ '_id': new ObjectId(mongoId) }, { $set: { ...mongoDocument } })
