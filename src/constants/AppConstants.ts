@@ -1,8 +1,9 @@
 import dotenv from 'dotenv'; 
+import { version } from '../../package.json';
 
 dotenv.config();
 
-export const APP_MOBILE_VERSION = process.env.VERSION ?? "1.4.0";
+export const APP_MOBILE_VERSION = process.env.VERSION ?? version;
 export const BACKEND_PORT = process.env.PORT ?? 3000;
 
 /**
