@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Style & Mini - Backend",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

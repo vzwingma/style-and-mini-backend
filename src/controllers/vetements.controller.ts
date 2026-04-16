@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { deleteInMongo, findInCollection, save, update } from '../services/Mongodb.Service';
+import { deleteInMongo, findInCollection, save, update } from '../services/mongodb.service';
 import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
 import VetementModel, { mongoModelToVetementModel, vetementModelToMongoModel } from '../models/vetements/vetements.model';
 

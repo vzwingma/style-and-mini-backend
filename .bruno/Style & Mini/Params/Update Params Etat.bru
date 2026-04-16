@@ -1,0 +1,28 @@
+meta {
+  name: Update Params Etat
+  type: http
+  seq: 4
+}
+
+post {
+  url: https://{{backend-url}}/api/v1/params/vetements/etats/67c5c95816dee0e2efc3608f
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "id": "67c5c95816dee0e2efc3608f",
+    "libelle": "Etat correct",
+    "tri": 5,
+    "categories": [
+      "BEBE",
+      "ENFANT"
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,9 +1,10 @@
 {
   "name": "api-style-mini-backend",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Backend pour exposer les API Style & Mini",
   "main": "src/index.ts",
   "scripts": {
+    "test": "jest",
     "start": "npx ts-node src/app.ts",
     "debug": "nodemon src/app.ts",
     "dev": "dotenv-run-script .env .env.dev -- debug",
@@ -30,7 +31,7 @@
     "express": "^5.1.0",
     "express-basic-auth": "^1.2.1",
     "helmet": "^8.1.0",
-    "mongodb": "^6.18.0",
+    "mongodb": "^7.0.0",
     "morgan": "^1.10.1",
     "serverless-http": "^4.0.0",
     "uuid": "^13.0.0"
@@ -39,17 +40,19 @@
     "@types/aws-lambda": "^8.10.152",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
     "@types/morgan": "^1.9.10",
     "@types/node": "^24.3.0",
-    "@types/supertest": "^6.0.3",
+    "@types/supertest": "^7.0.0",
     "dotenv-run-script": "^0.4.1",
     "eslint": "^8.0.0",
     "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
+    "jest": "^30.3.0",
     "nodemon": "^3.1.10",
     "supertest": "^7.1.4",
-    "ts-jest": "^29.4.1",
+    "ts-jest": "^29.4.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   }
