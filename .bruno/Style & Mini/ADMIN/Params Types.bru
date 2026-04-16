@@ -1,0 +1,16 @@
+meta {
+  name: Params Types
+  type: http
+  seq: 3
+}
+
+patch {
+  url: https://{{backend-url}}/api/v1/admin/params/vetements/types
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

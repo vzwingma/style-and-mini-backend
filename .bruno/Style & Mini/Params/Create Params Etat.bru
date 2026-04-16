@@ -1,0 +1,28 @@
+meta {
+  name: Create Params Etat
+  type: http
+  seq: 5
+}
+
+post {
+  url: https://{{backend-url}}/api/v1/params/vetements/etats
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "id": "67c5c95816dee0e2efc3608f",
+    "libelle": "Etat correct",
+    "tri": 5,
+    "categories": [
+      "BEBE",
+      "ENFANT"
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

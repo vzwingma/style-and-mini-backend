@@ -1,0 +1,71 @@
+meta {
+  name: Update Vetements by IdDressing
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://{{backend-url}}/api/v1/dressing/67bb87eb445ea1ea588258e8/vetements/67da7c041c71fbc5208e4553
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "id": "67da7c041c71fbc5208e4553",
+    "image": {
+      "id": "0195d24677bd760ebda29d97",
+      "contenu": "file:///data/user/0/io.github.vzwingma.style.and.mini/cache/ImagePicker/bb6d0321-7276-4536-adcd-b1ce02f147ae.jpeg",
+      "hauteur": 95,
+      "largeur": 95
+    },
+    "dressing": {
+      "id": "67bb87eb445ea1ea588258e8",
+      "libelle": "Athénaïs",
+      "categorie": "ENFANT"
+    },
+    "libelle": "Blouse",
+    "type": {
+      "id": "67e3304008d64ab0e3683d6b",
+      "libelle": "Blouse"
+    },
+    "taille": {
+      "id": "67bcd5e4bff50425c7725e38",
+      "libelle": "2 ans",
+      "petite": false
+    },
+    "usages": [
+      {
+        "id": "67c96f9c2875e9983ae97585",
+        "libelle": "Week-end/Vacances"
+      }
+    ],
+    "saisons": [
+      "ETE"
+    ],
+    "couleurs": "Écru à imprimé rouge et bleu",
+    "marque": {
+      "id": "67ee890c60546911d1e17c54",
+      "libelle": "... Autres"
+    },
+    "prix": {
+      "achat": null,
+      "neuf": null
+    },
+    "description": "Collection les tresors de la plage été 2023.1",
+    "statut": "ACTIF",
+    "etat": {
+      "id": "67c5c92b16dee0e2efc3608c",
+      "libelle": "Neuf sans étiquette"
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
