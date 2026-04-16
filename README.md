@@ -30,54 +30,107 @@ Pour installer les dépendances du projet, exécutez la commande suivante :
 npm install
 ```
 
-## Lint
+## Commandes disponibles
 
-Pour vérifier et corriger les erreurs de linting dans le code, exécutez la commande suivante :
-
-```sh
-npm run lint
-```
-
-## Tests
-
-Pour exécuter les tests unitaires, utilisez la commande suivante :
-
-```sh
-npm run test
-```
-
-## Développement
-
-Pour démarrer l'application en mode développement avec rechargement automatique, utilisez la commande suivante :
-
-```sh
-npm run dev
-```
-
-## Build
-
-Pour compiler le projet TypeScript en JavaScript, exécutez la commande suivante :
-
-```sh
-npm run build
-```
-
-## Exécution
-
-Pour démarrer l'application compilée, utilisez la commande suivante :
-
-```sh
-npm run start:dist
-```
+| Commande | Description |
+|----------|-------------|
+| `npm run dev` | Démarrer en mode développement (nodemon + `.env.dev`) |
+| `npm run qua` | Démarrer en environnement qualification |
+| `npm run prod` | Démarrer en environnement production |
+| `npm run build` | Compiler TypeScript → JavaScript (`dist/`) |
+| `npm run start:dist` | Démarrer depuis le build compilé |
+| `npm run lint` | Lint + fix automatique avec ESLint |
+| `npm run typecheck` | Vérification TypeScript sans compilation |
+| `npm run test` | Exécuter les tests unitaires (Jest) |
 
 ## Configuration
 
-Assurez-vous de configurer les variables d'environnement nécessaires dans un fichier `.env` à la racine du projet. Voici un exemple de configuration :
+Assurez-vous de configurer les variables d'environnement nécessaires dans un fichier `.env` à la racine du projet (`.env.dev`, `.env.qua`, `.env.prod` selon l'environnement). Voici un exemple de configuration :
 
 ```
 PORT=3000
-MONGO_DB_URI=mongodb://localhost:27017/dev
-MONGO_DB_DATABASE=dev
+NODE_ENV=dev
+VERSION=1.4.0
+API_AUTH=user
+API_PWD=password
+MONGO_DB_URI=mongodb+srv://...
+MONGO_DB_DATABASE=style-mini-app-dev
+# AWS (optionnel — si images S3 utilisées)
+AWS_REGION=eu-west-1
+AWS_BUCKET_NAME=...
 ```
 
+## Structure du projet
+
+```
+src/
+  api/           → Routeurs Express (handlers HTTP, validation des requêtes)
+  controllers/   → Logique CRUD MongoDB
+  services/      → Connexion MongoDB, présignature S3
+  models/        → Interfaces TypeScript + mappers MongoDB ↔ modèle
+  constants/     → Enums, constantes applicatives, URLs et paramètres API
+  index.ts       → Point d'entrée (Express local + handler AWS Lambda)
+```
+
+## Endpoints API
+
+URL de base : `/api/v1/`
+
+Authentification : **Basic Auth** sur toutes les routes (`API_AUTH` / `API_PWD`).
+
+| Méthode | URL | Description |
+|---------|-----|-------------|
+| GET | `/api/v1/status` | Statut et version de l'API |
+| GET | `/api/v1/dressing` | Liste tous les dressings |
+| GET | `/api/v1/dressing/:idd` | Détail d'un dressing |
+| GET | `/api/v1/dressing/:idd/vetements` | Liste les vêtements d'un dressing |
+| POST | `/api/v1/dressing/:idd/vetements` | Crée un vêtement |
+| POST | `/api/v1/dressing/:idd/vetements/:idv` | Modifie un vêtement |
+| DELETE | `/api/v1/dressing/:idd/vetements/:idv` | Supprime un vêtement |
+| PUT | `/api/v1/dressing/:idd/vetements/:idv/image` | Génère une URL S3 présignée pour upload image |
+| GET | `/api/v1/dressing/:idd/tenues[?count]` | Liste les tenues (ou le nombre si `?count`) |
+| POST | `/api/v1/dressing/:idd/tenues` | Crée une tenue |
+| POST | `/api/v1/dressing/:idd/tenues/:idt` | Modifie une tenue |
+| DELETE | `/api/v1/dressing/:idd/tenues/:idt` | Supprime une tenue |
+| GET | `/api/v1/dressing/:idd/capsules[?count]` | Liste les capsules (ou le nombre si `?count`) |
+| POST | `/api/v1/dressing/:idd/capsules` | Crée une capsule |
+| POST | `/api/v1/dressing/:idd/capsules/:idc` | Modifie une capsule |
+| DELETE | `/api/v1/dressing/:idd/capsules/:idc` | Supprime une capsule |
+| GET | `/api/v1/params/vetements/:type` | Paramètres par type (TYPES, TAILLES, MARQUES, USAGES, ETATS) |
+| POST | `/api/v1/params/vetements/:type` | Crée un paramètre |
+| POST | `/api/v1/params/vetements/:type/:idp` | Modifie un paramètre |
+| DELETE | `/api/v1/params/vetements/:type/:idp` | Supprime un paramètre |
+
+## Déploiement dual
+
+Le backend peut fonctionner dans deux modes :
+- **Serveur Express local** : via `startServer()` — pour le développement, la qualification et la production on-premise
+- **Fonction AWS Lambda** : via `lambdaHandler` — pour un déploiement serverless sur AWS
+
 Avec ces informations, vous devriez être en mesure de configurer, construire et exécuter l'application backend "Style et Mini".
+
+## Conventions clés
+
+### Nommage des fichiers
+
+- Controllers : `nom.controller.ts` (ex: `vetements.controller.ts`)
+- Services : `nom.service.ts` (ex: `params.service.ts`) — ⚠️ `Mongodb.Service.ts` et `S3.Service.ts` utilisent encore le PascalCase (à corriger)
+- Models : `nom.model.ts` avec mappers MongoDB intégrés
+- Routes API : `apiNomDomaine.ts` (ex: `apiDressing.ts`)
+
+### TypeScript
+
+- Mode strict activé.
+- Interfaces pour tous les modèles de données (pas de classes), avec le suffixe `Model`
+- Enums avec suffixe `Enum` : `StatutVetementEnum`, `SaisonVetementEnum`
+- Props de composants avec suffixe `Props` : `DressingComponentProps`
+- Propriétés immuables marquées `readonly` dans les interfaces
+- Pas de `any` sauf pour les objets MongoDB bruts (avec conversion immédiate)
+- Éviter le type `Function` non typé — utiliser des signatures précises
+
+## Tests
+
+### Backend
+- Framework : Jest + ts-jest + Supertest (configuré dans `jest.config.js`)
+- Aucun test présent actuellement (à créer dans `test/`)
+- Commande : `npm test` (non définie dans `package.json` — à ajouter)
