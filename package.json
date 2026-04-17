@@ -10,8 +10,9 @@
     "dev": "dotenv-run-script .env .env.dev -- debug",
     "qua": "dotenv-run-script .env .env.qua -- start",
     "prod": "dotenv-run-script .env .env.prod -- start",
+    "prebuild": "node scripts/generate-version.js",
     "build": "tsc --build",
-    "start:dist": "node dist/src/app.js",
+    "start:dist": "node dist/app.js",
     "lint": "eslint --fix src test",
     "typecheck": "tsc --noEmit"
   },
