@@ -44,7 +44,7 @@ jobs:
   ###########################
   #          DEPLOY         #
   ###########################
-      - uses: aws-actions/setup-sam@v2
+      - uses: aws-actions/setup-sam@v3
         name: Configure SAM
         with:
           use-installer: true
