@@ -3,8 +3,8 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "noImplicitAny": true,
     "outDir": "dist",
     "preserveConstEnums": true,
@@ -12,7 +12,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "ES2021"
+    "target": "esnext"
   },
   "include": [
     "src/**/*.ts"
