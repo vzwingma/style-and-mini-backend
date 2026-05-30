@@ -1,6 +1,6 @@
 import { MONGO_DB_COLLECTIONS } from "../constants/AppConstants";
 import { ParametragesVetementEnum } from "../constants/AppEnum";
-import { findInCollections } from "./Mongodb.Service";
+import { findInCollections } from "./mongodb.service";
 
 
 
@@ -61,7 +61,10 @@ const getLookupJoinWithVetements = (typeParam: ParametragesVetementEnum): MONGO_
             },
         ];
     }
-    else if (jointVetement !== null) {
+    else if (jointVetement === null) {
+        return {}
+    }
+    else {
         return [
             {
               $unwind: {
@@ -105,9 +108,6 @@ const getLookupJoinWithVetements = (typeParam: ParametragesVetementEnum): MONGO_
                 },
             },
           ]
-    }
-    else {
-        return {}
     }
 }
 

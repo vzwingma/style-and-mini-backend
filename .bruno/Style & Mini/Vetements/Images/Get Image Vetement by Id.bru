@@ -1,0 +1,44 @@
+meta {
+  name: Get Image Vetement by Id
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://{{backend-url}}/api/v1/dressing/67bb87eb445ea1ea588258e8/vetements/67da7c041c71fbc5208e4553/image
+  body: none
+  auth: inherit
+}
+
+script:post-response {
+  var template = `
+  <style type="text/css">
+      .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}
+      .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}
+      .tftable tr {background-color:#ffffff;}
+      .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}
+      .tftable tr:hover {background-color:#e0ffff;}
+  </style>
+  
+  <table class="tftable" border="1">
+      <tr>
+          <th>Response Content-Type</th>
+      </tr>
+      <tr>
+          <td>{{responseHeaders.content-type}}</td>
+      </tr>
+  </table>
+  `;
+  
+  function constructVisualizerPayload() {
+      var responseHeaders = res.getHeaders();
+      return { responseHeaders: responseHeaders };
+  }
+  
+  // pm.visualizer.set(template, constructVisualizerPayload());
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

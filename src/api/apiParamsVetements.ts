@@ -19,7 +19,10 @@ router.get(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE, async (req, res) => {
   const typeParam = getTypeParametrageFromRequest(req.params.type);
   console.log('[API] Chargement de tous les paramètrages de Vetements', typeParam);
 
-  if (typeParam !== null) {
+  if (typeParam === null) {
+    res.status(ApiHTTPStatusEnum.BAD_REQUEST).json( { error : 'Type de paramètre inconnu'});
+  }
+  else {
     getParametresVetements(typeParam)
       .then((listeParamsTypeVetements) => {
         console.debug('Paramètrages de Vetements', typeParam, listeParamsTypeVetements);
@@ -28,9 +31,6 @@ router.get(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE, async (req, res) => {
       .catch((err) => {
         res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send(err);
       });
-  }
-  else {
-    res.status(ApiHTTPStatusEnum.BAD_REQUEST).json( { error : 'Type de paramètre inconnu'});
   }
 
 });
@@ -87,9 +87,9 @@ router.post(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE, async (req, res) => {
 
 
 /**
- * POST (UPDATE) Type de Vetements
+ * PUT (UPDATE) Type de Vetements
  */
-router.post(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE_AND_ID, async (req, res) => {
+router.put(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE_AND_ID, async (req, res) => {
 
   const typeParam = getTypeParametrageFromRequest(req.params.type);
   let parametrage = getParametrageFromRequestBody(req);

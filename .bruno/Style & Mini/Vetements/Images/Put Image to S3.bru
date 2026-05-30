@@ -1,0 +1,28 @@
+meta {
+  name: Put Image to S3
+  type: http
+  seq: 2
+}
+
+put {
+  url: https://style-mini-app-images.s3.eu-west-3.amazonaws.com/DEV/67d9f0b8c818e479e2556c3d.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIASFE3RCPHUKC7PH7E%2F20250407%2Feu-west-3%2Fs3%2Faws4_request&X-Amz-Date=20250407T200945Z&X-Amz-Expires=3600&X-Amz-Signature=0cfe936e8b0a4627fae8c0a74075a02b925291bc8a661bde2162171bcbee9a62&X-Amz-SignedHeaders=host&x-amz-checksum-crc32=AAAAAA%3D%3D&x-amz-sdk-checksum-algorithm=CRC32&x-id=PutObject
+  body: none
+  auth: none
+}
+
+params:query {
+  X-Amz-Algorithm: AWS4-HMAC-SHA256
+  X-Amz-Content-Sha256: UNSIGNED-PAYLOAD
+  X-Amz-Credential: AKIASFE3RCPHUKC7PH7E%2F20250407%2Feu-west-3%2Fs3%2Faws4_request
+  X-Amz-Date: 20250407T200945Z
+  X-Amz-Expires: 3600
+  X-Amz-Signature: 0cfe936e8b0a4627fae8c0a74075a02b925291bc8a661bde2162171bcbee9a62
+  X-Amz-SignedHeaders: host
+  x-amz-checksum-crc32: AAAAAA%3D%3D
+  x-amz-sdk-checksum-algorithm: CRC32
+  x-id: PutObject
+}
+
+settings {
+  encodeUrl: true
+}

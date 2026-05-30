@@ -1,0 +1,8 @@
+name: QUA
+variables:
+  - name: HOST
+    value: https://zd7706pfe7.execute-api.eu-west-3.amazonaws.com/Qua
+  - secret: true
+    name: auth_login
+  - secret: true
+    name: auth_pwd

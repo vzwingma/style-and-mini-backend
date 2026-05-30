@@ -8,8 +8,8 @@ import * as middlewares from './api/interfaces/middlewares';
 import api from './api';
 import { BACKEND_PORT } from './constants/AppConstants';
 
-const serverless = require('serverless-http');
-const basicAuth = require('express-basic-auth')
+import serverless from 'serverless-http';
+import basicAuth from 'express-basic-auth';
 dotenv.config();
 
 
@@ -73,7 +73,7 @@ const startServer = async () => {
 startServer();
 
 
-export const lambdaHandler = (event: any, context: any, callback: any) => {
-  const response = handler(event, context, callback);
+export const lambdaHandler = (event: any, context: any) => {
+  const response = handler(event, context);
   return response;
 };
