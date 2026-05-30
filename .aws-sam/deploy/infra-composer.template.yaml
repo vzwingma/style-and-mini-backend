@@ -14,8 +14,8 @@ Resources:
       Description: !Sub
         - Fonction ${AWS::StackName}
         - ResourceName: StyleMiniBackend__ENV__
-      CodeUri: dist/
-      Handler: app.lambdaHandler
+      CodeUri: ./
+      Handler: dist/app.lambdaHandler
       Runtime: nodejs24.x
       MemorySize: 3008
       Policies:
@@ -41,12 +41,12 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         EntryPoints:
-          - app.js
+          - dist/app.js
         External:
           - '@aws-sdk/*'
           - aws-sdk
+        Format: esm
         Minify: true
-        Target: esnext
         Sourcemap: true
       SamResourceId: StyleMiniBackend__ENV__
   StyleMiniBackendLogGroup:

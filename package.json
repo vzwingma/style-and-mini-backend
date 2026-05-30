@@ -1,6 +1,6 @@
 {
   "name": "api-style-mini-backend",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "description": "Backend pour exposer les API Style & Mini",
   "main": "src/index.ts",
   "scripts": {
@@ -12,6 +12,7 @@
     "prod": "dotenv-run-script .env .env.prod -- start",
     "prebuild": "node scripts/generate-version.cjs",
     "build": "tsc --build",
+    "postbuild": "node scripts/generate-dist-package.cjs",
     "start:dist": "node dist/app.js",
     "lint": "eslint --fix src test",
     "typecheck": "tsc --noEmit"
