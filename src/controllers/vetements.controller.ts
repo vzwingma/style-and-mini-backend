@@ -58,7 +58,7 @@ export function deleteVetement(idDressing: string, idVetement: string): Promise<
   const criteres = 
     { 
       'dressing.id': new ObjectId(idDressing), 
-      "_id" : new ObjectId(idVetement) 
+      '_id' : new ObjectId(idVetement), 
     } ;
   return deleteInMongo(criteres, MONGO_DB_COLLECTIONS.VETEMENTS);
 }

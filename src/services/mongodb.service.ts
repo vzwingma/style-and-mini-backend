@@ -23,17 +23,17 @@ export const collections: {
  * @returns ci-dessous la fonction connectToDatabase() qui permet de se connecter à la base de données MongoDB
  */
 export async function connectToDatabase(collectionName: MONGO_DB_COLLECTIONS): Promise<Collection | null> {
-  if(!connexion){
+  if (!connexion) {
     try {
       connexion = await client.connect();
-      console.log("[MongoDB]", "Connexion réussie à la base de données", connexion?.options.appName);
+      console.log('[MongoDB]', 'Connexion réussie à la base de données', connexion?.options.appName);
     } catch (e) {
-      console.error("[MongoDB]", "Erreur de connexion à ATLAS " + MONGO_DB_URI + "/" + MONGO_DB_DATABASE_NAME, e);
+      console.error('[MongoDB]', 'Erreur de connexion à ATLAS ' + MONGO_DB_URI + '/' + MONGO_DB_DATABASE_NAME, e);
     }
   }
-  let db = connexion ? connexion.db(MONGO_DB_DATABASE_NAME) : null;
+  const db = connexion ? connexion.db(MONGO_DB_DATABASE_NAME) : null;
   if (db === null) {
-    console.error("[MongoDB]", "Erreur de connexion à la base de données ", MONGO_DB_DATABASE_NAME);
+    console.error('[MongoDB]', 'Erreur de connexion à la base de données ', MONGO_DB_DATABASE_NAME);
     return null;
   } else {
 
@@ -49,7 +49,7 @@ export async function connectToDatabase(collectionName: MONGO_DB_COLLECTIONS): P
  * @returns {Promise<any>} Une promesse qui résout avec les documents trouvés ou null si la collection n'existe pas.
  */
 export async function findInCollections(collectionName: MONGO_DB_COLLECTIONS, aggregate: any): Promise<any> {
-  console.log("[MongoDB]", "findInCollection", collectionName, "aggregate:", aggregate);
+  console.log('[MongoDB]', 'findInCollection', collectionName, 'aggregate:', aggregate);
   const collection = await connectToDatabase(collectionName);
   if (collection) {
     return collection.aggregate(aggregate).toArray();
@@ -65,7 +65,7 @@ export async function findInCollections(collectionName: MONGO_DB_COLLECTIONS, ag
  * @returns {Promise<any>} Une promesse qui résout avec les documents trouvés ou null si la collection n'existe pas.
  */
 export async function findInCollection(collectionName: MONGO_DB_COLLECTIONS, filter: any): Promise<any> {
-  console.log("[MongoDB]", "findInCollection", collectionName, "critères:", filter);
+  console.log('[MongoDB]', 'findInCollection', collectionName, 'critères:', filter);
   const collection = await connectToDatabase(collectionName);
   if (collection) {
     return collection.find(filter).toArray();
@@ -83,7 +83,7 @@ export async function findInCollection(collectionName: MONGO_DB_COLLECTIONS, fil
  * @returns {Promise<any>} Une promesse qui résout avec les documents trouvés ou null si la collection n'existe pas.
  */
 export async function countInCollection(collectionName: MONGO_DB_COLLECTIONS, filter: any): Promise<number> {
-  console.log("[MongoDB]", "countInCollection", collectionName, "critères:", filter);
+  console.log('[MongoDB]', 'countInCollection', collectionName, 'critères:', filter);
   const collection = await connectToDatabase(collectionName);
   if (collection) {
     return collection.countDocuments(filter);
@@ -102,23 +102,23 @@ export async function countInCollection(collectionName: MONGO_DB_COLLECTIONS, fi
 export function save(mongoDocument: any, collectionName : MONGO_DB_COLLECTIONS): Promise<string> {
   return new Promise((resolve, reject) => {
 
-      console.log("[MongoDB]", "Save mongoDocument in ", collectionName);
-      connectToDatabase(collectionName).then((collection) => {
-        if (collection) {
-          collection.insertOne({ ...mongoDocument })
-            .then((result) => {
-              resolve(result.insertedId.toString());
-            })
-            .catch((e) => {
-              console.error("[MongoDB]", "Erreur lors de l'enregistrement du document", e);
-              reject(new Error('Erreur lors de l\'enregistrement du document' + e));
-            });
-        } else {
-          reject(new Error('Erreur de connexion à la base de données ' + MONGO_DB_DATABASE_NAME)); 
-        }
+    console.log('[MongoDB]', 'Save mongoDocument in ', collectionName);
+    connectToDatabase(collectionName).then((collection) => {
+      if (collection) {
+        collection.insertOne({ ...mongoDocument })
+          .then((result) => {
+            resolve(result.insertedId.toString());
+          })
+          .catch((e) => {
+            console.error('[MongoDB]', "Erreur lors de l'enregistrement du document", e);
+            reject(new Error('Erreur lors de l\'enregistrement du document' + e));
+          });
+      } else {
+        reject(new Error('Erreur de connexion à la base de données ' + MONGO_DB_DATABASE_NAME)); 
       }
-      );
-  }
+    },
+    );
+  },
   );
 }
 
@@ -133,22 +133,22 @@ export function save(mongoDocument: any, collectionName : MONGO_DB_COLLECTIONS):
 export function update(mongoDocument: any, mongoId: string, collectionName : MONGO_DB_COLLECTIONS): Promise<string> {
   return new Promise((resolve, reject) => {
 
-      console.log("[MongoDB]", "Update mongoDocument in", collectionName, "with id:", mongoId);
-      connectToDatabase(collectionName).then((collection) => {
-        if (collection) {
-          collection.updateOne({ '_id': new ObjectId(mongoId) }, { $set: { ...mongoDocument } })
-            .then((result) => {
-              resolve(result.upsertedId ? result.upsertedId.toString() : mongoId);
-            })
-            .catch((e) => {
-              console.error("[MongoDB]", "Erreur lors de l'enregistrement du document", e);
-              reject(new Error('Erreur lors de l\'enregistrement du document' + e));
-            });
-        } else {
-          reject(new Error('Erreur de connexion à la base de données ' + MONGO_DB_DATABASE_NAME)); 
-        }
+    console.log('[MongoDB]', 'Update mongoDocument in', collectionName, 'with id:', mongoId);
+    connectToDatabase(collectionName).then((collection) => {
+      if (collection) {
+        collection.updateOne({ '_id': new ObjectId(mongoId) }, { $set: { ...mongoDocument } })
+          .then((result) => {
+            resolve(result.upsertedId ? result.upsertedId.toString() : mongoId);
+          })
+          .catch((e) => {
+            console.error('[MongoDB]', "Erreur lors de l'enregistrement du document", e);
+            reject(new Error('Erreur lors de l\'enregistrement du document' + e));
+          });
+      } else {
+        reject(new Error('Erreur de connexion à la base de données ' + MONGO_DB_DATABASE_NAME)); 
       }
-      );
+    },
+    );
   });
 }
 
@@ -165,22 +165,22 @@ export function update(mongoDocument: any, mongoId: string, collectionName : MON
 export function deleteInMongo(criteres: any, collectionName : MONGO_DB_COLLECTIONS): Promise<boolean> {
   return new Promise((resolve, reject) => {
 
-      console.log('[MongoDB]', 'Delete mongoDocument', criteres);
-      connectToDatabase(collectionName).then((collection) => {
-        if (collection) {
-          collection.deleteOne(criteres)
-            .then((result) => {
-              resolve(result.acknowledged);
-            })
-            .catch((e) => {
-              console.error("[MongoDB]", "Erreur lors de la suppression du document", e);
-              reject(new Error('Erreur lors de la suppression du document' + e));
-            });
-        } else {
-          reject(new Error('Erreur de connexion à la base de données ' + MONGO_DB_DATABASE_NAME)); 
-        }
+    console.log('[MongoDB]', 'Delete mongoDocument', criteres);
+    connectToDatabase(collectionName).then((collection) => {
+      if (collection) {
+        collection.deleteOne(criteres)
+          .then((result) => {
+            resolve(result.acknowledged);
+          })
+          .catch((e) => {
+            console.error('[MongoDB]', 'Erreur lors de la suppression du document', e);
+            reject(new Error('Erreur lors de la suppression du document' + e));
+          });
+      } else {
+        reject(new Error('Erreur de connexion à la base de données ' + MONGO_DB_DATABASE_NAME)); 
       }
-      );
+    },
+    );
   });
 }
 

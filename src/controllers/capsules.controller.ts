@@ -29,7 +29,7 @@ export function getCapsules(idDressing : string): Promise<CapsuleModel[]> {
  * @returns {Promise<any>} Une promesse qui se résout avec le résultat de la collection ou se rejette avec une erreur.
  */
 export function countCapsules(idDressing : string): Promise<number> {
-    return countInCollection(MONGO_DB_COLLECTIONS.CAPSULES, { 'dressing.id': new ObjectId(idDressing) });
+  return countInCollection(MONGO_DB_COLLECTIONS.CAPSULES, { 'dressing.id': new ObjectId(idDressing) });
 }
 
 /**
@@ -67,7 +67,7 @@ export function deleteCapsule(idDressing: string, idCapsule: string): Promise<bo
   const criteres = 
     { 
       'dressing.id': new ObjectId(idDressing), 
-      "_id" : new ObjectId(idCapsule) 
+      '_id' : new ObjectId(idCapsule), 
     } ;
   return deleteInMongo(criteres, MONGO_DB_COLLECTIONS.CAPSULES);
 }

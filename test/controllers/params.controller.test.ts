@@ -33,7 +33,7 @@ describe('getParametresVetements', () => {
     await getParametresVetements(ParametragesVetementEnum.TYPES);
     expect(mockLoadParametrages).toHaveBeenCalledWith(
       MONGO_DB_COLLECTIONS.PARAM_TYPES_VETEMENTS,
-      ParametragesVetementEnum.TYPES
+      ParametragesVetementEnum.TYPES,
     );
   });
 
@@ -41,7 +41,7 @@ describe('getParametresVetements', () => {
     await getParametresVetements(ParametragesVetementEnum.TAILLES);
     expect(mockLoadParametrages).toHaveBeenCalledWith(
       MONGO_DB_COLLECTIONS.PARAM_TAILLES_MESURES,
-      ParametragesVetementEnum.TAILLES
+      ParametragesVetementEnum.TAILLES,
     );
   });
 
@@ -49,7 +49,7 @@ describe('getParametresVetements', () => {
     await getParametresVetements(ParametragesVetementEnum.USAGES);
     expect(mockLoadParametrages).toHaveBeenCalledWith(
       MONGO_DB_COLLECTIONS.PARAM_USAGES_VETEMENTS,
-      ParametragesVetementEnum.USAGES
+      ParametragesVetementEnum.USAGES,
     );
   });
 
@@ -57,7 +57,7 @@ describe('getParametresVetements', () => {
     await getParametresVetements(ParametragesVetementEnum.ETATS);
     expect(mockLoadParametrages).toHaveBeenCalledWith(
       MONGO_DB_COLLECTIONS.PARAM_ETATS_VETEMENTS,
-      ParametragesVetementEnum.ETATS
+      ParametragesVetementEnum.ETATS,
     );
   });
 
@@ -65,7 +65,7 @@ describe('getParametresVetements', () => {
     await getParametresVetements(ParametragesVetementEnum.MARQUES);
     expect(mockLoadParametrages).toHaveBeenCalledWith(
       MONGO_DB_COLLECTIONS.PARAM_MARQUES_VETEMENTS,
-      ParametragesVetementEnum.MARQUES
+      ParametragesVetementEnum.MARQUES,
     );
   });
 

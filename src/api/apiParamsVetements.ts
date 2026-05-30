@@ -20,13 +20,12 @@ router.get(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE, async (req, res) => {
   console.log('[API] Chargement de tous les paramètrages de Vetements', typeParam);
 
   if (typeParam === null) {
-    res.status(ApiHTTPStatusEnum.BAD_REQUEST).json( { error : 'Type de paramètre inconnu'});
-  }
-  else {
+    res.status(ApiHTTPStatusEnum.BAD_REQUEST).json( { error : 'Type de paramètre inconnu' });
+  } else {
     getParametresVetements(typeParam)
       .then((listeParamsTypeVetements) => {
         console.debug('Paramètrages de Vetements', typeParam, listeParamsTypeVetements);
-        res.status(ApiHTTPStatusEnum.OK).json(listeParamsTypeVetements)
+        res.status(ApiHTTPStatusEnum.OK).json(listeParamsTypeVetements);
       })
       .catch((err) => {
         res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send(err);
@@ -38,7 +37,7 @@ router.get(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE, async (req, res) => {
 
 const getTypeParametrageFromRequest = (typeParam: string): ParametragesVetementEnum | null => {
   return typeParam ? typeParam.toUpperCase() as ParametragesVetementEnum : null;
-}
+};
 
 /**
  * Extrait et retourne le paramétrage à partir de la requête HTTP.
@@ -50,14 +49,14 @@ const getTypeParametrageFromRequest = (typeParam: string): ParametragesVetementE
  * @returns Le modèle de paramétrage de type `ParamGenericVetementsModel`.
  */
 const getParametrageFromRequestBody = (req: express.Request): ParamGenericVetementsModel => {
-  let parametrage: ParamGenericVetementsModel
+  let parametrage: ParamGenericVetementsModel;
   try {
     parametrage = JSON.parse(req.body);
-  } catch (error) {
+  } catch (_error) {
     parametrage = req.body;
   }
   return parametrage;
-}
+};
 
 /**
  * POST (CREATE) Type de Vetements
@@ -65,10 +64,10 @@ const getParametrageFromRequestBody = (req: express.Request): ParamGenericVeteme
 router.post(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE, async (req, res) => {
 
   const typeParam = getTypeParametrageFromRequest(req.params.type);
-  let parametrage = getParametrageFromRequestBody(req);
+  const parametrage = getParametrageFromRequestBody(req);
   console.log('[API] Création d\'un paramètrage de vêtements', typeParam, parametrage);
   if (typeParam === null) {
-    res.status(ApiHTTPStatusEnum.BAD_REQUEST).json( { error : 'Type de paramètre inconnu'});
+    res.status(ApiHTTPStatusEnum.BAD_REQUEST).json( { error : 'Type de paramètre inconnu' });
     return;
   }
   saveParametrage(typeParam, parametrage)
@@ -79,7 +78,7 @@ router.post(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE, async (req, res) => {
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).json( {error : "L'enregistrement du paramétrage a échoué"});
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).json( { error : "L'enregistrement du paramétrage a échoué" });
     });
 });
 
@@ -92,10 +91,10 @@ router.post(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE, async (req, res) => {
 router.put(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE_AND_ID, async (req, res) => {
 
   const typeParam = getTypeParametrageFromRequest(req.params.type);
-  let parametrage = getParametrageFromRequestBody(req);
-  console.log('[API] Mise à jour du paramètrage de vetements', req.params.type, " id=", req.params.idp, parametrage);
+  const parametrage = getParametrageFromRequestBody(req);
+  console.log('[API] Mise à jour du paramètrage de vetements', req.params.type, ' id=', req.params.idp, parametrage);
   if (typeParam === null) {
-    res.status(ApiHTTPStatusEnum.BAD_REQUEST).json({ error : 'Type de paramètre inconnu'});
+    res.status(ApiHTTPStatusEnum.BAD_REQUEST).json({ error : 'Type de paramètre inconnu' });
     return;
   }
   updateParametrage(typeParam, parametrage, req.params.idp)
@@ -105,7 +104,7 @@ router.put(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE_AND_ID, async (req, res) => {
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).json({error : "L'enregistrement du paramétrage a échoué"});
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).json({ error : "L'enregistrement du paramétrage a échoué" });
     });
 });
 
@@ -117,10 +116,10 @@ router.put(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE_AND_ID, async (req, res) => {
 router.delete(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE_AND_ID, async (req, res) => {
 
   const typeParam = getTypeParametrageFromRequest(req.params.type);
-  let parametrage = getParametrageFromRequestBody(req);
-  console.log('[API] Suppression du paramètrage de vetements', req.params.type, " id=", req.params.idp, parametrage);
+  const parametrage = getParametrageFromRequestBody(req);
+  console.log('[API] Suppression du paramètrage de vetements', req.params.type, ' id=', req.params.idp, parametrage);
   if (typeParam === null) {
-    res.status(ApiHTTPStatusEnum.BAD_REQUEST).json({ error : 'Type de paramètre inconnu'});
+    res.status(ApiHTTPStatusEnum.BAD_REQUEST).json({ error : 'Type de paramètre inconnu' });
     return;
   }
   deleteParametrage(typeParam, req.params.idp)
@@ -130,7 +129,7 @@ router.delete(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE_AND_ID, async (req, res) => 
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).json({error : "L'enregistrement du paramétrage a échoué"});
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).json({ error : "L'enregistrement du paramétrage a échoué" });
     });
 });
 

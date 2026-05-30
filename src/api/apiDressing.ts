@@ -81,26 +81,26 @@ router.get(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
  * @returns Un objet de type `VetementModel` extrait du corps de la requête.
  */
 const getVetementFromRequest = (req: express.Request): VetementModel => {
-  let vetement: VetementModel
+  let vetement: VetementModel;
   try {
     vetement = JSON.parse(req.body);
-  } catch (error) {
+  } catch (_error) {
     vetement = req.body;
   }
   return vetement;
-}
+};
 /**
  * POST (CREATE) vetements du dressing
  */
 router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
-  let vetement = getVetementFromRequest(req);
+  const vetement = getVetementFromRequest(req);
   vetement.dateCreation = new Date();
   console.log('[API] Création vêtement : ', vetement);
   saveVetement(vetement)
     .then((
       idSaved: string) => {
-        vetement.id = idSaved;
-        console.log('Vêtement [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']', vetement);
+      vetement.id = idSaved;
+      console.log('Vêtement [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']', vetement);
       res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, vetement : vetement, created: true  } as APIResultFormVetementModel);
     })
     .catch((err) => {
@@ -115,7 +115,7 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
  */
 router.put(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
 
-  let vetement = getVetementFromRequest(req);
+  const vetement = getVetementFromRequest(req);
   console.log('[API] Modification vêtement : ', vetement);
 
   updateVetement(vetement, req.params.idv)
@@ -142,7 +142,7 @@ router.delete(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("La suppression du vêtement a échoué");
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La suppression du vêtement a échoué');
     });
 });
 
@@ -155,30 +155,30 @@ router.delete(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
  */
 router.put(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, async (req, res) => {
 
-  const idImage = uuidGen().replaceAll("-", "").substring(0,24);
-  const idVetement = req.params.idv === "undefined" ? "[NOUVEAU]": req.params.idv;
+  const idImage = uuidGen().replaceAll('-', '').substring(0, 24);
+  const idVetement = req.params.idv === 'undefined' ? '[NOUVEAU]' : req.params.idv;
   console.log('[API]', 'Enregistrement de l\'image [', idImage, '] du vêtement [', idVetement, ']');
-    // Get signed URL from S3 and upload image to S3
-    createPresignedS3Url(idImage + ".jpg")
-      .then((presignedS3Url) => {
-        console.log('URL présignée disponible pour le vêtement [', idVetement, ']');
-        res.status(ApiHTTPStatusEnum.OK)
-          .json(
-            {
-              url   : presignedS3Url,
-              s3uri : process.env.NODE_ENV+ "/" + idImage + ".jpg",
-            });
-      })
-      .catch((err) => {
-        console.error('[API]', 'Erreur lors du chargement de l\'URL présignée', err);
-        res.status(ApiHTTPStatusEnum.INTERNAL_ERROR)
-          .json(
-            {
-              message: 'Erreur lors du chargement d\'image pour le vêtement ' + req.params.idv,
-              error: err,
-            });
-      });
-  });
+  // Get signed URL from S3 and upload image to S3
+  createPresignedS3Url(idImage + '.jpg')
+    .then((presignedS3Url) => {
+      console.log('URL présignée disponible pour le vêtement [', idVetement, ']');
+      res.status(ApiHTTPStatusEnum.OK)
+        .json(
+          {
+            url   : presignedS3Url,
+            s3uri : process.env.NODE_ENV + '/' + idImage + '.jpg',
+          });
+    })
+    .catch((err) => {
+      console.error('[API]', 'Erreur lors du chargement de l\'URL présignée', err);
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR)
+        .json(
+          {
+            message: 'Erreur lors du chargement d\'image pour le vêtement ' + req.params.idv,
+            error: err,
+          });
+    });
+});
 
 
 
@@ -194,29 +194,28 @@ router.put(ServiceURLEnum.SERVICE_VETEMENTS_IMAGE, async (req, res) => {
  */
 router.get(ServiceURLEnum.SERVICE_TENUES, async (req, res) => {
   
-  if(req.query.count === undefined){
+  if (req.query.count === undefined) {
     console.log('[API] Get Tenues by Id Dressing', req.params.idd);
     getTenues(req.params.idd)
-    .then((listeTenues) => {
-      console.log('Nombre de tenues chargées : ', listeTenues.length);
-      res.status(ApiHTTPStatusEnum.OK).json(listeTenues);
-    })
-    .catch((err) => {
-      console.error('Erreur MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Tenues est introuvable');
-    });
-  }
-  else{
+      .then((listeTenues) => {
+        console.log('Nombre de tenues chargées : ', listeTenues.length);
+        res.status(ApiHTTPStatusEnum.OK).json(listeTenues);
+      })
+      .catch((err) => {
+        console.error('Erreur MongoDB', err);
+        res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Tenues est introuvable');
+      });
+  } else {
     console.log('[API] Count Tenues by Id Dressing', req.params.idd);
     countTenues(req.params.idd)
-    .then((nbTenues) => {
-      console.log('Nombre de tenues chargées : ', nbTenues);
-      res.status(ApiHTTPStatusEnum.OK).json(nbTenues);
-    })
-    .catch((err) => {
-      console.error('Erreur MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Tenues est introuvable');
-    });
+      .then((nbTenues) => {
+        console.log('Nombre de tenues chargées : ', nbTenues);
+        res.status(ApiHTTPStatusEnum.OK).json(nbTenues);
+      })
+      .catch((err) => {
+        console.error('Erreur MongoDB', err);
+        res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Tenues est introuvable');
+      });
 
   }
 });
@@ -234,25 +233,25 @@ router.get(ServiceURLEnum.SERVICE_TENUES, async (req, res) => {
  * @returns Un objet de type `VetementModel` extrait du corps de la requête.
  */
 const getTenueFromRequest = (req: express.Request): TenueModel => {
-  let tenue: TenueModel
+  let tenue: TenueModel;
   try {
     tenue = JSON.parse(req.body);
   } catch (_) {
     tenue = req.body;
   }
   return tenue;
-}
+};
 /**
  * POST (CREATE) tenues du dressing
  */
 router.post(ServiceURLEnum.SERVICE_TENUES, async (req, res) => {
-  let tenue = getTenueFromRequest(req);
+  const tenue = getTenueFromRequest(req);
   console.log('[API] Création tenue : ', tenue);
   saveTenue(tenue)
     .then((
       idSaved: string) => {
-        tenue.id = idSaved;
-        console.log('Tenue [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']', tenue);
+      tenue.id = idSaved;
+      console.log('Tenue [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']', tenue);
       res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, tenue : tenue, created: true  } as APIResultFormTenueModel);
     })
     .catch((err) => {
@@ -267,7 +266,7 @@ router.post(ServiceURLEnum.SERVICE_TENUES, async (req, res) => {
  */
 router.put(ServiceURLEnum.SERVICE_TENUES_BY_ID, async (req, res) => {
 
-  let tenue = getTenueFromRequest(req);
+  const tenue = getTenueFromRequest(req);
   console.log('[API] Modification tenue : ', tenue);
 
   updateTenue(tenue, req.params.idt)
@@ -294,7 +293,7 @@ router.delete(ServiceURLEnum.SERVICE_TENUES_BY_ID, async (req, res) => {
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("La suppression de la tenue a échoué");
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La suppression de la tenue a échoué');
     });
 });
 
@@ -311,29 +310,28 @@ router.delete(ServiceURLEnum.SERVICE_TENUES_BY_ID, async (req, res) => {
  * GET capsules du dressing
  */
 router.get(ServiceURLEnum.SERVICE_CAPSULES, async (req, res) => {
-  if(req.query.count === undefined){
-  console.log('[API] Get Capsules by Id Dressing', req.params.idd);
-  getCapsules(req.params.idd)
-    .then((listeCapsules) => {
-      console.log('Nombre de capsules chargées : ', listeCapsules.length);
-      res.status(ApiHTTPStatusEnum.OK).json(listeCapsules);
-    })
-    .catch((err) => {
-      console.error('Erreur MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Capsules est introuvable');
-    });
-  }
-  else{
+  if (req.query.count === undefined) {
+    console.log('[API] Get Capsules by Id Dressing', req.params.idd);
+    getCapsules(req.params.idd)
+      .then((listeCapsules) => {
+        console.log('Nombre de capsules chargées : ', listeCapsules.length);
+        res.status(ApiHTTPStatusEnum.OK).json(listeCapsules);
+      })
+      .catch((err) => {
+        console.error('Erreur MongoDB', err);
+        res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Capsules est introuvable');
+      });
+  } else {
     console.log('[API] Count Capsules by Id Dressing', req.params.idd);
     countCapsules(req.params.idd)
-    .then((nbCapsules) => {
-      console.log('Nombre de capsules chargées : ', nbCapsules);
-      res.status(ApiHTTPStatusEnum.OK).json(nbCapsules);
-    })
-    .catch((err) => {
-      console.error('Erreur MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Capsules est introuvable');
-    });
+      .then((nbCapsules) => {
+        console.log('Nombre de capsules chargées : ', nbCapsules);
+        res.status(ApiHTTPStatusEnum.OK).json(nbCapsules);
+      })
+      .catch((err) => {
+        console.error('Erreur MongoDB', err);
+        res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La collection Capsules est introuvable');
+      });
 
   }
 });
@@ -351,25 +349,25 @@ router.get(ServiceURLEnum.SERVICE_CAPSULES, async (req, res) => {
  * @returns Un objet de type `CapsuleModel` extrait du corps de la requête.
  */
 const getCapsuleFromRequest = (req: express.Request): CapsuleModel => {
-  let capsule: CapsuleModel
+  let capsule: CapsuleModel;
   try {
     capsule = JSON.parse(req.body);
   } catch (_) {
     capsule = req.body;
   }
   return capsule;
-}
+};
 /**
  * POST (CREATE) capsules du dressing
  */
 router.post(ServiceURLEnum.SERVICE_CAPSULES, async (req, res) => {
-  let capsule = getCapsuleFromRequest(req);
+  const capsule = getCapsuleFromRequest(req);
   console.log('[API] Création capsule : ', capsule);
   saveCapsule(capsule)
     .then((
       idSaved: string) => {
-        capsule.id = idSaved;
-        console.log('Capsule [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']', capsule);
+      capsule.id = idSaved;
+      console.log('Capsule [', idSaved, '] ajouté dans le dressing [', req.params.idd, ']', capsule);
       res.status(ApiHTTPStatusEnum.OK).json({ id: idSaved, capsule : capsule, created: true  } as APIResultFormCapsuleModel);
     })
     .catch((err) => {
@@ -384,7 +382,7 @@ router.post(ServiceURLEnum.SERVICE_CAPSULES, async (req, res) => {
  */
 router.put(ServiceURLEnum.SERVICE_CAPSULES_BY_ID, async (req, res) => {
 
-  let capsule = getCapsuleFromRequest(req);
+  const capsule = getCapsuleFromRequest(req);
   console.log('[API] Modification caspule : ', capsule);
 
   updateCapsule(capsule, req.params.idc)
@@ -411,7 +409,7 @@ router.delete(ServiceURLEnum.SERVICE_CAPSULES_BY_ID, async (req, res) => {
     })
     .catch((err) => {
       console.error('Erreur MongoDB', err);
-      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send("La suppression de la capsule a échoué");
+      res.status(ApiHTTPStatusEnum.INTERNAL_ERROR).send('La suppression de la capsule a échoué');
     });
 });
 

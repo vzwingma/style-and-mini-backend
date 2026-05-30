@@ -17,7 +17,7 @@ export default interface DressingModel {
  * @returns Un objet `DressingModel` contenant les données converties.
  */
 export function mongoModelToDressingModel(mongoDressing: any): DressingModel {
-  let dressing: DressingModel = {
+  const dressing: DressingModel = {
     id        : mongoDressing._id.toString(),
     libelle   : mongoDressing.libelle,
     categorie : mongoDressing.categorie,

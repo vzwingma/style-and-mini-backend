@@ -1,7 +1,7 @@
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import {
   getSignedUrl,
-} from "@aws-sdk/s3-request-presigner";
+} from '@aws-sdk/s3-request-presigner';
 
 
 const bucketName = process.env.UploadBucket ?? 'style-mini-app-images';
@@ -20,12 +20,12 @@ const region = process.env.AWS_REGION       ?? 'eu-west-3';
  *
  */
 export const createPresignedS3Url = (key : string) => {
-  const client = new S3Client({region: region});
+  const client = new S3Client({ region: region });
   const command = new PutObjectCommand({ 
     Bucket      : bucketName, 
-    Key         : process.env.NODE_ENV+ "/" + key,
+    Key         : process.env.NODE_ENV + '/' + key,
     ContentType : 'image/jpg',
     StorageClass: 'ONEZONE_IA',
-});
+  });
   return getSignedUrl(client, command, { expiresIn: 3600 });
 };

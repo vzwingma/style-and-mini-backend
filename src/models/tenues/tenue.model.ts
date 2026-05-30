@@ -47,13 +47,13 @@ export function tenueModelToMongoModel(tenue : TenueModel) {
  * @returns Un objet VetementModel avec les propriétés converties.
  */
 export function mongoModelToTenueModel(mongoVetement: any): TenueModel {
-  let tenue: TenueModel = {
+  const tenue: TenueModel = {
     id         : mongoVetement._id.toString(),
     dressing   : mongoVetement.dressing,
     libelle    : mongoVetement.libelle,
     vetements  : mongoVetement.vetements,
     statut     : mongoVetement.statut === StatutVetementEnum.ARCHIVE ? StatutVetementEnum.ARCHIVE : StatutVetementEnum.ACTIF,
-    image      : mongoVetement.image
+    image      : mongoVetement.image,
   };
   return tenue;
 }

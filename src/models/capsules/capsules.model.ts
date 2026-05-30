@@ -33,7 +33,7 @@ export function capsuleModelToMongoModel(capsule : CapsuleModel) {
     criteres    : capsule.criteres,
     libelle     : capsule.libelle,
     nbVetements : capsule.nbrVetements.capsule,
-    commentaire : capsule.commentaire
+    commentaire : capsule.commentaire,
   };
   return mongoCapsule;
 }
@@ -46,15 +46,15 @@ export function capsuleModelToMongoModel(capsule : CapsuleModel) {
  * @returns Un objet `CapsuleModel` contenant les informations converties.
  */
 export function mongoModelToCapsuleModel(mongoVetement: any): CapsuleModel {
-  let capsule: CapsuleModel = {
+  const capsule: CapsuleModel = {
     id          : mongoVetement._id.toString(),
     dressing    : mongoVetement.dressing,
     libelle     : mongoVetement.libelle,
     criteres    : mongoVetement.criteres,
     nbrVetements : {
-      capsule : mongoVetement.nbVetements
+      capsule : mongoVetement.nbVetements,
     },
-    commentaire : mongoVetement.commentaire
-  }
+    commentaire : mongoVetement.commentaire,
+  };
   return capsule;
 }
