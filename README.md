@@ -37,7 +37,7 @@ npm install
 | `npm run dev` | Démarrer en mode développement (nodemon + `.env.dev`) |
 | `npm run qua` | Démarrer en environnement qualification |
 | `npm run prod` | Démarrer en environnement production |
-| `npm run build` | Compiler TypeScript → JavaScript (`dist/`) |
+| `npm run build` | Compiler TypeScript → JavaScript (`dist/`) + génère `dist/package.json` |
 | `npm run start:dist` | Démarrer depuis le build compilé |
 | `npm run lint` | Lint + fix automatique avec ESLint |
 | `npm run typecheck` | Vérification TypeScript sans compilation |
@@ -107,7 +107,12 @@ Le backend peut fonctionner dans deux modes :
 - **Serveur Express local** : via `startServer()` — pour le développement, la qualification et la production on-premise
 - **Fonction AWS Lambda** : via `lambdaHandler` — pour un déploiement serverless sur AWS
 
-Avec ces informations, vous devriez être en mesure de configurer, construire et exécuter l'application backend "Style et Mini".
+### Prérequis déploiement Lambda (ESM)
+
+`npm run build` génère automatiquement `dist/package.json` avec `{"type":"module"}`.  
+Ce fichier est **requis** pour que Lambda Node.js charge `dist/app.js` comme ES Module.
+
+Les templates SAM (`.aws-sam/deploy/`) sont configurés avec `Format: esm` dans les `BuildProperties` esbuild.
 
 ## Conventions clés
 
@@ -121,6 +126,8 @@ Avec ces informations, vous devriez être en mesure de configurer, construire et
 ### TypeScript
 
 - Mode strict activé.
+- **Module system : ESM** (`"type": "module"` dans `package.json`, `module: NodeNext`)
+- Tous les imports relatifs doivent porter l'extension `.js` (ex: `import { foo } from './bar.js'`)
 - Interfaces pour tous les modèles de données (pas de classes), avec le suffixe `Model`
 - Enums avec suffixe `Enum` : `StatutVetementEnum`, `SaisonVetementEnum`
 - Props de composants avec suffixe `Props` : `DressingComponentProps`
@@ -134,7 +141,11 @@ Avec ces informations, vous devriez être en mesure de configurer, construire et
 npm test
 ```
 
-Framework : Jest + ts-jest + Supertest. Les tests sont dans le dossier `test/`.
+Framework : Jest + ts-jest (preset `default-esm`) + Supertest. Les tests sont dans le dossier `test/`.  
+Config Jest : `jest.config.cjs` (CJS requis car `"type":"module"` dans `package.json`).  
+Lancer avec `node --experimental-vm-modules` (inclus dans `npm test`).
+
+> **Mocks ESM** : utiliser `jest.unstable_mockModule(...)` + imports dynamiques `await import(...)` + `import { jest } from '@jest/globals'`.
 
 | Suite | Description |
 |-------|-------------|

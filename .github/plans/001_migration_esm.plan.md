@@ -2,7 +2,7 @@
 
 **Document :** `.github/plans/001_migration_esm.plan.md`  
 **Date de création :** 2026-05-30  
-**Statut :** ⏳ Planifié  
+**Statut :** ✅ Complété  
 **Objectif Prioritaire :** HIGH
 
 ---
