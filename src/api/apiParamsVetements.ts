@@ -1,8 +1,8 @@
 import express from 'express';
-import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
-import { ParametragesVetementEnum } from '../constants/AppEnum';
-import { deleteParametrage, getParametresVetements, saveParametrage, updateParametrage } from '../controllers/params.controller';
-import ParamGenericVetementsModel from '../models/params/paramGenericVetements.model';
+import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants.js';
+import { ParametragesVetementEnum } from '../constants/AppEnum.js';
+import { deleteParametrage, getParametresVetements, saveParametrage, updateParametrage } from '../controllers/params.controller.js';
+import ParamGenericVetementsModel from '../models/params/paramGenericVetements.model.js';
 
 
 const router = express.Router();

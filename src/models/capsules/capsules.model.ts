@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import DressingModel from '../dressing.model';
+import DressingModel from '../dressing.model.js';
 
 /**
  * Modèle représentant un vetement

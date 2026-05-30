@@ -1,18 +1,22 @@
+import { jest } from '@jest/globals';
 import express from 'express';
 import request from 'supertest';
 import basicAuth from 'express-basic-auth';
-import apiParamsVetements from '../../src/api/apiParamsVetements';
-import { ParametragesVetementEnum } from '../../src/constants/AppEnum';
+import { ParametragesVetementEnum } from '../../src/constants/AppEnum.js';
 
 // ─── Mocks ────────────────────────────────────────────────────────────────────
 // On utilise des factories pour éviter l'instanciation de MongoClient au chargement du module
-jest.mock('../../src/controllers/params.controller', () => ({
-  getParametresVetements: jest.fn(),
-  saveParametrage       : jest.fn(),
+const mockGetParametresVetements = jest.fn();
+const mockSaveParametrage = jest.fn();
+const mockDeleteParametrage = jest.fn();
+
+jest.unstable_mockModule('../../src/controllers/params.controller.js', () => ({
+  getParametresVetements: mockGetParametresVetements,
+  saveParametrage       : mockSaveParametrage,
   updateParametrage     : jest.fn(),
-  deleteParametrage     : jest.fn(),
+  deleteParametrage     : mockDeleteParametrage,
 }));
-jest.mock('../../src/services/mongodb.service', () => ({
+jest.unstable_mockModule('../../src/services/mongodb.service.js', () => ({
   connectToDatabase  : jest.fn(),
   findInCollections  : jest.fn(),
   findInCollection   : jest.fn(),
@@ -21,19 +25,11 @@ jest.mock('../../src/services/mongodb.service', () => ({
   update             : jest.fn(),
   deleteInMongo      : jest.fn(),
 }));
-jest.mock('../../src/services/params.service', () => ({
+jest.unstable_mockModule('../../src/services/params.service.js', () => ({
   loadParametrages: jest.fn(),
 }));
 
-import {
-  getParametresVetements,
-  saveParametrage,
-  deleteParametrage,
-} from '../../src/controllers/params.controller';
-
-const mockGetParametresVetements = getParametresVetements as jest.MockedFunction<typeof getParametresVetements>;
-const mockSaveParametrage        = saveParametrage        as jest.MockedFunction<typeof saveParametrage>;
-const mockDeleteParametrage      = deleteParametrage      as jest.MockedFunction<typeof deleteParametrage>;
+const { default: apiParamsVetements } = await import('../../src/api/apiParamsVetements.js');
 
 // ─── App de test ──────────────────────────────────────────────────────────────
 /**

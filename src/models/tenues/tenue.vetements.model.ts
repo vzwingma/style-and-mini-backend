@@ -1,4 +1,4 @@
-import TenueImageModel from './tenue.image.model';
+import TenueImageModel from './tenue.image.model.js';
 
 /**
  * Modèle représentant un vetement avec le backend

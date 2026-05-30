@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb';
-import { deleteInMongo, findInCollection, save, update } from '../services/mongodb.service';
-import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
-import VetementModel, { mongoModelToVetementModel, vetementModelToMongoModel } from '../models/vetements/vetements.model';
+import { deleteInMongo, findInCollection, save, update } from '../services/mongodb.service.js';
+import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants.js';
+import VetementModel, { mongoModelToVetementModel, vetementModelToMongoModel } from '../models/vetements/vetements.model.js';
 
 
 

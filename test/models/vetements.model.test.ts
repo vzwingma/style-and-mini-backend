@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
-import { mongoModelToVetementModel } from '../../src/models/vetements/vetements.model';
-import { SaisonVetementEnum, StatutVetementEnum } from '../../src/constants/AppEnum';
+import { mongoModelToVetementModel } from '../../src/models/vetements/vetements.model.js';
+import { SaisonVetementEnum, StatutVetementEnum } from '../../src/constants/AppEnum.js';
 
 // ─── mongoModelToVetementModel ────────────────────────────────────────────────
 describe('mongoModelToVetementModel', () => {

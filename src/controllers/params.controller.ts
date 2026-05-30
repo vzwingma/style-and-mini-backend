@@ -1,9 +1,9 @@
-import { deleteInMongo, save, update } from '../services/mongodb.service';
-import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
-import { ParametragesVetementEnum } from '../constants/AppEnum';
-import ParamGenericVetementsModel, { transformMongoModelToParametrageModel, transformParametrageModelToMongoModel } from '../models/params/paramGenericVetements.model';
+import { deleteInMongo, save, update } from '../services/mongodb.service.js';
+import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants.js';
+import { ParametragesVetementEnum } from '../constants/AppEnum.js';
+import ParamGenericVetementsModel, { transformMongoModelToParametrageModel, transformParametrageModelToMongoModel } from '../models/params/paramGenericVetements.model.js';
 import { ObjectId } from 'mongodb';
-import { loadParametrages } from '../services/params.service';
+import { loadParametrages } from '../services/params.service.js';
 
 
 

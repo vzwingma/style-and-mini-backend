@@ -1,5 +1,5 @@
 import { Collection, MongoClient, ObjectId, ServerApiVersion } from 'mongodb';
-import { MONGO_DB_COLLECTIONS, MONGO_DB_DATABASE_NAME, MONGO_DB_URI } from '../constants/AppConstants';
+import { MONGO_DB_COLLECTIONS, MONGO_DB_DATABASE_NAME, MONGO_DB_URI } from '../constants/AppConstants.js';
 
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version

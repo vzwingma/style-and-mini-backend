@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb';
-import { findInCollection } from '../services/mongodb.service';
-import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
-import DressingModel, { mongoModelToDressingModel } from '../models/dressing.model';
+import { findInCollection } from '../services/mongodb.service.js';
+import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants.js';
+import DressingModel, { mongoModelToDressingModel } from '../models/dressing.model.js';
 
 
 /**

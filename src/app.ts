@@ -4,9 +4,9 @@ import helmet from 'helmet';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-import * as middlewares from './api/interfaces/middlewares';
-import api from './api';
-import { BACKEND_PORT } from './constants/AppConstants';
+import * as middlewares from './api/interfaces/middlewares.js';
+import api from './api/index.js';
+import { BACKEND_PORT } from './constants/AppConstants.js';
 
 import serverless from 'serverless-http';
 import basicAuth from 'express-basic-auth';

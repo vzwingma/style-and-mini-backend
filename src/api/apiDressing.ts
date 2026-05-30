@@ -1,18 +1,18 @@
 import express from 'express';
-import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants';
+import { ApiHTTPStatusEnum, ServiceURLEnum } from '../constants/APIconstants.js';
 
-import { createPresignedS3Url } from '../services/s3.service';
-import APIResultFormVetementModel from '../models/apiResults/api.result.vetements.model';
+import { createPresignedS3Url } from '../services/s3.service.js';
+import APIResultFormVetementModel from '../models/apiResults/api.result.vetements.model.js';
 import { v7 as uuidGen } from 'uuid';
-import APIResultFormTenueModel from '../models/apiResults/api.result.tenues.model';
-import VetementModel from '../models/vetements/vetements.model';
-import { getDressingById, getDressings } from '../controllers/dressing.controller';
-import { deleteVetement, getVetements, saveVetement, updateVetement } from '../controllers/vetements.controller';
-import { countTenues, deleteTenue, getTenues, saveTenue, updateTenue } from '../controllers/tenues.controller';
-import TenueModel from '../models/tenues/tenue.model';
-import CapsuleModel from '../models/capsules/capsules.model';
-import APIResultFormCapsuleModel from '../models/apiResults/api.result.capsules.model';
-import { countCapsules, deleteCapsule, getCapsules, saveCapsule, updateCapsule } from '../controllers/capsules.controller';
+import APIResultFormTenueModel from '../models/apiResults/api.result.tenues.model.js';
+import VetementModel from '../models/vetements/vetements.model.js';
+import { getDressingById, getDressings } from '../controllers/dressing.controller.js';
+import { deleteVetement, getVetements, saveVetement, updateVetement } from '../controllers/vetements.controller.js';
+import { countTenues, deleteTenue, getTenues, saveTenue, updateTenue } from '../controllers/tenues.controller.js';
+import TenueModel from '../models/tenues/tenue.model.js';
+import CapsuleModel from '../models/capsules/capsules.model.js';
+import APIResultFormCapsuleModel from '../models/apiResults/api.result.capsules.model.js';
+import { countCapsules, deleteCapsule, getCapsules, saveCapsule, updateCapsule } from '../controllers/capsules.controller.js';
 
 const router = express.Router();
 /**

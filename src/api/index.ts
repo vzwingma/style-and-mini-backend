@@ -1,11 +1,11 @@
 import express from 'express';
 
-import MessageResponse from './interfaces/MessageResponse';
-import apiParamsVetements from './apiParamsVetements';
-import apiDressing from './apiDressing';
-import BackendConfigModel from '../models/backendConfig.model';
-import { ServiceURLEnum } from '../constants/APIconstants';
-import { APP_MOBILE_VERSION } from '../constants/AppConstants';
+import MessageResponse from './interfaces/MessageResponse.js';
+import apiParamsVetements from './apiParamsVetements.js';
+import apiDressing from './apiDressing.js';
+import BackendConfigModel from '../models/backendConfig.model.js';
+import { ServiceURLEnum } from '../constants/APIconstants.js';
+import { APP_MOBILE_VERSION } from '../constants/AppConstants.js';
 
 const router = express.Router();
 

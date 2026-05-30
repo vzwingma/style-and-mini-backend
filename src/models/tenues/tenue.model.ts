@@ -1,8 +1,8 @@
 import { ObjectId } from 'mongodb';
-import DressingModel from '../dressing.model';
-import { StatutVetementEnum } from '../../constants/AppEnum';
-import TenueVetementModel from './tenue.vetements.model';
-import TenueImageModel from './tenue.image.model';
+import DressingModel from '../dressing.model.js';
+import { StatutVetementEnum } from '../../constants/AppEnum.js';
+import TenueVetementModel from './tenue.vetements.model.js';
+import TenueImageModel from './tenue.image.model.js';
 
 /**
  * Modèle représentant un vetement

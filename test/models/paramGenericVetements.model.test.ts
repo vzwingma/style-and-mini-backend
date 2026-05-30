@@ -3,8 +3,8 @@ import {
   transformCategoriesVetementToMongoModel,
   transformMongoModelToParametrageModel,
   transformParametrageModelToMongoModel,
-} from '../../src/models/params/paramGenericVetements.model';
-import { CategorieDressingEnum, ParametragesVetementEnum, TypeTailleEnum } from '../../src/constants/AppEnum';
+} from '../../src/models/params/paramGenericVetements.model.js';
+import { CategorieDressingEnum, ParametragesVetementEnum, TypeTailleEnum } from '../../src/constants/AppEnum.js';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 const makeId = () => new ObjectId();

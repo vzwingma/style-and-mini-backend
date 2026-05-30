@@ -1,10 +1,12 @@
-import { getParametresVetements } from '../../src/controllers/params.controller';
-import { ParametragesVetementEnum } from '../../src/constants/AppEnum';
-import { MONGO_DB_COLLECTIONS } from '../../src/constants/AppConstants';
+import { jest } from '@jest/globals';
+import { ParametragesVetementEnum } from '../../src/constants/AppEnum.js';
+import { MONGO_DB_COLLECTIONS } from '../../src/constants/AppConstants.js';
 
 // ─── Mocks ────────────────────────────────────────────────────────────────────
 // On utilise des factories pour éviter l'instanciation de MongoClient au chargement du module
-jest.mock('../../src/services/mongodb.service', () => ({
+const mockLoadParametrages = jest.fn();
+
+jest.unstable_mockModule('../../src/services/mongodb.service.js', () => ({
   connectToDatabase  : jest.fn(),
   findInCollections  : jest.fn(),
   findInCollection   : jest.fn(),
@@ -13,13 +15,11 @@ jest.mock('../../src/services/mongodb.service', () => ({
   update             : jest.fn(),
   deleteInMongo      : jest.fn(),
 }));
-jest.mock('../../src/services/params.service', () => ({
-  loadParametrages: jest.fn(),
+jest.unstable_mockModule('../../src/services/params.service.js', () => ({
+  loadParametrages: mockLoadParametrages,
 }));
 
-import { loadParametrages } from '../../src/services/params.service';
-
-const mockLoadParametrages = loadParametrages as jest.MockedFunction<typeof loadParametrages>;
+const { getParametresVetements: mockedGetParametresVetements } = await import('../../src/controllers/params.controller.js');
 
 // ─── getParametresVetements ───────────────────────────────────────────────────
 describe('getParametresVetements', () => {
@@ -30,7 +30,7 @@ describe('getParametresVetements', () => {
   });
 
   it('type TYPES : appelle loadParametrages avec la collection PARAM_TYPES_VETEMENTS', async () => {
-    await getParametresVetements(ParametragesVetementEnum.TYPES);
+    await mockedGetParametresVetements(ParametragesVetementEnum.TYPES);
     expect(mockLoadParametrages).toHaveBeenCalledWith(
       MONGO_DB_COLLECTIONS.PARAM_TYPES_VETEMENTS,
       ParametragesVetementEnum.TYPES,
@@ -38,7 +38,7 @@ describe('getParametresVetements', () => {
   });
 
   it('type TAILLES : appelle loadParametrages avec la collection PARAM_TAILLES_MESURES', async () => {
-    await getParametresVetements(ParametragesVetementEnum.TAILLES);
+    await mockedGetParametresVetements(ParametragesVetementEnum.TAILLES);
     expect(mockLoadParametrages).toHaveBeenCalledWith(
       MONGO_DB_COLLECTIONS.PARAM_TAILLES_MESURES,
       ParametragesVetementEnum.TAILLES,
@@ -46,7 +46,7 @@ describe('getParametresVetements', () => {
   });
 
   it('type USAGES : appelle loadParametrages avec la collection PARAM_USAGES_VETEMENTS', async () => {
-    await getParametresVetements(ParametragesVetementEnum.USAGES);
+    await mockedGetParametresVetements(ParametragesVetementEnum.USAGES);
     expect(mockLoadParametrages).toHaveBeenCalledWith(
       MONGO_DB_COLLECTIONS.PARAM_USAGES_VETEMENTS,
       ParametragesVetementEnum.USAGES,
@@ -54,7 +54,7 @@ describe('getParametresVetements', () => {
   });
 
   it('type ETATS : appelle loadParametrages avec la collection PARAM_ETATS_VETEMENTS', async () => {
-    await getParametresVetements(ParametragesVetementEnum.ETATS);
+    await mockedGetParametresVetements(ParametragesVetementEnum.ETATS);
     expect(mockLoadParametrages).toHaveBeenCalledWith(
       MONGO_DB_COLLECTIONS.PARAM_ETATS_VETEMENTS,
       ParametragesVetementEnum.ETATS,
@@ -62,7 +62,7 @@ describe('getParametresVetements', () => {
   });
 
   it('type MARQUES : appelle loadParametrages avec la collection PARAM_MARQUES_VETEMENTS', async () => {
-    await getParametresVetements(ParametragesVetementEnum.MARQUES);
+    await mockedGetParametresVetements(ParametragesVetementEnum.MARQUES);
     expect(mockLoadParametrages).toHaveBeenCalledWith(
       MONGO_DB_COLLECTIONS.PARAM_MARQUES_VETEMENTS,
       ParametragesVetementEnum.MARQUES,
@@ -70,13 +70,13 @@ describe('getParametresVetements', () => {
   });
 
   it('type invalide (DRESSING) : throw une Error "Type de paramètre inconnu"', () => {
-    expect(() => getParametresVetements(ParametragesVetementEnum.DRESSING))
+    expect(() => mockedGetParametresVetements(ParametragesVetementEnum.DRESSING))
       .toThrow('Type de paramètre inconnu');
   });
 
   it('retourne un tableau vide quand loadParametrages renvoie []', async () => {
     mockLoadParametrages.mockResolvedValue([]);
-    const result = await getParametresVetements(ParametragesVetementEnum.TYPES);
+    const result = await mockedGetParametresVetements(ParametragesVetementEnum.TYPES);
     expect(result).toEqual([]);
   });
 });

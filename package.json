@@ -4,13 +4,13 @@
   "description": "Backend pour exposer les API Style & Mini",
   "main": "src/index.ts",
   "scripts": {
-    "test": "jest",
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "start": "npx ts-node src/app.ts",
     "debug": "nodemon src/app.ts",
     "dev": "dotenv-run-script .env .env.dev -- debug",
     "qua": "dotenv-run-script .env .env.qua -- start",
     "prod": "dotenv-run-script .env .env.prod -- start",
-    "prebuild": "node scripts/generate-version.js",
+    "prebuild": "node scripts/generate-version.cjs",
     "build": "tsc --build",
     "start:dist": "node dist/app.js",
     "lint": "eslint --fix src test",
@@ -23,6 +23,7 @@
     "url": "https://github.com/vzwingma/style-and-mini-backend.git"
   },
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.873.0",
     "@aws-sdk/s3-request-presigner": "^3.873.0",

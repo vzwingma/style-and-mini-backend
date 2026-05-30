@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb';
-import { countInCollection, deleteInMongo, findInCollection, save, update } from '../services/mongodb.service';
-import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
-import TenueModel, { mongoModelToTenueModel, tenueModelToMongoModel } from '../models/tenues/tenue.model';
+import { countInCollection, deleteInMongo, findInCollection, save, update } from '../services/mongodb.service.js';
+import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants.js';
+import TenueModel, { mongoModelToTenueModel, tenueModelToMongoModel } from '../models/tenues/tenue.model.js';
 
 
 

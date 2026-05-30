@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'; 
-import { PACKAGE_VERSION } from './version.generated';
+import { PACKAGE_VERSION } from './version.generated.js';
 
 dotenv.config();
 

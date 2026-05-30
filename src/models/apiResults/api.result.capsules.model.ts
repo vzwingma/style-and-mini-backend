@@ -1,5 +1,5 @@
-import CapsuleModel from '../capsules/capsules.model';
-import APIResultFormGenericModel from './api.result.generic.model';
+import CapsuleModel from '../capsules/capsules.model.js';
+import APIResultFormGenericModel from './api.result.generic.model.js';
 
 /**
  * Modèle représentant une tenue avec le backend

@@ -1,9 +1,9 @@
 import { ObjectId } from 'mongodb';
-import VetementCaracteristiquesModel from './vetementCaracteristique.model';
-import VetementImageModel from './vetements.image.model';
-import VetementPrixModel from './vetements.prix.model';
-import DressingModel from '../dressing.model';
-import { SaisonVetementEnum, StatutVetementEnum } from '../../constants/AppEnum';
+import VetementCaracteristiquesModel from './vetementCaracteristique.model.js';
+import VetementImageModel from './vetements.image.model.js';
+import VetementPrixModel from './vetements.prix.model.js';
+import DressingModel from '../dressing.model.js';
+import { SaisonVetementEnum, StatutVetementEnum } from '../../constants/AppEnum.js';
 
 /**
  * Modèle représentant un vetement
