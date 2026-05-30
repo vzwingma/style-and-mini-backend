@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import ErrorResponse from './ErrorResponse';
+import ErrorResponse from './ErrorResponse.js';
 
 export function notFound(req: Request, res: Response, next: NextFunction) {
   res.status(404);

@@ -1,18 +1,18 @@
 import express from 'express';
 import request from 'supertest';
 import basicAuth from 'express-basic-auth';
-import apiParamsVetements from '../../src/api/apiParamsVetements';
-import { ParametragesVetementEnum } from '../../src/constants/AppEnum';
+import apiParamsVetements from '../../src/api/apiParamsVetements.js';
+import { ParametragesVetementEnum } from '../../src/constants/AppEnum.js';
 
 // ─── Mocks ────────────────────────────────────────────────────────────────────
 // On utilise des factories pour éviter l'instanciation de MongoClient au chargement du module
-jest.mock('../../src/controllers/params.controller', () => ({
+jest.mock('../../src/controllers/params.controller.js', () => ({
   getParametresVetements: jest.fn(),
   saveParametrage       : jest.fn(),
   updateParametrage     : jest.fn(),
   deleteParametrage     : jest.fn(),
 }));
-jest.mock('../../src/services/mongodb.service', () => ({
+jest.mock('../../src/services/mongodb.service.js', () => ({
   connectToDatabase  : jest.fn(),
   findInCollections  : jest.fn(),
   findInCollection   : jest.fn(),
@@ -21,7 +21,7 @@ jest.mock('../../src/services/mongodb.service', () => ({
   update             : jest.fn(),
   deleteInMongo      : jest.fn(),
 }));
-jest.mock('../../src/services/params.service', () => ({
+jest.mock('../../src/services/params.service.js', () => ({
   loadParametrages: jest.fn(),
 }));
 
@@ -29,7 +29,7 @@ import {
   getParametresVetements,
   saveParametrage,
   deleteParametrage,
-} from '../../src/controllers/params.controller';
+} from '../../src/controllers/params.controller.js';
 
 const mockGetParametresVetements = getParametresVetements as jest.MockedFunction<typeof getParametresVetements>;
 const mockSaveParametrage        = saveParametrage        as jest.MockedFunction<typeof saveParametrage>;

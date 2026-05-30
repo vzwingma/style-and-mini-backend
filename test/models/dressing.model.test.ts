@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
-import { mongoModelToDressingModel } from '../../src/models/dressing.model';
-import { CategorieDressingEnum } from '../../src/constants/AppEnum';
+import { mongoModelToDressingModel } from '../../src/models/dressing.model.js';
+import { CategorieDressingEnum } from '../../src/constants/AppEnum.js';
 
 // ─── mongoModelToDressingModel ────────────────────────────────────────────────
 describe('mongoModelToDressingModel', () => {

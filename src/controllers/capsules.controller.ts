@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb';
-import { countInCollection, deleteInMongo, findInCollection, save, update } from '../services/mongodb.service';
-import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants';
-import CapsuleModel, { capsuleModelToMongoModel, mongoModelToCapsuleModel } from '../models/capsules/capsules.model';
+import { countInCollection, deleteInMongo, findInCollection, save, update } from '../services/mongodb.service.js';
+import { MONGO_DB_COLLECTIONS } from '../constants/AppConstants.js';
+import CapsuleModel, { capsuleModelToMongoModel, mongoModelToCapsuleModel } from '../models/capsules/capsules.model.js';
 
 
 

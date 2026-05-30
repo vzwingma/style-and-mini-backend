@@ -1,10 +1,10 @@
-import { getParametresVetements } from '../../src/controllers/params.controller';
-import { ParametragesVetementEnum } from '../../src/constants/AppEnum';
-import { MONGO_DB_COLLECTIONS } from '../../src/constants/AppConstants';
+import { getParametresVetements } from '../../src/controllers/params.controller.js';
+import { ParametragesVetementEnum } from '../../src/constants/AppEnum.js';
+import { MONGO_DB_COLLECTIONS } from '../../src/constants/AppConstants.js';
 
 // ─── Mocks ────────────────────────────────────────────────────────────────────
 // On utilise des factories pour éviter l'instanciation de MongoClient au chargement du module
-jest.mock('../../src/services/mongodb.service', () => ({
+jest.mock('../../src/services/mongodb.service.js', () => ({
   connectToDatabase  : jest.fn(),
   findInCollections  : jest.fn(),
   findInCollection   : jest.fn(),
@@ -13,11 +13,11 @@ jest.mock('../../src/services/mongodb.service', () => ({
   update             : jest.fn(),
   deleteInMongo      : jest.fn(),
 }));
-jest.mock('../../src/services/params.service', () => ({
+jest.mock('../../src/services/params.service.js', () => ({
   loadParametrages: jest.fn(),
 }));
 
-import { loadParametrages } from '../../src/services/params.service';
+import { loadParametrages } from '../../src/services/params.service.js';
 
 const mockLoadParametrages = loadParametrages as jest.MockedFunction<typeof loadParametrages>;
 
