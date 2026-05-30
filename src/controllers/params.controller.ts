@@ -29,7 +29,7 @@ const getCollectionTypeParametrage = (typeParam: ParametragesVetementEnum): MONG
     default:
       return null;
   }
-}
+};
 
 
 /**
@@ -42,14 +42,14 @@ const getCollectionTypeParametrage = (typeParam: ParametragesVetementEnum): MONG
 export function getParametresVetements(typeParams: ParametragesVetementEnum): Promise<ParamGenericVetementsModel[]> {
   const collection = getCollectionTypeParametrage(typeParams);
   
-  if(collection === undefined || collection === null) {
+  if (collection === undefined || collection === null) {
     throw new Error('Type de paramètre inconnu : ' + typeParams);
   }
   return loadParametrages(collection, typeParams)
     .then((result) => {
       return result.map((mongoTypeVetement: any) => transformMongoModelToParametrageModel(typeParams, mongoTypeVetement));
     });
-  };
+}
 
 
 /**
@@ -82,9 +82,9 @@ export function updateParametrage(typeParametrage: ParametragesVetementEnum, par
  * @returns {Promise<boolean>} une promesse qui résout à true si la suppression a réussi, sinon false
  */
 export function deleteParametrage(typeParametrage: ParametragesVetementEnum, idParametrage: string): Promise<boolean> {
-    const criteres = 
+  const criteres = 
       { 
-        "_id" : new ObjectId(idParametrage) 
+        '_id' : new ObjectId(idParametrage), 
       } ;
   return deleteInMongo(criteres, getCollectionTypeParametrage(typeParametrage) as MONGO_DB_COLLECTIONS);
 }

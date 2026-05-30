@@ -68,7 +68,7 @@ export function deleteTenue(idDressing: string, idTenue: string): Promise<boolea
   const criteres = 
     { 
       'dressing.id': new ObjectId(idDressing), 
-      "_id" : new ObjectId(idTenue) 
+      '_id' : new ObjectId(idTenue), 
     } ;
   return deleteInMongo(criteres, MONGO_DB_COLLECTIONS.TENUES);
 }

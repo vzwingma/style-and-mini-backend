@@ -52,11 +52,11 @@ export function transformParametrageModelToMongoModel(typeParametrage: Parametra
 export function transformCategoriesVetementToMongoModel(mongoParametrage : any) {
   // Si le champ legacy categorie est défini, on le traite comme un tableau de catégories
   // sinon on utilise le champ categories qui est un tableau de catégories
-  if(mongoParametrage.categories !== undefined && mongoParametrage.categories !== null){
+  if (mongoParametrage.categories !== undefined && mongoParametrage.categories !== null) {
     return mongoParametrage.categories;
   }
-  if(mongoParametrage.categorie !== undefined && mongoParametrage.categorie !== null){
-    return (typeof mongoParametrage.categorie === 'string' ? [mongoParametrage.categorie] : mongoParametrage.categorie) 
+  if (mongoParametrage.categorie !== undefined && mongoParametrage.categorie !== null) {
+    return (typeof mongoParametrage.categorie === 'string' ? [mongoParametrage.categorie] : mongoParametrage.categorie); 
   } 
   return mongoParametrage.categories;
 }

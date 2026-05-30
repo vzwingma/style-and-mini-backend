@@ -53,7 +53,7 @@ export function mongoModelToTenueModel(mongoVetement: any): TenueModel {
     libelle    : mongoVetement.libelle,
     vetements  : mongoVetement.vetements,
     statut     : mongoVetement.statut === StatutVetementEnum.ARCHIVE ? StatutVetementEnum.ARCHIVE : StatutVetementEnum.ACTIF,
-    image      : mongoVetement.image
+    image      : mongoVetement.image,
   };
   return tenue;
 }

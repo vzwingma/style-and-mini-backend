@@ -85,7 +85,7 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
     } : null,
     description: vetement.description,
     statut: vetement.statut,
-    dateCreation: vetement.dateCreation
+    dateCreation: vetement.dateCreation,
   };
   return mongoVetement;
 }
@@ -116,7 +116,7 @@ export function mongoModelToVetementModel(mongoVetement: any): VetementModel {
     description : mongoVetement.description,
     
     statut      : mongoVetement.statut === StatutVetementEnum.ARCHIVE ? StatutVetementEnum.ARCHIVE : StatutVetementEnum.ACTIF,
-    dateCreation: mongoVetement.dateCreation
+    dateCreation: mongoVetement.dateCreation,
   };
   return vetement;
 }

@@ -43,9 +43,9 @@ const initAppRoutes = () => {
   app.use(basicAuth({
     users: { [userAuth]: passwordAuth },
     challenge: true,
-    unauthorizedResponse: 'Unauthorized'
+    unauthorizedResponse: 'Unauthorized',
   }));
-  app.use(express.json({strict: true, limit: '5mb'}));
+  app.use(express.json({ strict: true, limit: '5mb' }));
   app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
   // Routes

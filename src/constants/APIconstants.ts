@@ -33,7 +33,7 @@ export const enum ServicesParamsEnum {
 }
 
 
-  export const SERVICE_ACTION_COUNT = "?count"
+export const SERVICE_ACTION_COUNT = '?count';
 
 /**
  * Enumération des URLs des services.
@@ -60,13 +60,13 @@ export enum ServiceURLEnum {
 
   SERVICE_VETEMENTS       = SERVICE_DRESSING_BY_ID + '/vetements',
   SERVICE_VETEMENTS_BY_ID = SERVICE_VETEMENTS + '/' + ServicesParamsEnum.ID_VETEMENT,
-  SERVICE_VETEMENTS_IMAGE = SERVICE_VETEMENTS_BY_ID+"/image",
+  SERVICE_VETEMENTS_IMAGE = SERVICE_VETEMENTS_BY_ID + '/image',
 
-  SERVICE_TENUES          = SERVICE_DRESSING_BY_ID+"/tenues",
-  SERVICE_TENUES_BY_ID    = SERVICE_TENUES +"/"+ServicesParamsEnum.ID_TENUE,
+  SERVICE_TENUES          = SERVICE_DRESSING_BY_ID + '/tenues',
+  SERVICE_TENUES_BY_ID    = SERVICE_TENUES + '/' + ServicesParamsEnum.ID_TENUE,
 
-  SERVICE_CAPSULES          = SERVICE_DRESSING_BY_ID+"/capsules",
-  SERVICE_CAPSULES_BY_ID    = SERVICE_CAPSULES +"/"+ServicesParamsEnum.ID_CAPSULE,
+  SERVICE_CAPSULES          = SERVICE_DRESSING_BY_ID + '/capsules',
+  SERVICE_CAPSULES_BY_ID    = SERVICE_CAPSULES + '/' + ServicesParamsEnum.ID_CAPSULE,
 }
 
 

@@ -33,7 +33,7 @@ export function capsuleModelToMongoModel(capsule : CapsuleModel) {
     criteres    : capsule.criteres,
     libelle     : capsule.libelle,
     nbVetements : capsule.nbrVetements.capsule,
-    commentaire : capsule.commentaire
+    commentaire : capsule.commentaire,
   };
   return mongoCapsule;
 }
@@ -52,9 +52,9 @@ export function mongoModelToCapsuleModel(mongoVetement: any): CapsuleModel {
     libelle     : mongoVetement.libelle,
     criteres    : mongoVetement.criteres,
     nbrVetements : {
-      capsule : mongoVetement.nbVetements
+      capsule : mongoVetement.nbVetements,
     },
-    commentaire : mongoVetement.commentaire
-  }
+    commentaire : mongoVetement.commentaire,
+  };
   return capsule;
 }
