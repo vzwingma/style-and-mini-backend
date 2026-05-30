@@ -12,6 +12,7 @@
     "prod": "dotenv-run-script .env .env.prod -- start",
     "prebuild": "node scripts/generate-version.cjs",
     "build": "tsc --build",
+    "postbuild": "node scripts/generate-dist-package.cjs",
     "start:dist": "node dist/app.js",
     "lint": "eslint --fix src test",
     "typecheck": "tsc --noEmit"

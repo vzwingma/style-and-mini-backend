@@ -45,8 +45,8 @@ Resources:
         External:
           - '@aws-sdk/*'
           - aws-sdk
+        Format: esm
         Minify: true
-        Target: esnext
         Sourcemap: true
       SamResourceId: StyleMiniBackend__ENV__
   StyleMiniBackendLogGroup:
