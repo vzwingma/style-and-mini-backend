@@ -15,7 +15,7 @@ Resources:
         - Fonction ${AWS::StackName}
         - ResourceName: StyleMiniBackend__ENV__
       CodeUri: ./
-      Handler: app.lambdaHandler
+      Handler: dist/app.lambdaHandler
       Runtime: nodejs24.x
       MemorySize: 3008
       Policies:
