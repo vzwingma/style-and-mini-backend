@@ -98,7 +98,7 @@ export function vetementModelToMongoModel(vetement : VetementModel) {
  * @returns Un objet VetementModel avec les propriétés converties.
  */
 export function mongoModelToVetementModel(mongoVetement: any): VetementModel {
-  let vetement: VetementModel = {
+  const vetement: VetementModel = {
     id          : mongoVetement._id.toString(),
     dressing    : mongoVetement.dressing,
     libelle     : mongoVetement.libelle,

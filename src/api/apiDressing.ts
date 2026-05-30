@@ -84,7 +84,7 @@ const getVetementFromRequest = (req: express.Request): VetementModel => {
   let vetement: VetementModel;
   try {
     vetement = JSON.parse(req.body);
-  } catch (error) {
+  } catch (_error) {
     vetement = req.body;
   }
   return vetement;
@@ -93,7 +93,7 @@ const getVetementFromRequest = (req: express.Request): VetementModel => {
  * POST (CREATE) vetements du dressing
  */
 router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
-  let vetement = getVetementFromRequest(req);
+  const vetement = getVetementFromRequest(req);
   vetement.dateCreation = new Date();
   console.log('[API] Création vêtement : ', vetement);
   saveVetement(vetement)
@@ -115,7 +115,7 @@ router.post(ServiceURLEnum.SERVICE_VETEMENTS, async (req, res) => {
  */
 router.put(ServiceURLEnum.SERVICE_VETEMENTS_BY_ID, async (req, res) => {
 
-  let vetement = getVetementFromRequest(req);
+  const vetement = getVetementFromRequest(req);
   console.log('[API] Modification vêtement : ', vetement);
 
   updateVetement(vetement, req.params.idv)
@@ -245,7 +245,7 @@ const getTenueFromRequest = (req: express.Request): TenueModel => {
  * POST (CREATE) tenues du dressing
  */
 router.post(ServiceURLEnum.SERVICE_TENUES, async (req, res) => {
-  let tenue = getTenueFromRequest(req);
+  const tenue = getTenueFromRequest(req);
   console.log('[API] Création tenue : ', tenue);
   saveTenue(tenue)
     .then((
@@ -266,7 +266,7 @@ router.post(ServiceURLEnum.SERVICE_TENUES, async (req, res) => {
  */
 router.put(ServiceURLEnum.SERVICE_TENUES_BY_ID, async (req, res) => {
 
-  let tenue = getTenueFromRequest(req);
+  const tenue = getTenueFromRequest(req);
   console.log('[API] Modification tenue : ', tenue);
 
   updateTenue(tenue, req.params.idt)
@@ -361,7 +361,7 @@ const getCapsuleFromRequest = (req: express.Request): CapsuleModel => {
  * POST (CREATE) capsules du dressing
  */
 router.post(ServiceURLEnum.SERVICE_CAPSULES, async (req, res) => {
-  let capsule = getCapsuleFromRequest(req);
+  const capsule = getCapsuleFromRequest(req);
   console.log('[API] Création capsule : ', capsule);
   saveCapsule(capsule)
     .then((
@@ -382,7 +382,7 @@ router.post(ServiceURLEnum.SERVICE_CAPSULES, async (req, res) => {
  */
 router.put(ServiceURLEnum.SERVICE_CAPSULES_BY_ID, async (req, res) => {
 
-  let capsule = getCapsuleFromRequest(req);
+  const capsule = getCapsuleFromRequest(req);
   console.log('[API] Modification caspule : ', capsule);
 
   updateCapsule(capsule, req.params.idc)

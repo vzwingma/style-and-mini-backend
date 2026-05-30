@@ -46,7 +46,7 @@ export function capsuleModelToMongoModel(capsule : CapsuleModel) {
  * @returns Un objet `CapsuleModel` contenant les informations converties.
  */
 export function mongoModelToCapsuleModel(mongoVetement: any): CapsuleModel {
-  let capsule: CapsuleModel = {
+  const capsule: CapsuleModel = {
     id          : mongoVetement._id.toString(),
     dressing    : mongoVetement.dressing,
     libelle     : mongoVetement.libelle,

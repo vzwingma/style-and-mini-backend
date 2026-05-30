@@ -31,7 +31,7 @@ export async function connectToDatabase(collectionName: MONGO_DB_COLLECTIONS): P
       console.error('[MongoDB]', 'Erreur de connexion à ATLAS ' + MONGO_DB_URI + '/' + MONGO_DB_DATABASE_NAME, e);
     }
   }
-  let db = connexion ? connexion.db(MONGO_DB_DATABASE_NAME) : null;
+  const db = connexion ? connexion.db(MONGO_DB_DATABASE_NAME) : null;
   if (db === null) {
     console.error('[MongoDB]', 'Erreur de connexion à la base de données ', MONGO_DB_DATABASE_NAME);
     return null;

@@ -64,9 +64,9 @@ const port = BACKEND_PORT;
 const startServer = async () => {
   initAppRoutes();
   app.listen(port, () => {
-    /* eslint-disable no-console */
+     
     console.log(`[⚡️ Server ⚡️]: Serveur démarré sur le port ${port}`);
-    /* eslint-enable no-console */
+     
   });
 };
 

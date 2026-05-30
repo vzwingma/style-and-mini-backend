@@ -52,7 +52,7 @@ const getParametrageFromRequestBody = (req: express.Request): ParamGenericVeteme
   let parametrage: ParamGenericVetementsModel;
   try {
     parametrage = JSON.parse(req.body);
-  } catch (error) {
+  } catch (_error) {
     parametrage = req.body;
   }
   return parametrage;
@@ -64,7 +64,7 @@ const getParametrageFromRequestBody = (req: express.Request): ParamGenericVeteme
 router.post(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE, async (req, res) => {
 
   const typeParam = getTypeParametrageFromRequest(req.params.type);
-  let parametrage = getParametrageFromRequestBody(req);
+  const parametrage = getParametrageFromRequestBody(req);
   console.log('[API] Création d\'un paramètrage de vêtements', typeParam, parametrage);
   if (typeParam === null) {
     res.status(ApiHTTPStatusEnum.BAD_REQUEST).json( { error : 'Type de paramètre inconnu' });
@@ -91,7 +91,7 @@ router.post(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE, async (req, res) => {
 router.put(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE_AND_ID, async (req, res) => {
 
   const typeParam = getTypeParametrageFromRequest(req.params.type);
-  let parametrage = getParametrageFromRequestBody(req);
+  const parametrage = getParametrageFromRequestBody(req);
   console.log('[API] Mise à jour du paramètrage de vetements', req.params.type, ' id=', req.params.idp, parametrage);
   if (typeParam === null) {
     res.status(ApiHTTPStatusEnum.BAD_REQUEST).json({ error : 'Type de paramètre inconnu' });
@@ -116,7 +116,7 @@ router.put(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE_AND_ID, async (req, res) => {
 router.delete(ServiceURLEnum.SERVICE_PARAMS_BY_TYPE_AND_ID, async (req, res) => {
 
   const typeParam = getTypeParametrageFromRequest(req.params.type);
-  let parametrage = getParametrageFromRequestBody(req);
+  const parametrage = getParametrageFromRequestBody(req);
   console.log('[API] Suppression du paramètrage de vetements', req.params.type, ' id=', req.params.idp, parametrage);
   if (typeParam === null) {
     res.status(ApiHTTPStatusEnum.BAD_REQUEST).json({ error : 'Type de paramètre inconnu' });
